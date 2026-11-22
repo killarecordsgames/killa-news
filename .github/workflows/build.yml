@@ -9,8 +9,11 @@ name: Compila e pubblica KILLA NEWS
 #   - KillaNews.exe                (eseguibile singolo, usato dagli aggiornamenti automatici)
 #   - SHA256SUMS.txt               (impronte di controllo dei file)
 # Il programma installato controlla l'ultima release e si aggiorna da solo.
+# Basta cambiare APP_VERSION in killanews/config.py e caricare su main:
+# se la release di quella versione non esiste ancora, viene creata da sola.
 on:
   push:
+    branches: [main]
     tags: ["v*"]
   workflow_dispatch:
 
@@ -39,6 +42,12 @@ jobs:
           $cfg = $cfg -replace '__GITHUB_REPO__', '${{ github.repository }}'
           Set-Content killanews/config.py $cfg -Encoding utf8 -NoNewline
           Write-Host "Versione $versione per ${{ github.repository }}"
+          gh release view "v$versione" -R "${{ github.repository }}" 2>$null | Out-Null
+          if ($LASTEXITCODE -ne 0) { "PUBBLICA=1" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV; Write-Host "Nuova versione: verrà pubblicata" }
+          else { "PUBBLICA=0" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV; Write-Host "Release v$versione già esistente: solo controllo" }
+          $global:LASTEXITCODE = 0
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Dipendenze
         run: |
@@ -86,15 +95,18 @@ jobs:
           Get-Content pubblica/SHA256SUMS.txt
 
       - name: Pubblica la release
-        if: github.ref_type == 'tag'
+        if: env.PUBBLICA == '1'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ env.VERSIONE }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
           name: KILLA NEWS ${{ env.VERSIONE }}
           body_path: NOVITA.md
           files: pubblica/*
 
       - uses: actions/upload-artifact@v4
-        if: github.ref_type != 'tag'
+        if: env.PUBBLICA != '1'
         with:
           name: KillaNews-${{ env.VERSIONE }}-Windows
           path: pubblica/*
