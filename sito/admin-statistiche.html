@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Statistiche | Area redazione | Killa Records</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-wrap{max-width:960px;margin:0 auto;padding:55px 20px 90px}
+    .admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin:24px 0}
+    .admin-panel h2{margin:0 0 14px}
+    .muted{color:var(--text-muted)}
+    .status{padding:12px 16px;border-left:4px solid var(--purple);background:var(--background-light);margin:16px 0}
+    .numeri{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:0;padding:0;list-style:none}
+    .numeri li{background:var(--background-light);border:1px solid var(--border);border-radius:12px;padding:16px}
+    .numeri strong{display:block;font-size:2rem;color:var(--purple-light)}
+    table{width:100%;border-collapse:collapse}
+    caption{text-align:left;font-weight:bold;margin-bottom:8px}
+    th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border)}
+    th[scope=col]{color:var(--purple-light)}
+    td.n{text-align:right;font-variant-numeric:tabular-nums}
+    .barra{display:inline-block;height:10px;background:var(--purple);border-radius:5px;vertical-align:middle;margin-left:8px}
+    select{padding:8px;border-radius:7px;background:#100b18;color:#fff;border:2px solid var(--border);font:inherit}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenuto">Salta al contenuto principale</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="logo" href="/">KILLA <span>RECORDS</span></a>
+    <nav aria-label="Navigazione principale"><ul class="nav-list">
+      <li><a href="/">Home</a></li><li><a href="/admin">Gestione notizie</a></li><li><a href="/admin-statistiche" aria-current="page">Statistiche</a></li>
+    </ul></nav>
+  </div></header>
+  <main id="contenuto" class="admin-wrap">
+    <p class="eyebrow">KILLA RECORDS · AREA PRIVATA</p>
+    <h1>Statistiche</h1>
+    <p class="muted">Pagina riservata agli amministratori: visite al sito, giochi e KILLA NEWS. Tutti i dati sono anonimi.</p>
+    <nav aria-label="Parti della pagina"><p><a href="#t-sito">Sito</a> · <a href="#t-giochi">Giochi</a> · <a href="#t-riassunto">KILLA NEWS</a></p></nav>
+    <div id="messaggio" class="status" role="status" aria-live="polite">Caricamento in corso…</div>
+
+    <div id="contenuti" hidden>
+      <p><label for="periodo">Periodo: </label>
+        <select id="periodo">
+          <option value="1">Oggi</option>
+          <option value="7">Ultimi 7 giorni</option>
+          <option value="30" selected>Ultimi 30 giorni</option>
+          <option value="90">Ultimi 90 giorni</option>
+          <option value="365">Ultimo anno</option>
+        </select></p>
+
+      <section class="admin-panel" aria-labelledby="t-sito">
+        <h2 id="t-sito">Sito killarecordsgames.com</h2>
+        <div id="sito">Caricamento delle visite…</div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-giochi">
+        <h2 id="t-giochi">Giochi con account online</h2>
+        <div id="giochi">Caricamento…</div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-riassunto">
+        <h2 id="t-riassunto">KILLA NEWS: riassunto</h2>
+        <ul class="numeri" id="numeri"></ul>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-download">
+        <h2 id="t-download">KILLA NEWS: download da GitHub (da sempre)</h2>
+        <div id="download"></div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-versioni">
+        <h2 id="t-versioni">KILLA NEWS: versioni in uso</h2>
+        <div id="versioni"></div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-sezioni">
+        <h2 id="t-sezioni">KILLA NEWS: sezioni e funzioni più usate</h2>
+        <div id="sezioni"></div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="t-giorni">
+        <h2 id="t-giorni">KILLA NEWS: copie attive giorno per giorno</h2>
+        <div id="giorni"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    var $ = function (id) { return document.getElementById(id); };
+    var NOMI = {
+      prima_pagina: "Prima pagina", tutti_i_giornali: "Tutti i giornali", italia: "Italia", cronaca: "Cronaca",
+      economia: "Economia e finanza", sport: "Sport", tecnologia: "Tecnologia", cultura: "Cultura e spettacolo",
+      salute: "Salute e benessere", giornali_locali: "Giornali locali", giornali_internazionali: "Giornali internazionali",
+      notizie_dal_mondo: "Notizie dal mondo", articoli_salvati: "Articoli salvati", cronologia: "Cronologia",
+      cerca: "Cerca", killa_records: "Menu Killa Records", articoli_letti: "Articoli aperti nel lettore",
+      traduzioni: "Articoli tradotti", condivisioni: "Articoli condivisi", voce_nvda: "Letture con la voce di NVDA"
+    };
+    var TIPI = { installata: "Installata", eseguibile: "Portatile", sorgente: "Dal codice sorgente" };
+    var client = window.supabase.createClient(window.KILLA_SUPABASE_URL, window.KILLA_SUPABASE_KEY);
+    var righe = [];
+
+    function msg(t) { $("messaggio").textContent = t; }
+    function num(n) { return Number(n || 0).toLocaleString("it-IT"); }
+    function oggi() { return new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Rome" })); }
+    function giornoISO(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+    function confronto(a, b) {
+      var x = a.split(".").map(Number), y = b.split(".").map(Number);
+      for (var i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); }
+      return 0;
+    }
+
+    function tabella(didascalia, intestazioni, dati, conBarra) {
+      var t = document.createElement("table");
+      var c = document.createElement("caption"); c.textContent = didascalia; t.appendChild(c);
+      var th = document.createElement("thead"), tr = document.createElement("tr");
+      intestazioni.forEach(function (h) { var x = document.createElement("th"); x.scope = "col"; x.textContent = h; tr.appendChild(x); });
+      th.appendChild(tr); t.appendChild(th);
+      var tb = document.createElement("tbody");
+      var max = Math.max.apply(null, dati.map(function (r) { return Number(r[1]) || 0; }).concat([1]));
+      if (!dati.length) {
+        var r0 = document.createElement("tr"), d0 = document.createElement("td");
+        d0.colSpan = intestazioni.length; d0.textContent = "Ancora nessun dato in questo periodo."; r0.appendChild(d0); tb.appendChild(r0);
+      }
+      dati.forEach(function (r) {
+        var riga = document.createElement("tr");
+        r.forEach(function (v, i) {
+          var cella = document.createElement(i === 0 ? "th" : "td");
+          if (i === 0) cella.scope = "row"; else cella.className = "n";
+          cella.textContent = i === 0 ? v : num(v);
+          if (conBarra && i === 1) {
+            var b = document.createElement("span"); b.className = "barra"; b.setAttribute("aria-hidden", "true");
+            b.style.width = Math.max(2, Math.round(120 * (Number(v) || 0) / max)) + "px"; cella.appendChild(b);
+          }
+          riga.appendChild(cella);
+        });
+        tb.appendChild(riga);
+      });
+      t.appendChild(tb);
+      return t;
+    }
+
+    function mostra() {
+      var giorni = Number($("periodo").value);
+      var dal = oggi(); dal.setDate(dal.getDate() - (giorni - 1));
+      var limite = giornoISO(dal);
+      var sel = righe.filter(function (r) { return r.giorno >= limite; });
+      var copie = {}, ultima = {}, sezioni = {}, aperture = 0, perGiorno = {};
+      sel.forEach(function (r) {
+        copie[r.installazione] = true;
+        if (!ultima[r.installazione] || r.giorno >= ultima[r.installazione].giorno) ultima[r.installazione] = r;
+        aperture += r.aperture || 0;
+        perGiorno[r.giorno] = (perGiorno[r.giorno] || 0) + 1;
+        Object.keys(r.sezioni || {}).forEach(function (k) { sezioni[k] = (sezioni[k] || 0) + Number(r.sezioni[k] || 0); });
+      });
+      var oggiISO = giornoISO(oggi());
+      var attiviOggi = righe.filter(function (r) { return r.giorno === oggiISO; }).length;
+      var numeri = [
+        ["Copie di KILLA NEWS usate nel periodo", Object.keys(copie).length],
+        ["Copie usate oggi", attiviOggi],
+        ["Volte che il programma è stato aperto", aperture],
+        ["Articoli aperti nel lettore", sezioni.articoli_letti || 0]
+      ];
+      var ul = $("numeri"); ul.replaceChildren();
+      numeri.forEach(function (n) {
+        var li = document.createElement("li"), s = document.createElement("strong");
+        s.textContent = num(n[1]); li.appendChild(s); li.appendChild(document.createTextNode(n[0])); ul.appendChild(li);
+      });
+      var versioni = {}, tipi = {};
+      Object.keys(ultima).forEach(function (id) {
+        var r = ultima[id]; versioni[r.versione] = (versioni[r.versione] || 0) + 1;
+        var t = TIPI[r.tipo] || r.tipo; tipi[t] = (tipi[t] || 0) + 1;
+      });
+      var v = Object.keys(versioni).sort(confronto).reverse().map(function (k) { return ["Versione " + k, versioni[k]]; });
+      var t = Object.keys(tipi).map(function (k) { return [k, tipi[k]]; });
+      $("versioni").replaceChildren(tabella("Ultima versione usata da ogni copia", ["Versione", "Copie"], v, true),
+                                    tabella("Tipo di installazione", ["Tipo", "Copie"], t, true));
+      var s = Object.keys(sezioni).sort(function (a, b) { return sezioni[b] - sezioni[a]; })
+        .map(function (k) { return [NOMI[k] || k, sezioni[k]]; });
+      $("sezioni").replaceChildren(tabella("Quante volte sono state usate (somma di tutte le copie)", ["Sezione o funzione", "Volte"], s, true));
+      var g = Object.keys(perGiorno).sort().reverse().map(function (k) {
+        var d = new Date(k + "T12:00:00");
+        return [d.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" }), perGiorno[k]];
+      });
+      $("giorni").replaceChildren(tabella("Copie diverse usate ogni giorno, dal più recente", ["Giorno", "Copie"], g, true));
+    }
+
+    async function download() {
+      try {
+        var r = await fetch("https://api.github.com/repos/killarecordsgames/killa-news/releases?per_page=100");
+        var rel = await r.json();
+        var dati = [], tot = { inst: 0, port: 0, agg: 0 };
+        rel.forEach(function (x) {
+          var c = {};
+          (x.assets || []).forEach(function (a) { c[a.name] = a.download_count; });
+          var inst = c["KillaNews_Installazione.exe"] || 0, port = c["KillaNews_Portatile.zip"] || 0, agg = c["KillaNews.exe"] || 0;
+          tot.inst += inst; tot.port += port; tot.agg += agg;
+          dati.push([x.tag_name.replace(/^v/, "Versione "), inst, port, agg]);
+        });
+        dati.unshift(["Totale", tot.inst, tot.port, tot.agg]);
+        $("download").replaceChildren(tabella("Scaricamenti per versione (comprendono gli aggiornamenti automatici)",
+          ["Versione", "Installatore", "Portatile", "Programma singolo"], dati, false));
+      } catch (e) {
+        $("download").textContent = "Impossibile leggere i download da GitHub in questo momento.";
+      }
+    }
+
+    var GIOCHI_URL = "https://dsfzjqxbvnasxyuwyyca.supabase.co/rest/v1/rpc/statistiche_giochi";
+    var GIOCHI_KEY = "sb_publishable_9enEQSCr2Tv8Z4KK51RZXA_SkxBZw98";
+    var sessione = null;
+
+    function elenco(voci) {
+      var ul = document.createElement("ul"); ul.className = "numeri";
+      voci.forEach(function (n) {
+        var li = document.createElement("li"), s = document.createElement("strong");
+        s.textContent = num(n[1]); li.appendChild(s); li.appendChild(document.createTextNode(n[0])); ul.appendChild(li);
+      });
+      return ul;
+    }
+
+    async function sito() {
+      var box = $("sito");
+      try {
+        var r = await fetch(window.KILLA_SUPABASE_URL + "/functions/v1/killa-statistiche-sito", {
+          method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessione.access_token },
+          body: JSON.stringify({ giorni: Number($("periodo").value) })
+        });
+        var d = await r.json();
+        if (!r.ok) { box.textContent = "Errore: " + (d.errore || r.status); return; }
+        if (!d.configurato) {
+          box.textContent = "Per vedere qui le visite del sito serve la chiave API di GoatCounter (segreto GOATCOUNTER_TOKEN su Supabase).";
+          return;
+        }
+        var parti = [];
+        var tot = d.totale || {};
+        parti.push(elenco([["Visite al sito nel periodo", tot.total || 0], ["Clic sui pulsanti di download", tot.total_events || 0]]));
+        var pagine = ((d.pagine || {}).hits || []).filter(function (h) { return !h.event; })
+          .map(function (h) { return [(h.title ? h.title + " (" + h.path + ")" : h.path), h.count]; });
+        parti.push(tabella("Pagine più visitate", ["Pagina", "Visitatori"], pagine, true));
+        var eventi = ((d.pagine || {}).hits || []).filter(function (h) { return h.event; })
+          .map(function (h) { return [h.title || h.path, h.count]; });
+        parti.push(tabella("Download e clic contati", ["Che cosa", "Volte"], eventi, true));
+        var prov = ((d.provenienza || {}).stats || []).map(function (x) { return [x.name || "Diretta o sconosciuta", x.count]; });
+        parti.push(tabella("Da dove arrivano i visitatori", ["Provenienza", "Visitatori"], prov, true));
+        var paesi = ((d.paesi || {}).stats || []).map(function (x) { return [x.name || "Sconosciuto", x.count]; });
+        parti.push(tabella("Paesi", ["Paese", "Visitatori"], paesi, true));
+        var sist = ((d.sistemi || {}).stats || []).map(function (x) { return [x.name || "Sconosciuto", x.count]; });
+        parti.push(tabella("Sistemi operativi", ["Sistema", "Visitatori"], sist, true));
+        if (d.errori && d.errori.length) { var p = document.createElement("p"); p.className = "muted"; p.textContent = "Alcuni dati non sono arrivati: " + d.errori.join("; "); parti.push(p); }
+        box.replaceChildren.apply(box, parti);
+      } catch (e) { box.textContent = "Impossibile caricare le visite del sito: " + e.message; }
+    }
+
+    async function giochi() {
+      var box = $("giochi");
+      try {
+        var r = await fetch(GIOCHI_URL, { method: "POST", headers: { apikey: GIOCHI_KEY, "Content-Type": "application/json" }, body: "{}" });
+        var d = await r.json();
+        if (!r.ok) { box.textContent = "Errore nel caricamento dei giochi."; return; }
+        var b = d.il_mio_bar || {}, g = d.global_manager || {};
+        var titolo = function (t) { var h = document.createElement("h3"); h.textContent = t; return h; };
+        var versioni = Object.keys(b.versioni || {}).map(function (k) { return ["Versione " + k, b.versioni[k]]; });
+        box.replaceChildren(
+          elenco([["Account registrati in totale (tutti i giochi)", d.account_totali]]),
+          titolo("Il Mio Bar"),
+          elenco([["Giocatori registrati", b.giocatori], ["Nuovi negli ultimi 7 giorni", b.nuovi_7],
+                  ["Hanno giocato oggi", b.attivi_1], ["Hanno giocato negli ultimi 7 giorni", b.attivi_7],
+                  ["Hanno giocato negli ultimi 30 giorni", b.attivi_30], ["Salvataggi negli ultimi 7 giorni", b.salvataggi_7],
+                  ["Partite multiplayer salvate", b.multiplayer]]),
+          tabella("Versione del gioco nell'ultimo salvataggio", ["Versione", "Giocatori"], versioni, true),
+          titolo("Global Manager"),
+          elenco([["Giocatori registrati", g.giocatori], ["Nuovi negli ultimi 7 giorni", g.nuovi_7],
+                  ["Hanno giocato oggi", g.attivi_1], ["Hanno giocato negli ultimi 7 giorni", g.attivi_7],
+                  ["Hanno giocato negli ultimi 30 giorni", g.attivi_30], ["Aziende create", g.aziende],
+                  ["Messaggi tra giocatori negli ultimi 7 giorni", g.messaggi_7]])
+        );
+      } catch (e) { box.textContent = "Impossibile caricare i dati dei giochi: " + e.message; }
+    }
+
+    async function avvio() {
+      var sess = await client.auth.getSession();
+      var user = sess.data && sess.data.session && sess.data.session.user;
+      if (!user) {
+        $("messaggio").replaceChildren(document.createTextNode("Per vedere le statistiche devi prima accedere dalla pagina "));
+        var a = document.createElement("a"); a.href = "/admin"; a.textContent = "Gestione notizie";
+        $("messaggio").appendChild(a); $("messaggio").appendChild(document.createTextNode(", poi torna qui."));
+        return;
+      }
+      sessione = sess.data.session;
+      var adm = await client.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+      if (adm.error || !adm.data) { msg("Questo account non è un amministratore."); return; }
+      var dal = oggi(); dal.setDate(dal.getDate() - 365);
+      var tutte = [], da = 0;
+      while (true) {
+        var q = await client.from("killa_news_utilizzo").select("installazione,giorno,versione,tipo,sezioni,aperture")
+          .gte("giorno", giornoISO(dal)).order("giorno", { ascending: false }).range(da, da + 999);
+        if (q.error) { msg("Errore nel caricamento: " + q.error.message); return; }
+        tutte = tutte.concat(q.data); if (q.data.length < 1000) break; da += 1000;
+      }
+      righe = tutte;
+      $("contenuti").hidden = false;
+      msg("Statistiche caricate: " + num(righe.length) + " giornate di utilizzo nell'ultimo anno.");
+      mostra();
+      download();
+      sito();
+      giochi();
+      $("periodo").addEventListener("change", function () { mostra(); sito(); });
+    }
+    avvio().catch(function (e) { msg("Errore: " + e.message); });
+  })();
+  </script>
+</body>
+</html>
