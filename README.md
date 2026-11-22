@@ -1,4 +1,4 @@
-# KILLA NEWS 1.2.0
+# KILLA NEWS 1.2.1
 
 **Killa Records** · *L'informazione, senza barriere.*
 

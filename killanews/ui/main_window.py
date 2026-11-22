@@ -220,11 +220,19 @@ class MainFrame(wx.Frame):
         log.info("Avvio completato (backup: %s)", backup)
         if app_updates.should_check_automatically(self.core.settings):
             wx.CallLater(8000, lambda: self.check_app_updates(manual=False))
+        # chi tiene KILLA NEWS aperto per ore riceve comunque l'avviso delle nuove versioni
+        self._app_update_timer = wx.Timer(self)
+        self.Bind(wx.EVT_TIMER, self._on_app_update_timer, self._app_update_timer)
+        self._app_update_timer.Start(app_updates.CHECK_WHILE_OPEN_MS)
+
+    def _on_app_update_timer(self, event):
+        if app_updates.should_check_automatically(self.core.settings):
+            self.check_app_updates(manual=False)
 
     # ================================================================== aggiornamenti del programma
     def check_app_updates(self, manual=False):
         """Controlla in background se esiste una nuova versione di KILLA NEWS."""
-        if getattr(self, "_checking_app_update", False):
+        if getattr(self, "_checking_app_update", False) or getattr(self, "_app_update_dialog", False):
             return
         self._checking_app_update = True
         if manual:
@@ -272,8 +280,12 @@ class MainFrame(wx.Frame):
         dlg = wx.MessageDialog(self, testo, "Aggiornamento di KILLA NEWS disponibile",
                                wx.YES_NO | wx.CANCEL | wx.ICON_INFORMATION)
         dlg.SetYesNoCancelLabels("&Aggiorna ora", "&Più tardi", "&Salta questa versione")
-        scelta = dlg.ShowModal()
-        dlg.Destroy()
+        self._app_update_dialog = True
+        try:
+            scelta = dlg.ShowModal()
+        finally:
+            self._app_update_dialog = False
+            dlg.Destroy()
         if scelta == wx.ID_CANCEL:
             self.core.settings.set("skipped_app_version", info.version, notify=False)
             announce("Questa versione verrà saltata. Puoi sempre aggiornare dal menu Killa Records.")
@@ -332,6 +344,8 @@ class MainFrame(wx.Frame):
         try:
             self.sidebar.shutdown()
             self.speech_timer.Stop()
+            if getattr(self, "_app_update_timer", None):
+                self._app_update_timer.Stop()
             self.core.shutdown()
         except Exception:
             log.exception("Errore durante la chiusura (ignorato)")

@@ -31,7 +31,8 @@ API_LATEST = "https://api.github.com/repos/{repo}/releases/latest"
 INSTALLER_ASSET = "KillaNews_Installazione.exe"
 SINGLE_EXE_ASSET = "KillaNews.exe"
 CHECKSUMS_ASSET = "SHA256SUMS.txt"
-CHECK_EVERY_SECONDS = 20 * 3600  # al massimo un controllo automatico al giorno circa
+CHECK_EVERY_SECONDS = 15 * 60      # a ogni avvio (ma non più di un controllo ogni 15 minuti)
+CHECK_WHILE_OPEN_MS = 3 * 3600 * 1000  # se il programma resta aperto, ricontrolla ogni 3 ore
 
 
 def parse_version(text: str) -> tuple:
