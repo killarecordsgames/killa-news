@@ -53,7 +53,8 @@ class MainFrame(wx.Frame):
                                ("Ascolta" + shortcut_hint(core, "read"), lambda: self.open_selected(start_reading=True)),
                                ("Salva o rimuovi dai preferiti" + shortcut_hint(core, "save"), self.toggle_save),
                                ("Scarica offline" + shortcut_hint(core, "download"), self.download_selected),
-                               ("Apri l'originale nel browser" + shortcut_hint(core, "open_original"), self.open_original)):
+                               ("Apri l'originale nel browser" + shortcut_hint(core, "open_original"), self.open_original),
+                               ("Condividi" + shortcut_hint(core, "share"), self.share_selected)):
             b = wx.Button(self.right, label=label)
             b.Bind(wx.EVT_BUTTON, lambda e, h=handler: h())
             self.button_row.Add(b, 0, wx.ALL, 2)
@@ -97,6 +98,7 @@ class MainFrame(wx.Frame):
         extra = {
             "open": lambda: self.open_selected(), "to_read": self.toggle_to_read, "move_folder": self.move_to_folder,
             "remove_offline": self.remove_offline, "copy_link": self.copy_link, "export": self.export_selected,
+            "share": self.share_selected,
             "show_to_read": lambda: self.go_section("to_read"), "show_offline": lambda: self.go_section("offline"),
             "folders": self.manage_folders, "failed_sources": self.show_failed, "update_source": self.update_selected_source,
             "backup": self.backup_now, "about": lambda: show_about(self), "exit": self.Close,
@@ -153,6 +155,7 @@ class MainFrame(wx.Frame):
         m.AppendSeparator()
         item(m, "open_original", "Apri l'articolo o&riginale nel browser")
         item(m, "copy_link", "Copia il co&llegamento")
+        item(m, "share", "&Condividi (WhatsApp, email)...")
         item(m, "export", "&Esporta come file di testo")
         item(m, "print", "S&tampa")
         item(m, "remove_history", "Rimuovi dalla cro&nologia")
@@ -221,6 +224,8 @@ class MainFrame(wx.Frame):
         else:
             announce(f"KILLA NEWS pronto. {config.SLOGAN}")
         log.info("Avvio completato (backup: %s)", backup)
+        self.core.stats.program_opened()
+        wx.CallLater(20000, lambda: self.core.stats.send(app_updates.install_kind()))
         pending = self.core.settings.get("pending_update", "") or ""
         if pending:
             self.core.settings.set("pending_update", "", notify=False)
@@ -246,6 +251,7 @@ class MainFrame(wx.Frame):
         self._app_update_timer.Start(app_updates.CHECK_WHILE_OPEN_MS)
 
     def _on_app_update_timer(self, event):
+        self.core.stats.send(app_updates.install_kind())
         if app_updates.should_check_automatically(self.core.settings):
             self.check_app_updates(manual=False)
 
@@ -392,6 +398,7 @@ class MainFrame(wx.Frame):
             self.speech_timer.Stop()
             if getattr(self, "_app_update_timer", None):
                 self._app_update_timer.Stop()
+            self.core.stats.save()
             self.core.shutdown()
         except Exception:
             log.exception("Errore durante la chiusura (ignorato)")
@@ -447,6 +454,11 @@ class MainFrame(wx.Frame):
     def load_view(self, view, keep_id=None):
         if not view:
             return
+        from ..stats import section_of
+        section = section_of(view)
+        if section and section != getattr(self, "_last_section", ""):
+            self.core.stats.count(section)  # una volta per sezione, non a ogni freccia
+        self._last_section = section
         kind = view.get("kind")
         if kind == "settings":
             self.current_view = view
@@ -724,6 +736,12 @@ class MainFrame(wx.Frame):
             wx.TheClipboard.Close()
             announce("Collegamento copiato negli appunti")
 
+    def share_selected(self):
+        art = self._selected_or_warn()
+        if art:
+            from .share import share_article
+            share_article(self, self.core, art)
+
     def export_selected(self):
         art = self._selected_or_warn()
         if art:
@@ -753,6 +771,7 @@ class MainFrame(wx.Frame):
                    ("to_read", "Segna o togli «&da leggere»"), ("move_folder", "Sposta in &cartella..."),
                    ("download", "Scarica &offline"), ("remove_offline", "Rimuovi dall'archivio o&ffline"),
                    ("open_original", "Apri l'o&riginale"), ("copy_link", "Copia il co&llegamento"),
+                   ("share", "&Condividi (WhatsApp, email)..."),
                    ("export", "&Esporta come testo"), ("print", "S&tampa")]
         if kind == "history":
             entries.append(("remove_history", "Rimuovi dalla cro&nologia"))

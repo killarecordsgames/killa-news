@@ -11,6 +11,7 @@ from .history_manager import HistoryManager
 from .keyboard_manager import KeyboardManager
 from .news_manager import NewsManager
 from .settings_manager import SettingsManager
+from .stats import Stats
 from .speech_manager import SpeechManager
 from .updater import Updater
 
@@ -41,6 +42,7 @@ class Core:
         self.downloads = DownloadManager(self.db, self.settings)
         self.keyboard = KeyboardManager(self.settings)
         self.speech = SpeechManager(speech_backend)
+        self.stats = Stats(self.settings)
         self.apply_speech_settings()
         self.updater = None
         self.restored_backup = restored

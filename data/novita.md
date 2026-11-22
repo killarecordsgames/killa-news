@@ -1,5 +1,9 @@
 # Novità di KILLA NEWS
 
+## Versione 1.5.0 (22 novembre 2026)
+- Aggiunto: condividi un articolo con Ctrl+Maiusc+C o con il pulsante «Condividi»: puoi mandarlo su WhatsApp, per email oppure copiare titolo e collegamento negli appunti.
+- Aggiunto: statistiche anonime d'uso. KILLA NEWS invia a Killa Records solo la versione, il tipo di installazione e quante volte vengono usate le sezioni, con un codice casuale che non dice chi sei: nessun nome, nessun articolo letto, nessuna ricerca. Si possono disattivare in Impostazioni.
+
 ## Versione 1.4.0 (22 novembre 2026)
 - Corretto: l'aggiornamento automatico ora installa la nuova versione nella stessa cartella di quella in uso. Prima, se KILLA NEWS era installato per tutti gli utenti, la nuova versione finiva in un'altra cartella e il collegamento sul desktop apriva ancora la versione vecchia.
 - Aggiunto: quando esce una nuova versione, KILLA NEWS mostra una finestra con la versione nuova, la versione che hai adesso e l'elenco delle novità, da leggere con le frecce.

@@ -43,6 +43,7 @@ def main():
     core.settings.set("fetch_full_text", False)
     core.settings.set("auto_update", False)
     core.settings.set("last_run_version", config.APP_VERSION)
+    core.settings.set("send_usage_stats", False)  # i test non inviano statistiche
     sid = test_core.add_local_source(core, base, [("/rss.xml", "italia"), ("/dup.xml", "sport"),
                                                  ("/atom.xml", "economia")])
     for f in core.catalog.feeds(sid):
@@ -212,6 +213,21 @@ def main():
         printer = wx.html.HtmlEasyPrinting("Stampa", dlg)
         printer.SetStandardFonts(14)
         assert hasattr(dlg, "print_article") and "print" in frame.handlers
+        # condividi: si sceglie "copia" (senza aprire programmi esterni)
+        from killanews.ui import share
+        real_dlg = wx.SingleChoiceDialog
+        class FintaScelta:
+            def __init__(self, *a, **k): self.sel = 3
+            def SetSelection(self, i): pass
+            def ShowModal(self): return wx.ID_OK
+            def GetSelection(self): return 2
+            def Destroy(self): pass
+        share.wx.SingleChoiceDialog = FintaScelta
+        try:
+            assert share.share_article(dlg, core, article)
+            assert "share" in frame.handlers
+        finally:
+            share.wx.SingleChoiceDialog = real_dlg
         dlg.close()
         assert core.speech.state == "ferma"
         assert core.history.count() >= 1

@@ -52,6 +52,10 @@ class SettingsDialog(wx.Dialog):
                                                    "(nel lettore Ctrl+T passa dalla traduzione all'originale)")
         self.auto_translate.SetValue(bool(s.get("auto_translate", False)))
         sz.Add(self.auto_translate, 0, wx.ALL, 6)
+        self.usage_stats = wx.CheckBox(p, label="Invia statistiche anonime d'uso a Killa Records (vers&ione e sezioni "
+                                                "usate, nessun dato personale né articolo letto)")
+        self.usage_stats.SetValue(bool(s.get("send_usage_stats", True)))
+        sz.Add(self.usage_stats, 0, wx.ALL, 6)
         self.retention = common.labeled(p, sz, "&Conserva gli articoli non salvati per giorni (da 1 a 365):",
                                         lambda: wx.SpinCtrl(p, min=1, max=365, initial=int(s.get("retention_days", 30))),
                                         expand=False)
@@ -312,6 +316,7 @@ class SettingsDialog(wx.Dialog):
             "notify_new": self.notify_new.GetValue(), "notify_windows": self.notify_windows.GetValue(),
             "auto_refresh_view": self.auto_refresh.GetValue(), "fetch_full_text": self.fulltext.GetValue(),
             "check_app_updates": self.app_updates.GetValue(), "auto_translate": self.auto_translate.GetValue(),
+            "send_usage_stats": self.usage_stats.GetValue(),
             "retention_days": self.retention.GetValue(), "max_list_items": self.max_items.GetValue(),
             "download_dir": "" if folder == config.default_download_dir() else folder,
             "theme": common.THEME_LABELS[self.theme.GetSelection()][0], "font_size": self.font_size.GetValue(),

@@ -39,6 +39,9 @@ def prepare_article(parent, core, article_id):
         if result is not None and result.status != "completo":
             article.extra["partial_reason"] = result.reason
     core.history.record(article_id)
+    stats = getattr(core, "stats", None)
+    if stats:
+        stats.count("articoli_letti")
     return article
 
 
@@ -90,6 +93,7 @@ class ReaderDialog(wx.Dialog):
         self.b_translate = button("Traduci in italiano" + shortcut_hint(core, "translate"), self.toggle_translation,
                                   art_row)
         button("Apri articolo originale" + shortcut_hint(core, "open_original"), self.open_original, art_row)
+        button("Condividi" + shortcut_hint(core, "share"), self.share, art_row)
         button("Esporta come testo" + shortcut_hint(core, "export"), self.export, art_row)
         button("Stampa" + shortcut_hint(core, "print"), self.print_article, art_row)
         close = wx.Button(self, wx.ID_CLOSE, "&Chiudi (Esc)")
@@ -119,7 +123,7 @@ class ReaderDialog(wx.Dialog):
             "restart": self.restart, "next_par": self.next_par, "prev_par": self.prev_par,
             "next_article": self.next_article, "prev_article": self.prev_article, "save": self.toggle_save,
             "download": self.download, "open_original": self.open_original, "export": self.export,
-            "help": self.show_help, "print": self.print_article, "translate": self.toggle_translation,
+            "help": self.show_help, "print": self.print_article, "translate": self.toggle_translation, "share": self.share,
         }
         entries = []
         for action, combo in self.core.keyboard.for_scope("reader"):
@@ -212,6 +216,8 @@ class ReaderDialog(wx.Dialog):
     def start_reading(self):
         if self._check_speech():
             self.core.speech.start(self._current_paragraph())
+            if self.core.settings.get("voice_id", "") == "nvda" and getattr(self.core, "stats", None):
+                self.core.stats.count("voce_nvda")
 
     def toggle_pause(self):
         if self._check_speech():
@@ -355,6 +361,9 @@ class ReaderDialog(wx.Dialog):
             common.error(self, f"Traduzione non riuscita.\n\n{exc}")
             return False
         self.translation = result
+        stats = getattr(self.core, "stats", None)
+        if stats:
+            stats.count("traduzioni")
         return True
 
     def auto_translate_if_needed(self):
@@ -369,6 +378,10 @@ class ReaderDialog(wx.Dialog):
             announce("Apertura dell'articolo originale nel browser")
         else:
             common.info(self, "Per questo articolo non è disponibile un collegamento alla fonte.")
+
+    def share(self):
+        from .share import share_article
+        share_article(self, self.core, self.article)
 
     def export(self):
         folder = self.core.settings.download_dir()

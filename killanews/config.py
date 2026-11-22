@@ -3,7 +3,7 @@ import os
 import sys
 
 APP_NAME = "KILLA NEWS"
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.5.0"
 PRODUCER = "Killa Records"
 SLOGAN = "L'informazione, senza barriere."
 APP_ID = "KillaNews"
@@ -118,5 +118,8 @@ DEFAULT_SETTINGS = {
     "skipped_app_version": "",
     "auto_translate": False,
     "last_run_version": "",
-    "pending_update": "",             # versione che si stava installando (per accorgersi se l'aggiornamento non è riuscito)           # versione usata l'ultima volta (per mostrare le novità dopo un aggiornamento)          # traduce da solo in italiano gli articoli scritti in altre lingue
+    "pending_update": "",
+    "send_usage_stats": True,         # statistiche anonime d'uso (nessun dato personale)
+    "stats_id": "",                   # identificativo casuale dell'installazione
+    "stats_pending": "",              # conteggi non ancora inviati             # versione che si stava installando (per accorgersi se l'aggiornamento non è riuscito)           # versione usata l'ultima volta (per mostrare le novità dopo un aggiornamento)          # traduce da solo in italiano gli articoli scritti in altre lingue
 }

@@ -22,6 +22,7 @@ ACTIONS = {
     "stop_speech":   ("Interrompi la lettura vocale", "Ctrl+K", "both"),
     "download":      ("Scarica per la lettura offline", "Ctrl+Shift+S", "both"),
     "open_original": ("Apri l'articolo originale nel browser", "Ctrl+O", "both"),
+    "share":         ("Condividi l'articolo (WhatsApp, email, appunti)", "Ctrl+Shift+C", "both"),
     "print":         ("Stampa l'articolo", "Ctrl+Shift+T", "both"),
     "pause":         ("Metti in pausa o riprendi la lettura", "Ctrl+Shift+P", "reader"),
     "restart":       ("Leggi dall'inizio", "Alt+Home", "reader"),

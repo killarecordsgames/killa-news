@@ -750,3 +750,71 @@ class TestNovita(unittest.TestCase):
         from killanews import app_updates
         self.assertTrue(app_updates.folder_is_writable(TMP))
         self.assertFalse(app_updates.folder_is_writable(os.path.join(TMP, "non-esiste")))
+
+
+class TestCondivisioneEStatistiche(unittest.TestCase):
+    def test_sezioni_delle_viste(self):
+        from killanews.stats import section_of
+        self.assertEqual(section_of({"kind": "home_main"}), "prima_pagina")
+        self.assertEqual(section_of({"kind": "international", "country": "Ghana"}), "giornali_internazionali")
+        self.assertEqual(section_of({"kind": "source", "key": "int-kc:5"}), "giornali_internazionali")
+        self.assertEqual(section_of({"kind": "source", "key": "loc-c:5"}), "giornali_locali")
+        self.assertEqual(section_of({"kind": "choices", "key": "local_cities"}), "giornali_locali")
+        self.assertEqual(section_of({"kind": "category", "category_id": "sport/serie_a"}), "sport")
+        self.assertEqual(section_of({"kind": "category", "category_id": "esteri/asia"}), "notizie_dal_mondo")
+        self.assertEqual(section_of({"kind": "source", "key": "source:3"}), "tutti_i_giornali")
+        self.assertEqual(section_of({"kind": "saved"}), "articoli_salvati")
+        self.assertEqual(section_of(None), "")
+
+    def test_invio_e_conteggi(self):
+        from killanews.stats import Stats
+
+        class Resp:
+            def __init__(self, code):
+                self.status_code = code
+
+        class Session:
+            def __init__(self, code=200):
+                self.code, self.sent = code, []
+
+            def post(self, url, json=None, timeout=None, headers=None):
+                self.sent.append(json)
+                return Resp(self.code)
+
+        core = new_core("statistiche")
+        st = Stats(core.settings)
+        st.program_opened()
+        st.count("sport")
+        st.count("sport")
+        st.count("inventata")
+        sid = st.installation_id()
+        self.assertRegex(sid, r"^[0-9a-f]{32}$")
+        self.assertEqual(sid, st.installation_id())
+        bad = Session(500)
+        st.send("installata", session=bad, background=False)
+        self.assertEqual(bad.sent[0]["sezioni"], {"sport": 2})
+        self.assertEqual(bad.sent[0]["versione"], config.APP_VERSION)
+        st.save()  # alla chiusura i conteggi non inviati restano salvati
+        st2 = Stats(core.settings)
+        ok = Session(200)
+        st2.send("installata", session=ok, background=False)
+        self.assertEqual(ok.sent[0]["sezioni"], {"sport": 2})
+        self.assertEqual(ok.sent[0]["aperture"], 1)
+        again = Session(200)
+        st2.send("installata", session=again, background=False)
+        self.assertEqual(again.sent, [])  # niente da inviare
+        core.settings.set("send_usage_stats", False)
+        st2.count("sport")
+        st2.send("installata", session=again, background=False)
+        self.assertEqual(again.sent, [])  # disattivate: non si invia nulla
+        core.db.close()
+
+    def test_testo_da_condividere(self):
+        from killanews.models import Article
+        from killanews.ui import share
+        art = Article(id=1, title="Titolo di prova", source_name="ANSA", source_id=1, published="",
+                      link="https://www.ansa.it/a.html")
+        text = share.share_text(art)
+        self.assertIn("Titolo di prova (ANSA)", text)
+        self.assertIn("https://www.ansa.it/a.html", text)
+        self.assertIn("killarecordsgames.com/killa-news", text)
