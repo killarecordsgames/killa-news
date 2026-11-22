@@ -126,7 +126,7 @@ jobs:
           target_commitish: ${{ github.sha }}
           make_latest: true
           name: KILLA NEWS ${{ env.VERSIONE }}
-          body_path: NOVITA.md
+          body_path: data/novita.md
           files: pubblica/*
 
       - uses: actions/upload-artifact@v4

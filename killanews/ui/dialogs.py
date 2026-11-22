@@ -721,3 +721,36 @@ class ReportProblemDialog(wx.Dialog):
                                                       + self.body()))
             wx.TheClipboard.Close()
             common.info(self, f"Testo copiato. Incollalo in una nuova e-mail a {config.CONTACT_EMAIL}.")
+
+
+class ChangesDialog(wx.Dialog):
+    """Finestra con le novità in un campo di testo leggibile con le frecce.
+
+    buttons: [(id, etichetta)]. Il primo pulsante è quello predefinito.
+    ShowModal() restituisce l'id del pulsante premuto (Esc = l'ultimo)."""
+
+    def __init__(self, parent, title, intro, text, buttons):
+        super().__init__(parent, title=title, style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        if intro:
+            sizer.Add(wx.StaticText(self, label=intro), 0, wx.ALL, 8)
+        sizer.Add(wx.StaticText(self, label="&Novità (usa le frecce per leggerle):"), 0, wx.LEFT | wx.RIGHT, 8)
+        self.text = wx.TextCtrl(self, value=text, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2
+                                | wx.TE_NOHIDESEL)
+        sizer.Add(self.text, 1, wx.EXPAND | wx.ALL, 8)
+        row = wx.BoxSizer(wx.HORIZONTAL)
+        self._buttons = []
+        for i, (bid, label) in enumerate(buttons):
+            b = wx.Button(self, bid, label)
+            b.Bind(wx.EVT_BUTTON, lambda e, bid=bid: self.EndModal(bid))
+            row.Add(b, 0, wx.ALL, 4)
+            self._buttons.append(b)
+            if i == 0:
+                b.SetDefault()
+        sizer.Add(row, 0, wx.ALIGN_RIGHT | wx.ALL, 4)
+        self.SetSizer(sizer)
+        self.SetEscapeId(buttons[-1][0])
+        self.SetSize(self.FromDIP(wx.Size(700, 520)))
+        self.CentreOnParent()
+        self.text.SetInsertionPoint(0)
+        self.text.SetFocus()

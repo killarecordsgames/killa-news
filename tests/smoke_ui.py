@@ -17,7 +17,7 @@ os.environ["KILLANEWS_DATA_DIR"] = TMP
 
 import wx  # noqa: E402
 
-from killanews import feed_manager  # noqa: E402
+from killanews import config, feed_manager  # noqa: E402
 from killanews.core import Core  # noqa: E402
 from killanews.speech_manager import FakeBackend  # noqa: E402
 import test_core  # noqa: E402  (server di prova e feed di esempio)
@@ -42,6 +42,7 @@ def main():
     core = Core(db_path=os.path.join(TMP, "ui.db"), speech_backend=FakeBackend(ms_per_char=0.2))
     core.settings.set("fetch_full_text", False)
     core.settings.set("auto_update", False)
+    core.settings.set("last_run_version", config.APP_VERSION)
     sid = test_core.add_local_source(core, base, [("/rss.xml", "italia"), ("/dup.xml", "sport"),
                                                  ("/atom.xml", "economia")])
     for f in core.catalog.feeds(sid):
@@ -252,7 +253,7 @@ def main():
         webbrowser.open = lambda url, *a, **k: opened.append(url) or True
         frame.go_section("killa")
         keys = [k for _, k in frame.list.choices]
-        assert keys[0] == "action:report" and "action:site" in keys and "action:check_updates" in keys and len(keys) == 11, keys
+        assert keys[0] == "action:report" and "action:site" in keys and "action:check_updates" in keys and "action:whats_new" in keys and len(keys) == 12, keys
         labels = [frame.GetMenuBar().GetMenuLabelText(j) for j in range(frame.GetMenuBar().GetMenuCount())]
         assert "Killa Records" in labels, labels
         frame.list.list.Select(keys.index("action:site"))
@@ -260,6 +261,33 @@ def main():
         assert opened == ["https://www.killarecordsgames.com"], opened
         frame.run_action("youtube")
         assert opened[-1].endswith("@KillaRecordsGamesOfficial")
+        # finestra delle novità (chiusa da sola) e finestra di aggiornamento
+        from killanews.ui import dialogs as dl
+        seen = []
+        real_show = dl.ChangesDialog.ShowModal
+        dl.ChangesDialog.ShowModal = lambda self: seen.append((self.GetTitle(), self.text.GetValue())) or wx.ID_NO
+        try:
+            frame.show_whats_new(previous="1.2.1", after_update=True)
+            assert "Versione nuova: " + config.APP_VERSION in seen[-1][1], seen[-1]
+            assert "Versione precedente: 1.2.1" in seen[-1][1] and "Novità della versione 1.3.0" in seen[-1][1]
+            assert "Novità della versione 1.2.0" not in seen[-1][1]
+            frame.run_action("whats_new")
+            assert "Corretto:" in seen[-1][1] or "Aggiunto:" in seen[-1][1]
+            from killanews import app_updates
+            notes = open(config.data_file("novita.md"), encoding="utf-8").read().replace(
+                "## Versione 1.4.0", "## Versione 9.9.0 (oggi)\n- Aggiunto: prova\n\n## Versione 1.4.0")
+            info = app_updates.UpdateInfo("9.9.0", "t", notes, "", {})
+            real_kind = app_updates.install_kind
+            app_updates.install_kind = lambda: "eseguibile"
+            try:
+                frame._on_app_update_checked(info, None, True)
+            finally:
+                app_updates.install_kind = real_kind
+            assert seen[-1][0] == "Aggiornamento di KILLA NEWS disponibile"
+            assert "Versione nuova: 9.9.0" in seen[-1][1] and "Versione precedente: " + config.APP_VERSION in seen[-1][1]
+            assert "Aggiunto: prova" in seen[-1][1] and "Novità della versione 1.3.0" not in seen[-1][1]
+        finally:
+            dl.ChangesDialog.ShowModal = real_show
         from killanews.ui.dialogs import ReportProblemDialog, technical_info
         d = ReportProblemDialog(frame)
         d.text.SetValue("La finestra non si chiude")

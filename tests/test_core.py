@@ -728,3 +728,25 @@ class TestVoceNVDA(unittest.TestCase):
         sm2.start()
         self._wait(sm2, STATE_STOPPED)
         self.assertEqual(old.texts, ["Versione vecchia di NVDA"])
+
+
+class TestNovita(unittest.TestCase):
+    def test_elenco_delle_novita(self):
+        from killanews import changelog
+        sections = changelog.load()
+        self.assertEqual(sections[0][0], config.APP_VERSION)  # la versione in uso ha le sue novità
+        for version, date, items in sections:
+            self.assertTrue(items, version)
+            for item in items:
+                if version != "1.0.0":
+                    self.assertTrue(item.split(":")[0] in changelog.KINDS, item)
+        mid = changelog.between(sections, "1.2.0", "1.3.0")
+        self.assertEqual([s[0] for s in mid], ["1.3.0", "1.2.1"])
+        text = changelog.as_text(mid, "1.3.0", "1.2.0")
+        self.assertIn("Versione nuova: 1.3.0", text)
+        self.assertIn("Versione precedente: 1.2.0", text)
+
+    def test_cartella_scrivibile(self):
+        from killanews import app_updates
+        self.assertTrue(app_updates.folder_is_writable(TMP))
+        self.assertFalse(app_updates.folder_is_writable(os.path.join(TMP, "non-esiste")))

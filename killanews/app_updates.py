@@ -170,13 +170,28 @@ def download(info: UpdateInfo, kind: str, progress=None) -> str:
     return path
 
 
+def folder_is_writable(folder: str) -> bool:
+    """La cartella si può modificare senza i permessi di amministratore?"""
+    try:
+        fd, probe = tempfile.mkstemp(prefix=".killanews_prova_", dir=folder)
+        os.close(fd)
+        os.remove(probe)
+        return True
+    except OSError:
+        return False
+
+
 def launch_installer(path: str, kind: str) -> None:
     """Avvia l'installazione. Il chiamante deve poi chiudere KILLA NEWS subito."""
     flags = getattr(subprocess, "DETACHED_PROCESS", 0) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
     if kind == "installata":
         # Inno Setup: installazione silenziosa che chiude e poi riavvia il programma (vedi [Run] nel file .iss).
+        # Si installa nella STESSA cartella e con gli STESSI permessi della versione in uso: se la cartella
+        # è protetta (installazione per tutti gli utenti) serve /ALLUSERS e Windows chiede la conferma.
+        folder = config.program_dir()
+        mode = "/CURRENTUSER" if folder_is_writable(folder) else "/ALLUSERS"
         subprocess.Popen([path, "/SILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CLOSEAPPLICATIONS",
-                          "/AGGIORNAMENTO"], close_fds=True, creationflags=flags)
+                          mode, f"/DIR={folder}", "/AGGIORNAMENTO"], close_fds=True, creationflags=flags)
         return
     # Eseguibile singolo: uno script aspetta che KILLA NEWS si chiuda, sostituisce il file e lo riavvia.
     target = sys.executable

@@ -7,7 +7,7 @@ import webbrowser
 
 import wx
 
-from .. import app_updates, config, database
+from .. import app_updates, changelog, config, database
 from ..accessibility import announcer, announce
 from ..models import format_date
 from . import common
@@ -103,6 +103,7 @@ class MainFrame(wx.Frame):
             "remove_history": self.remove_from_history, "clear_history": self.clear_history,
             "report": self.report_problem, "credits": lambda: show_credits(self),
             "check_updates": lambda: self.check_app_updates(manual=True),
+            "whats_new": self.show_whats_new,
         }
         for link in config.LINKS:
             extra[link] = lambda link=link: self.open_link(link)
@@ -184,12 +185,14 @@ class MainFrame(wx.Frame):
         m.AppendSeparator()
         item(m, "settings", "&Impostazioni...")
         item(m, "check_updates", "Controlla &aggiornamenti di KILLA NEWS...")
+        item(m, "whats_new", "N&ovità di KILLA NEWS")
         item(m, "help", "&Guida")
         item(m, "about", "I&nformazioni su KILLA NEWS")
         bar.Append(m, "&Killa Records")
         m = wx.Menu()
         item(m, "help", "&Guida")
         item(m, "check_updates", "Controlla &aggiornamenti...")
+        item(m, "whats_new", "&Novità di KILLA NEWS")
         item(m, "about", "&Informazioni su KILLA NEWS")
         bar.Append(m, "A&iuto")
         self.SetMenuBar(bar)
@@ -218,6 +221,23 @@ class MainFrame(wx.Frame):
         else:
             announce(f"KILLA NEWS pronto. {config.SLOGAN}")
         log.info("Avvio completato (backup: %s)", backup)
+        pending = self.core.settings.get("pending_update", "") or ""
+        if pending:
+            self.core.settings.set("pending_update", "", notify=False)
+            if app_updates.is_newer(pending, config.APP_VERSION):
+                log.warning("Aggiornamento a %s non completato (versione in uso %s, cartella %s)",
+                            pending, config.APP_VERSION, config.program_dir())
+                wx.CallLater(1500, lambda: common.error(
+                    self, f"L'aggiornamento a KILLA NEWS {pending} non è stato completato: stai ancora usando la "
+                          f"versione {config.APP_VERSION}.\n\nPossibili cause: la richiesta di Windows è stata "
+                          "annullata oppure l'antivirus ha bloccato l'installazione. Puoi riprovare dal menu "
+                          "Killa Records, «Controlla aggiornamenti di KILLA NEWS», oppure scaricare la nuova "
+                          "versione da www.killarecordsgames.com/killa-news."))
+        previous = self.core.settings.get("last_run_version", "") or ""
+        self.core.settings.set("last_run_version", config.APP_VERSION, notify=False)
+        if not first_run and previous != config.APP_VERSION and (not previous or
+                                                                 app_updates.is_newer(config.APP_VERSION, previous)):
+            wx.CallLater(1500, lambda: self.show_whats_new(previous=previous or "", after_update=True))
         if app_updates.should_check_automatically(self.core.settings):
             wx.CallLater(8000, lambda: self.check_app_updates(manual=False))
         # chi tiene KILLA NEWS aperto per ore riceve comunque l'avviso delle nuove versioni
@@ -266,20 +286,22 @@ class MainFrame(wx.Frame):
         if not manual and self.core.settings.get("skipped_app_version") == info.version:
             return
         kind = app_updates.install_kind()
-        note = info.notes[:1500] + ("…" if len(info.notes) > 1500 else "")
-        testo = (f"È disponibile KILLA NEWS {info.version}. Tu hai la versione {config.APP_VERSION}.\n\n"
-                 + (f"Novità:\n{note}\n\n" if note else "")
-                 + ("Vuoi aggiornare adesso? KILLA NEWS si chiuderà, si aggiornerà e si riaprirà da solo. "
-                    "I tuoi preferiti, la cronologia e le impostazioni restano al loro posto."
-                    if kind != "sorgente" else
-                    "Stai usando KILLA NEWS dal codice sorgente: scarica la nuova versione dal sito."))
+        sections = changelog.between(changelog.parse(info.notes), config.APP_VERSION, info.version)
+        testo = changelog.as_text(sections, info.version, config.APP_VERSION)
+        if not sections and info.notes:
+            testo += "\n" + info.notes[:3000]
         announce(f"È disponibile KILLA NEWS {info.version}")
         if kind == "sorgente":
-            common.info(self, testo)
+            common.info(self, f"È disponibile KILLA NEWS {info.version}. Stai usando il codice sorgente: "
+                              "scarica la nuova versione dal sito.\n\n" + testo)
             return
-        dlg = wx.MessageDialog(self, testo, "Aggiornamento di KILLA NEWS disponibile",
-                               wx.YES_NO | wx.CANCEL | wx.ICON_INFORMATION)
-        dlg.SetYesNoCancelLabels("&Aggiorna ora", "&Più tardi", "&Salta questa versione")
+        intro = (f"È disponibile KILLA NEWS {info.version}. Tu hai la versione {config.APP_VERSION}.\n"
+                 "Scegli «Aggiorna ora»: KILLA NEWS si chiude, si aggiorna e si riapre da solo. "
+                 "Preferiti, cronologia e impostazioni restano al loro posto.")
+        from .dialogs import ChangesDialog
+        dlg = ChangesDialog(self, "Aggiornamento di KILLA NEWS disponibile", intro, testo,
+                            [(wx.ID_YES, "&Aggiorna ora"), (wx.ID_CANCEL, "&Salta questa versione"),
+                             (wx.ID_NO, "&Più tardi")])
         self._app_update_dialog = True
         try:
             scelta = dlg.ShowModal()
@@ -294,6 +316,29 @@ class MainFrame(wx.Frame):
             announce("Aggiornamento rimandato.")
             return
         self._install_app_update(info, kind)
+
+    def show_whats_new(self, previous="", after_update=False):
+        """Novità della versione in uso (dopo un aggiornamento: tutte quelle dalla versione precedente)."""
+        sections = changelog.load()
+        if after_update and previous:
+            shown = changelog.between(sections, previous, config.APP_VERSION)
+        else:
+            shown = [s for s in sections if s[0] == config.APP_VERSION] or sections[:1]
+        if after_update:
+            title = "KILLA NEWS è stato aggiornato"
+            intro = (f"KILLA NEWS è stato aggiornato alla versione {config.APP_VERSION}"
+                     + (f" (prima avevi la {previous})." if previous else ".") + " Ecco le novità.")
+        else:
+            title = "Novità di KILLA NEWS"
+            intro = f"Stai usando KILLA NEWS {config.APP_VERSION}. Ecco le novità di questa versione."
+        older = [s for s in sections if app_updates.is_newer(config.APP_VERSION, s[0])]
+        old_version = previous or (older[0][0] if older else "")
+        text = changelog.as_text(shown, config.APP_VERSION, old_version)
+        from .dialogs import ChangesDialog
+        announce(intro)
+        dlg = ChangesDialog(self, title, intro, text, [(wx.ID_OK, "&Chiudi")])
+        dlg.ShowModal()
+        dlg.Destroy()
 
     def _install_app_update(self, info, kind):
         progress = wx.ProgressDialog("Aggiornamento di KILLA NEWS", f"Download di KILLA NEWS {info.version} in corso...",
@@ -335,6 +380,7 @@ class MainFrame(wx.Frame):
                 log.exception("Avvio dell'aggiornamento non riuscito")
                 common.error(self, "Impossibile avviare l'aggiornamento. Puoi scaricare la nuova versione dal sito.")
                 return
+            self.core.settings.set("pending_update", info.version, notify=False)
             announce("Aggiornamento scaricato. KILLA NEWS si chiude e si riapre tra pochi secondi.")
             wx.CallLater(1500, self.Close)
 

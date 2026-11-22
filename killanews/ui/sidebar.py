@@ -18,7 +18,7 @@ KILLA_ITEMS = [
     ("site", "Sito ufficiale Killa Records"), ("youtube", "Canale YouTube Killa Records"),
     ("facebook", "Gruppo Facebook Killa Records Games"), ("whatsapp", "Canale WhatsApp Killa Records"),
     ("donate", "Sostieni il progetto con una donazione"), ("settings", "Impostazioni"),
-    ("check_updates", "Controlla aggiornamenti di KILLA NEWS"),
+    ("check_updates", "Controlla aggiornamenti di KILLA NEWS"), ("whats_new", "Novità di KILLA NEWS"),
     ("help", "Guida"), ("about", "Informazioni su KILLA NEWS"),
 ]
 

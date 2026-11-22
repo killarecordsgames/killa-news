@@ -13,6 +13,7 @@ ONEFILE = os.environ.get("KILLANEWS_ONEFILE") == "1"
 
 datas = [
     (os.path.join(ROOT, "data", "*.json"), "data"),
+    (os.path.join(ROOT, "data", "novita.md"), "data"),
     (os.path.join(ROOT, "assets", "*.ico"), "assets"),
     (os.path.join(ROOT, "assets", "*.png"), "assets"),
 ]
