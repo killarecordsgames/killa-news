@@ -62,12 +62,12 @@ class Catalog:
                     _norm_text(src["nome"]), _norm_text(src.get("paese")), _norm_text(src.get("regione")),
                     _norm_text(src.get("provincia")), _norm_text(src.get("citta")),
                     _norm_text(src.get("gruppo")), _norm_text(src.get("sito")),
-                    1 if src.get("testo_completo") else 0,
+                    1 if src.get("testo_completo") else 0, _norm_text(src.get("lingua")),
                 )
                 if row is None:
                     cur = self.db.execute(
                         "INSERT INTO sources(key, name, country, region, province, city, group_name, site_url, "
-                        "fulltext_allowed, origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalogo')",
+                        "fulltext_allowed, language, origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'catalogo')",
                         (key,) + values)
                     source_id = cur.lastrowid
                 elif row["deleted"] or (row["user_modified"] and not force):
@@ -76,7 +76,7 @@ class Catalog:
                     source_id = row["id"]
                     self.db.execute(
                         "UPDATE sources SET name=?, country=?, region=?, province=?, city=?, group_name=?, "
-                        "site_url=?, fulltext_allowed=? WHERE id=?", values + (source_id,))
+                        "site_url=?, fulltext_allowed=?, language=? WHERE id=?", values + (source_id,))
                 for feed in src.get("feed", []):
                     self._upsert_feed(source_id, feed)
                 count += 1
@@ -192,6 +192,20 @@ class Catalog:
             tree.setdefault(row["region"], {}).setdefault(row["province"], {}).setdefault(row["city"], []).append(row)
         return tree
 
+    def international_tree(self):
+        """{continente: {paese: [fonti]}} delle testate con un paese diverso dall'Italia.
+        I paesi che il programma non conosce finiscono nel continente «Altri paesi»."""
+        from .world import CONTINENTS, continent_of, is_international
+        tree = {}
+        rows = [r for r in self.sources(include_disabled=False)
+                if is_international(r["country"]) and not r["region"]]
+        rows.sort(key=lambda r: (r["country"].lower(), r["name"].lower()))
+        for row in rows:
+            cont = continent_of(row["country"]) or "Altri paesi"
+            tree.setdefault(cont, {}).setdefault(row["country"], []).append(row)
+        order = {c: i for i, c in enumerate(CONTINENTS + ["Altri paesi"])}
+        return dict(sorted(tree.items(), key=lambda kv: order.get(kv[0], 99)))
+
     def save_source(self, data: dict, source_id=None, feeds=None):
         """Crea o modifica una fonte. data: name, country, region, province, city, group_name,
         site_url, fulltext_allowed, enabled. feeds: lista di dict url/category_id/is_main/highlight."""
@@ -291,7 +305,7 @@ class Catalog:
             out["fonti"].append({
                 "id": s["key"], "nome": s["name"], "paese": s["country"], "regione": s["region"],
                 "provincia": s["province"], "citta": s["city"], "gruppo": s["group_name"],
-                "sito": s["site_url"], "testo_completo": bool(s["fulltext_allowed"]),
+                "sito": s["site_url"], "testo_completo": bool(s["fulltext_allowed"]), "lingua": s["language"],
                 "feed": [{"url": f["url"], "categoria": f["category_id"], "principale": bool(f["is_main"]),
                           "evidenza": bool(f["highlight"]), "verifica": f["verification"]}
                          for f in self.feeds(s["id"])],

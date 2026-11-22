@@ -1,4 +1,4 @@
-# KILLA NEWS 1.0.0
+# KILLA NEWS 1.2.0
 
 **Killa Records** · *L'informazione, senza barriere.*
 
@@ -33,7 +33,7 @@ py main.py
 
 La finestra ha due riquadri:
 
-- **a sinistra, il menu delle sezioni**: Prima pagina, Tutti i giornali, Italia, Esteri, Cronaca, Economia e finanza, Sport, Tecnologia, Cultura e spettacolo, Salute e benessere, Giornali locali, Articoli salvati, Cronologia, Cerca, Impostazioni;
+- **a sinistra, il menu delle sezioni**: Prima pagina, Tutti i giornali, Italia, Giornali internazionali, Cronaca, Economia e finanza, Sport, Tecnologia, Cultura e spettacolo, Salute e benessere, Giornali locali, Articoli salvati, Cronologia, Cerca, Impostazioni;
 - **a destra, l'elenco delle notizie**. Ogni riga riporta titolo, testata, data, categoria, stato e descrizione.
 
 Ci si sposta tra i riquadri con **F6** (oppure Tab).
@@ -44,6 +44,7 @@ Nel menu delle sezioni:
 - le **frecce su e giù** scelgono una sezione;
 - la **freccia destra** apre le sottosezioni (per esempio Sport > Serie A);
 - in **Giornali locali** si sceglie prima cosa leggere: «Tutti gli articoli locali», «Scegli per città», «Scegli per regione e provincia» oppure «Scegli per testata». Ogni città, regione e provincia offre a sua volta «Tutti gli articoli» di quel luogo oppure le singole testate. Le scelte compaiono anche nell'elenco a destra e si aprono con Invio;
+- in **Giornali internazionali** si sceglie allo stesso modo: «Tutti gli articoli internazionali», «Scegli per continente», «Scegli per nazione» oppure «Scegli per testata». Scelto un continente compaiono le sue nazioni; scelta una nazione compaiono prima le sue testate e poi «Tutti gli articoli» di quella nazione, con le testate mescolate. Anche ogni continente ha i suoi «Tutti gli articoli». La voce «Notizie dal mondo per area» raccoglie le notizie estere di tutti i giornali, anche italiani, divise per Europa, Africa, America, Asia e Medio Oriente;
 - la **freccia sinistra** le richiude;
 - **Invio** porta all'elenco delle notizie.
 
@@ -58,6 +59,10 @@ Nel **lettore**, il testo si legge con le frecce come un documento. Si può usar
 - **si interrompe subito con Ctrl+K o con Esc**, anche negli articoli molto lunghi.
 
 Se il feed fornisce solo un estratto, il lettore lo scrive chiaramente e offre il pulsante **Apri articolo originale**.
+
+**Traduzione.** Gli articoli scritti in altre lingue si traducono in italiano con il pulsante **Traduci in italiano** o con **Ctrl+T**; premendo di nuovo Ctrl+T si torna alla lingua originale. Sotto il titolo il lettore dice da quale lingua è stato tradotto. Nelle Impostazioni si può scegliere di tradurre tutto da solo. La traduzione usa il servizio gratuito di Google Traduttore (se non risponde, MyMemory): serve Internet, è automatica e può contenere errori. Ogni articolo viene tradotto una sola volta e poi resta salvato.
+
+**Ricerca per nazione e continente.** Nel pannello Cerca si può filtrare per continente o per nazione, oltre che per testo, categoria, testata e periodo.
 
 ### Scorciatoie predefinite (modificabili in Impostazioni > Scorciatoie)
 
@@ -78,6 +83,7 @@ Se il feed fornisce solo un estratto, il lettore lo scrive chiaramente e offre i
 | Ctrl+Maiusc+S | Scarica per la lettura offline |
 | Ctrl+O | Apri l'articolo originale nel browser |
 | Ctrl+Maiusc+T | Stampa l'articolo (finestra di stampa di Windows) |
+| Ctrl+T | Traduci in italiano / torna alla lingua originale (nel lettore) |
 | Alt+Freccia giù / su | Paragrafo successivo / precedente (lettore) |
 | Alt+Inizio | Leggi dall'inizio (lettore) |
 | Ctrl+Pagina giù / su | Articolo successivo / precedente (lettore) |

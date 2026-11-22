@@ -1,4 +1,4 @@
-"""Pannello della ricerca universale con filtri per categoria, testata, paese e periodo."""
+"""Pannello della ricerca universale con filtri per categoria, testata, continente, nazione e periodo."""
 import wx
 
 from ..news_manager import parse_italian_date
@@ -27,7 +27,8 @@ class SearchPanel(wx.Panel):
                         lambda: wx.TextCtrl(parent_box, style=wx.TE_PROCESS_ENTER))
         self.category = row("&Categoria:", lambda: wx.Choice(parent_box))
         self.source = row("T&estata:", lambda: wx.Choice(parent_box))
-        self.country = row("&Paese:", lambda: wx.Choice(parent_box))
+        self.continent = row("C&ontinente:", lambda: wx.Choice(parent_box))
+        self.country = row("&Nazione:", lambda: wx.Choice(parent_box))
         self.period = row("Pe&riodo di pubblicazione:", lambda: wx.Choice(parent_box, choices=[p[1] for p in PERIODS]))
         self.date_from = row("&Dal giorno (gg/mm/aaaa):", lambda: wx.TextCtrl(parent_box, style=wx.TE_PROCESS_ENTER))
         self.date_to = row("&Al giorno (gg/mm/aaaa):", lambda: wx.TextCtrl(parent_box, style=wx.TE_PROCESS_ENTER))
@@ -55,8 +56,10 @@ class SearchPanel(wx.Panel):
             for sub in subs:
                 self._cats.append((sub["id"], f"{top['name']} - {sub['name']}"))
         self._sources = [(None, "Tutte le testate")] + [(s["id"], s["name"]) for s in self.core.catalog.sources()]
-        self._countries = [("", "Tutti i paesi")] + [(c, c) for c in self.core.news.countries()]
-        for ctrl, items in ((self.category, self._cats), (self.source, self._sources), (self.country, self._countries)):
+        self._continents = [("", "Tutti i continenti")] + [(c, c) for c in self.core.news.continents()]
+        self._countries = [("", "Tutte le nazioni")] + [(c, c) for c in self.core.news.countries()]
+        for ctrl, items in ((self.category, self._cats), (self.source, self._sources),
+                            (self.continent, self._continents), (self.country, self._countries)):
             current = ctrl.GetSelection()
             ctrl.Set([label for _, label in items])
             ctrl.SetSelection(current if 0 <= current < len(items) else 0)
@@ -68,7 +71,7 @@ class SearchPanel(wx.Panel):
 
     def _on_clear(self, event):
         self.text.SetValue("")
-        for ctrl in (self.category, self.source, self.country, self.period):
+        for ctrl in (self.category, self.source, self.continent, self.country, self.period):
             ctrl.SetSelection(0)
         self.date_from.SetValue("")
         self.date_to.SetValue("")
@@ -90,6 +93,7 @@ class SearchPanel(wx.Panel):
             "category_id": self._cats[self.category.GetSelection()][0],
             "source_id": self._sources[self.source.GetSelection()][0],
             "country": self._countries[self.country.GetSelection()][0],
+            "continent": self._continents[self.continent.GetSelection()][0],
             "period": period, "date_from": date_from, "date_to": date_to,
         }
 
@@ -98,6 +102,7 @@ class SearchPanel(wx.Panel):
         if params["text"]:
             parts.append(f"«{params['text']}»")
         for key, items, ctrl in (("category_id", self._cats, self.category), ("source_id", self._sources, self.source),
+                                 ("continent", self._continents, self.continent),
                                  ("country", self._countries, self.country)):
             if params[key]:
                 parts.append(items[ctrl.GetSelection()][1])

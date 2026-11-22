@@ -156,11 +156,11 @@ class TestDatabaseCatalog(unittest.TestCase):
         self.assertEqual(len(core.catalog.feeds()), n_feeds)
         for f in core.catalog.feeds():
             self.assertTrue(f["url"].startswith("http"))
-            self.assertIn(f["verification"], ("feeder", "feedspot"))
+            self.assertIn(f["verification"], ("feeder", "feedspot", "github-actions 22/11/2026"))
             self.assertIsNotNone(core.db.query_one("SELECT 1 FROM categories WHERE id = ?", (f["category_id"],)),
                                  f"categoria inesistente {f['category_id']}")
         tree = core.catalog.categories_tree()
-        self.assertEqual([t["name"] for t, _ in tree][:2], ["Italia", "Esteri"])
+        self.assertEqual([t["name"] for t, _ in tree][:2], ["Italia", "Notizie dal mondo"])
         self.assertIn("Veneto", core.catalog.local_tree())
         # nuova apertura: il catalogo non viene duplicato
         core.db.close()
@@ -528,3 +528,128 @@ class TestAggiornamentiProgramma(unittest.TestCase):
         from killanews import app_updates, config
         if config.GITHUB_REPO.startswith("__"):
             self.assertFalse(app_updates.configured())
+
+
+class TestGiornaliInternazionali(unittest.TestCase):
+    def test_continenti_e_albero(self):
+        from killanews import world
+        self.assertEqual(world.continent_of("Giappone"), "Asia e Medio Oriente")
+        self.assertEqual(world.continent_of("Ghana"), "Africa")
+        self.assertEqual(world.continent_of("Marocco"), "Africa")
+        self.assertEqual(world.continent_of("Italia"), "")
+        core = new_core("internazionali")
+        tree = core.catalog.international_tree()
+        for cont in ("Europa", "Asia e Medio Oriente", "Africa", "America del Nord", "America Latina", "Oceania"):
+            self.assertIn(cont, tree)
+        for country in ("Giappone", "Cina", "Francia", "Marocco", "Ghana"):
+            cont = world.continent_of(country)
+            self.assertIn(country, tree[cont], country)
+            self.assertTrue(tree[cont][country])
+        # nessuna testata italiana o locale tra le internazionali
+        for cs in tree.values():
+            for lst in cs.values():
+                for src in lst:
+                    self.assertNotEqual(src["country"], "Italia")
+                    self.assertEqual(src["region"], "")
+        self.assertIn("Africa", core.news.continents())
+        self.assertIn("Ghana", core.news.countries(international=True))
+        self.assertNotIn("Italia", core.news.countries(international=True))
+        core.db.close()
+
+    def test_viste_e_ricerca_per_nazione(self):
+        core = new_core("intviste")
+        db = core.db
+        jp = db.query_one("SELECT id FROM sources WHERE country = 'Giappone' LIMIT 1")["id"]
+        it = db.query_one("SELECT id FROM sources WHERE country = 'Italia' AND region = '' LIMIT 1")["id"]
+        now = database.now_iso()
+        for i, (sid, title) in enumerate(((jp, "Tokyo news test"), (it, "Notizia italiana di prova"))):
+            db.execute("INSERT INTO articles(source_id, uid, title, link, norm_link, published, fetched, category_id) "
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, 'esteri')", (sid, f"g{i}", title, f"http://x/{i}", f"x/{i}", now, now))
+        db.commit()
+        titles = lambda arts: {a.title for a in arts}
+        self.assertEqual(titles(core.news.list_view({"kind": "international", "country": "Giappone"})),
+                         {"Tokyo news test"})
+        self.assertIn("Tokyo news test",
+                      titles(core.news.list_view({"kind": "international", "continent": "Asia e Medio Oriente"})))
+        self.assertNotIn("Notizia italiana di prova", titles(core.news.list_view({"kind": "international"})))
+        self.assertEqual(titles(core.news.search(continent="Asia e Medio Oriente")), {"Tokyo news test"})
+        self.assertEqual(titles(core.news.search(country="Giappone")), {"Tokyo news test"})
+        self.assertEqual(titles(core.news.list_view({"kind": "international", "continent": "Oceania"})), set())
+        # la prima pagina resta in italiano
+        recent = titles(core.news.list_view({"kind": "home_recent"}))
+        self.assertIn("Notizia italiana di prova", recent)
+        self.assertNotIn("Tokyo news test", recent)
+        core.db.close()
+
+
+class TestTraduzione(unittest.TestCase):
+    def test_blocchi_e_rilevamento(self):
+        from killanews import translator
+        long_text = "\n".join(["Paragraph number %d. " % i * 20 for i in range(40)])
+        chunks = translator._chunks(long_text)
+        self.assertTrue(all(len(c) <= translator._MAX_CHUNK for c in chunks))
+        self.assertEqual("".join(c.replace("\n", "") for c in chunks).replace(" ", ""),
+                         long_text.replace("\n", "").replace(" ", ""))
+        self.assertTrue(translator.looks_italian("Il governo ha approvato la legge di bilancio per il prossimo anno, "
+                                                 "con le misure per le famiglie e per le imprese della regione."))
+        self.assertFalse(translator.looks_italian("The government approved the budget law for next year, "
+                                                  "with measures for families and businesses."))
+        self.assertEqual(translator.language_name("ja"), "giapponese")
+
+    def test_traduzione_con_servizio_finto_e_cache(self):
+        from killanews import translator
+        from killanews.models import Article
+
+        class FakeResp:
+            def __init__(self, data):
+                self.data = data
+
+            def raise_for_status(self):
+                pass
+
+            def json(self):
+                return self.data
+
+        class FakeSession:
+            headers = {}
+            calls = 0
+
+            def get(self, url, params=None, timeout=None):
+                FakeSession.calls += 1
+                q = params["q"]
+                return FakeResp([[["IT:" + line, line] for line in q.split("\n")], None, "en"])
+
+        core = new_core("traduzione")
+        sid = core.db.query_one("SELECT id FROM sources LIMIT 1")["id"]
+        now = database.now_iso()
+        cur = core.db.execute("INSERT INTO articles(source_id, uid, title, link, norm_link, published, fetched, "
+                              "category_id, content) VALUES (?, 't1', 'Hello', 'http://x/t', 'x/t', ?, ?, 'esteri', ?)",
+                              (sid, now, now, "First line\nSecond line"))
+        core.db.commit()
+        art = core.news.get_article(cur.lastrowid)
+        store = translator.TranslationStore(core.db)
+        res = translator.translate_article(art, store, session=FakeSession())
+        self.assertEqual(res["title"], "IT:Hello")
+        self.assertIn("IT:Second line", res["body"])
+        self.assertEqual(res["source_lang"], "en")
+        calls = FakeSession.calls
+        again = translator.translate_article(art, store, session=FakeSession())
+        self.assertEqual(again["body"], res["body"])
+        self.assertEqual(FakeSession.calls, calls)  # seconda volta dalla memoria, senza rete
+        core.db.close()
+
+
+class TestMigrazione(unittest.TestCase):
+    def test_database_della_versione_1(self):
+        path = os.path.join(TMP, "vecchio.db")
+        conn = sqlite3.connect(path)
+        conn.executescript(database._SCHEMA_V1.replace(",\n    language TEXT NOT NULL DEFAULT ''", ""))
+        conn.execute("INSERT INTO schema_version(version) VALUES (1)")
+        conn.commit()
+        conn.close()
+        db = database.Database(path)
+        self.assertEqual(db.schema_version(), config.DB_SCHEMA_VERSION)
+        cols = [r[1] for r in db.query("PRAGMA table_info(sources)")]
+        self.assertIn("language", cols)
+        self.assertTrue(db._has_table("translations"))
+        db.close()

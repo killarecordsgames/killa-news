@@ -5,7 +5,7 @@ Invio: porta il focus all'elenco delle notizie (o apre Cerca/Impostazioni)."""
 import wx
 
 SECTION_ORDER = [
-    ("home", "Prima pagina"), ("all", "Tutti i giornali"), ("italia", "Italia"), ("esteri", "Esteri"),
+    ("home", "Prima pagina"), ("all", "Tutti i giornali"), ("italia", "Italia"), ("international", "Giornali internazionali"),
     ("cronaca", "Cronaca"), ("economia", "Economia e finanza"), ("sport", "Sport"), ("tecnologia", "Tecnologia"),
     ("cultura", "Cultura e spettacolo"), ("salute", "Salute e benessere"), ("local", "Giornali locali"),
     ("saved", "Articoli salvati"), ("history", "Cronologia"), ("search", "Cerca"), ("settings", "Impostazioni"),
@@ -85,6 +85,8 @@ class Sidebar(wx.Panel):
                                                       "title": f"{names.get(key, label)} - {sub['name']}", "key": sub["id"]})
                 elif key == "local":
                     item = self._build_local(root, label)
+                elif key == "international":
+                    item = self._build_international(root, label, tree.get("esteri"), names.get("esteri"))
                 elif key == "saved":
                     item = self._add(root, label, {"kind": "saved", "title": "Articoli salvati - tutti", "key": "saved"})
                     self._add(item, "Da leggere", {"kind": "saved", "to_read": True, "title": "Articoli da leggere",
@@ -189,6 +191,83 @@ class Sidebar(wx.Panel):
         for src in sorted(sources, key=lambda s: s["name"].lower()):
             place = src["city"] or src["region"]
             source_leaf(s_node, s_view, src, "s", place)
+        return top
+
+    # ------------------------------------------------------------------ giornali internazionali
+    def _build_international(self, root, label, world_subs=None, world_name=None):
+        """Giornali internazionali: si sceglie per continente, per nazione o per testata.
+        Scelto il luogo compaiono prima le testate; ogni livello offre anche «Tutti gli articoli»."""
+        tree = self.core.catalog.international_tree()
+        countries = sorted(((country, cont) for cont, cs in tree.items() for country in cs),
+                           key=lambda c: c[0].lower())
+        sources = [s for cs in tree.values() for lst in cs.values() for s in lst]
+        top, top_view = self._choices_node(root, label, "Giornali internazionali: scegli cosa leggere",
+                                           "international")
+
+        def leaf(parent, parent_view, text, view):
+            self._add(parent, text, view)
+            parent_view["choices"].append((text, view["key"]))
+
+        def source_leaf(parent, parent_view, src, branch, place=""):
+            text = self.source_label(src) + (f" ({place})" if place else "")
+            leaf(parent, parent_view, text, dict(self.source_view(src), key=f"int-{branch}:{src['id']}"))
+
+        def country_node(parent, parent_view, country, cont, branch, with_continent=False):
+            ckey = f"intcountry-{branch}:{country}"
+            text = f"{country} ({cont})" if with_continent else country
+            n, v = self._choices_node(parent, f"{text}, {len(tree[cont][country])} testate",
+                                      f"Giornali internazionali - {country}", ckey)
+            parent_view["choices"].append((f"{text}, {len(tree[cont][country])} testate", ckey))
+            for src in tree[cont][country]:
+                source_leaf(n, v, src, branch + "c")
+            leaf(n, v, f"Tutti gli articoli di {country} (testate mescolate)",
+                 {"kind": "international", "country": country, "key": f"intcountryall-{branch}:{country}",
+                  "title": f"Internazionali - {country}, tutti gli articoli"})
+
+        leaf(top, top_view, f"Tutti gli articoli internazionali ({len(sources)} testate)",
+             {"kind": "international", "title": "Giornali internazionali - tutti gli articoli",
+              "key": "international_all"})
+
+        # per continente
+        k_node, k_view = self._choices_node(top, "Scegli per continente",
+                                            "Giornali internazionali - scegli il continente", "int_continents")
+        top_view["choices"].append(("Scegli per continente", "int_continents"))
+        for cont, cs in tree.items():
+            n_src = sum(len(lst) for lst in cs.values())
+            ckey = f"intcont:{cont}"
+            n, v = self._choices_node(k_node, f"{cont}, {len(cs)} paesi", f"Giornali internazionali - {cont}", ckey)
+            k_view["choices"].append((f"{cont}, {len(cs)} paesi", ckey))
+            for country in sorted(cs, key=str.lower):
+                country_node(n, v, country, cont, "k")
+            leaf(n, v, f"Tutti gli articoli di {cont} ({n_src} testate mescolate)",
+                 {"kind": "international", "continent": cont, "key": f"intcontall:{cont}",
+                  "title": f"Internazionali - {cont}, tutti gli articoli"})
+
+        # per nazione
+        c_node, c_view = self._choices_node(top, "Scegli per nazione",
+                                            "Giornali internazionali - scegli la nazione", "int_countries")
+        top_view["choices"].append(("Scegli per nazione", "int_countries"))
+        for country, cont in countries:
+            country_node(c_node, c_view, country, cont, "n", with_continent=True)
+
+        # per testata
+        s_node, s_view = self._choices_node(top, "Scegli per testata",
+                                            "Giornali internazionali - scegli la testata", "int_sources")
+        top_view["choices"].append(("Scegli per testata", "int_sources"))
+        for src in sorted(sources, key=lambda s: s["name"].lower()):
+            source_leaf(s_node, s_view, src, "s", src["country"])
+
+        # le notizie dal mondo di tutti i giornali, divise per argomento (la vecchia sezione Esteri)
+        if world_subs is not None:
+            w_node, w_view = self._choices_node(top, "Notizie dal mondo per area (anche dai giornali italiani)",
+                                                "Notizie dal mondo per area", "int_world")
+            top_view["choices"].append(("Notizie dal mondo per area (anche dai giornali italiani)", "int_world"))
+            leaf(w_node, w_view, "Tutte le notizie dal mondo",
+                 {"kind": "category", "category_id": "esteri", "title": world_name or "Notizie dal mondo",
+                  "key": "esteri"})
+            for sub in world_subs:
+                leaf(w_node, w_view, sub["name"], {"kind": "category", "category_id": sub["id"],
+                                                    "title": f"Notizie dal mondo - {sub['name']}", "key": sub["id"]})
         return top
 
     @staticmethod

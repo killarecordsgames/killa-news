@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS sources (
     enabled INTEGER NOT NULL DEFAULT 1,
     origin TEXT NOT NULL DEFAULT 'catalogo',
     user_modified INTEGER NOT NULL DEFAULT 0,
-    deleted INTEGER NOT NULL DEFAULT 0
+    deleted INTEGER NOT NULL DEFAULT 0,
+    language TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS feeds (
@@ -119,6 +120,17 @@ CREATE TABLE IF NOT EXISTS downloads (
     size_bytes INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS translations (
+    article_id INTEGER NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
+    target TEXT NOT NULL DEFAULT 'it',
+    source_lang TEXT NOT NULL DEFAULT '',
+    title TEXT NOT NULL DEFAULT '',
+    subtitle TEXT NOT NULL DEFAULT '',
+    body TEXT NOT NULL DEFAULT '',
+    body_hash TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (article_id, target)
+);
+
 CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -134,7 +146,10 @@ CREATE VIRTUAL TABLE IF NOT EXISTS articles_fts USING fts5(
 
 # Migrazioni future: {versione_di_arrivo: [istruzioni SQL]}.
 # Esempio per la 1.1.0:  2: ["ALTER TABLE articles ADD COLUMN image_url TEXT NOT NULL DEFAULT ''"]
-MIGRATIONS = {}
+MIGRATIONS = {
+    # 1.2.0: lingua delle testate (per la traduzione e per tenere la Prima pagina in italiano)
+    2: ["ALTER TABLE sources ADD COLUMN language TEXT NOT NULL DEFAULT ''"],
+}
 
 _init_lock = threading.Lock()
 

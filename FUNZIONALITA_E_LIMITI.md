@@ -18,7 +18,7 @@
 
 **Interfaccia e accessibilità**
 - Finestra classica di Windows con controlli nativi: barra dei menu, albero, elenco a colonne, campi di testo, schede e finestre standard.
-- Menu laterale con le 15 sezioni richieste e le sottosezioni (Italia 7, Esteri 8, Economia 8, Sport 15, Tecnologia 6, Cultura 7, Salute 5). I giornali locali sono organizzati per regione, provincia e città; la prima pagina ha 5 viste.
+- Menu laterale con le 15 sezioni richieste e le sottosezioni (Italia 7, Notizie dal mondo 8, Economia 8, Sport 15, Tecnologia 6, Cultura 7, Salute 5). I giornali locali sono organizzati per regione, provincia e città; la prima pagina ha 5 viste.
 - Navigazione completa da tastiera: frecce, Tab, Invio, F6, Esc, menu contestuale da tastiera, Canc.
 - Ogni controllo è preceduto da un'etichetta e nessun pulsante è senza nome. Lo stato degli articoli è scritto come testo, non affidato a colori o icone.
 - Il focus non salta durante gli aggiornamenti: l'elenco si ricarica solo con F5 o su richiesta. Questo comportamento si può cambiare nelle impostazioni.

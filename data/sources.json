@@ -1,6 +1,6 @@
 {
-  "_info": "Catalogo iniziale delle fonti di KILLA NEWS 1.0.0. Ogni indirizzo di feed qui elencato e' stato controllato il 20/11/2026 su directory pubbliche che verificano il funzionamento dei feed (campo 'verifica': feeder = Feeder.co, che riportava il feed come attivo; feedspot = elenco Feedspot). Le testate con 'feed' vuoto non hanno un feed pubblico confermato: il programma apre il loro sito originale e puo' cercare automaticamente il feed ufficiale dichiarato nella pagina del sito (menu Fonti > Cerca feed sul sito; il programma lo fa anche da solo durante l'aggiornamento, al massimo una volta alla settimana per testata). Per aggiungere testate, regioni, province o citta' basta aggiungere voci a questo file oppure usare il menu Fonti del programma.",
-  "versione_catalogo": 2,
+  "_info": "Catalogo iniziale delle fonti di KILLA NEWS 1.0.0. Ogni indirizzo di feed qui elencato e' stato controllato il 20/11/2026 su directory pubbliche che verificano il funzionamento dei feed (campo 'verifica': feeder = Feeder.co, che riportava il feed come attivo; feedspot = elenco Feedspot). Le testate con 'feed' vuoto non hanno un feed pubblico confermato: il programma apre il loro sito originale e puo' cercare automaticamente il feed ufficiale dichiarato nella pagina del sito (menu Fonti > Cerca feed sul sito; il programma lo fa anche da solo durante l'aggiornamento, al massimo una volta alla settimana per testata). Per aggiungere testate, regioni, province o citta' basta aggiungere voci a questo file oppure usare il menu Fonti del programma. Dalla versione 3 (KILLA NEWS 1.2.0) il catalogo contiene anche le testate internazionali di tutti i continenti: ogni feed è stato scaricato e letto il 22/11/2026 da un server di GitHub (verifica = github-actions) e conteneva notizie recenti. Il campo 'lingua' indica la lingua in cui la testata scrive.",
+  "versione_catalogo": 3,
   "fonti": [
     {
       "id": "ansa",
@@ -52,7 +52,8 @@
           "categoria": "esteri/europa",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "agi",
@@ -68,7 +69,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "adnkronos",
@@ -105,7 +107,8 @@
           "categoria": "economia/mercati",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "rainews",
@@ -137,7 +140,8 @@
           "categoria": "sport",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "corriere",
@@ -146,7 +150,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.corriere.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "repubblica",
@@ -155,7 +160,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.repubblica.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa",
@@ -171,7 +177,8 @@
           "principale": true,
           "verifica": "feedspot"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "sole24ore",
@@ -192,7 +199,8 @@
           "categoria": "economia/mercati",
           "verifica": "feedspot"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "messaggero",
@@ -201,7 +209,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.ilmessaggero.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "ilgiornale",
@@ -217,7 +226,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "avvenire",
@@ -226,7 +236,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.avvenire.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "fattoquotidiano",
@@ -235,7 +246,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.ilfattoquotidiano.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "manifesto",
@@ -244,7 +256,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://ilmanifesto.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "iltempo",
@@ -253,7 +266,8 @@
       "gruppo": "Quotidiani nazionali",
       "sito": "https://www.iltempo.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "ilpost",
@@ -262,7 +276,8 @@
       "gruppo": "Quotidiani online",
       "sito": "https://www.ilpost.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "gazzetta",
@@ -271,7 +286,8 @@
       "gruppo": "Sport",
       "sito": "https://www.gazzetta.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "corrieredellosport",
@@ -292,7 +308,8 @@
           "categoria": "sport/motogp",
           "verifica": "feedspot"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "tuttosport",
@@ -323,7 +340,8 @@
           "categoria": "sport/tennis",
           "verifica": "feedspot"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "skysport",
@@ -332,7 +350,8 @@
       "gruppo": "Sport",
       "sito": "https://sport.sky.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "eurosport",
@@ -341,7 +360,8 @@
       "gruppo": "Sport",
       "sito": "https://www.eurosport.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "skysportsuk",
@@ -357,7 +377,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "en"
     },
     {
       "id": "bbc",
@@ -423,7 +444,8 @@
           "categoria": "sport/f1",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "en"
     },
     {
       "id": "reuters",
@@ -432,7 +454,8 @@
       "gruppo": "Internazionali",
       "sito": "https://www.reuters.com",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "en"
     },
     {
       "id": "guardian",
@@ -478,7 +501,8 @@
           "categoria": "esteri/africa",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "en"
     },
     {
       "id": "ap",
@@ -487,7 +511,8 @@
       "gruppo": "Internazionali",
       "sito": "https://apnews.com",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "en"
     },
     {
       "id": "lemonde",
@@ -503,7 +528,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "fr"
     },
     {
       "id": "elpais",
@@ -534,7 +560,8 @@
           "categoria": "cultura",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "es"
     },
     {
       "id": "nyt",
@@ -595,7 +622,8 @@
           "categoria": "cultura/libri",
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "en"
     },
     {
       "id": "aljazeera",
@@ -611,7 +639,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "en"
     },
     {
       "id": "hwupgrade",
@@ -627,7 +656,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "hdblog",
@@ -636,7 +666,8 @@
       "gruppo": "Tecnologia",
       "sito": "https://www.hdblog.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "wiredit",
@@ -645,7 +676,8 @@
       "gruppo": "Tecnologia",
       "sito": "https://www.wired.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "larena",
@@ -657,7 +689,8 @@
       "gruppo": "Locali",
       "sito": "https://www.larena.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "veronasera",
@@ -669,7 +702,8 @@
       "gruppo": "Locali",
       "sito": "https://www.veronasera.it",
       "testo_completo": true,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "giornalevicenza",
@@ -681,7 +715,8 @@
       "gruppo": "Locali",
       "sito": "https://www.ilgiornaledivicenza.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "mattinopadova",
@@ -693,7 +728,8 @@
       "gruppo": "Locali",
       "sito": "https://www.mattinopadova.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "corriereveneto",
@@ -703,7 +739,8 @@
       "gruppo": "Locali",
       "sito": "https://corrieredelveneto.corriere.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "gazzettino",
@@ -715,7 +752,8 @@
       "gruppo": "Locali",
       "sito": "https://www.ilgazzettino.it",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "ansa_veneto",
@@ -732,7 +770,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_lombardia",
@@ -749,7 +788,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_piemonte",
@@ -766,7 +806,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_lazio",
@@ -783,7 +824,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_campania",
@@ -800,7 +842,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_puglia",
@@ -817,7 +860,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_sardegna",
@@ -834,7 +878,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "ansa_calabria",
@@ -851,7 +896,8 @@
           "principale": true,
           "verifica": "feeder"
         }
-      ]
+      ],
+      "lingua": "it"
     },
     {
       "id": "lastampa_torino",
@@ -863,7 +909,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/torino/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_alessandria",
@@ -875,7 +922,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/alessandria/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_asti",
@@ -887,7 +935,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/asti/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_biella",
@@ -899,7 +948,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/biella/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_cuneo",
@@ -911,7 +961,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/cuneo/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_novara",
@@ -923,7 +974,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/novara/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_vercelli",
@@ -935,7 +987,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/vercelli/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_vco",
@@ -947,7 +1000,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/verbano-cusio-ossola/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_aosta",
@@ -959,7 +1013,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/aosta/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_savona",
@@ -971,7 +1026,8 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/savona/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
     },
     {
       "id": "lastampa_imperia",
@@ -983,7 +1039,2213 @@
       "gruppo": "Locali",
       "sito": "https://www.lastampa.it/imperia-sanremo/",
       "testo_completo": false,
-      "feed": []
+      "feed": [],
+      "lingua": "it"
+    },
+    {
+      "id": "politico_eu",
+      "nome": "Politico Europe",
+      "paese": "Unione Europea",
+      "gruppo": "Internazionali",
+      "sito": "https://www.politico.eu",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.politico.eu/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "france24_fr",
+      "nome": "France 24",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.france24.com/fr/",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.france24.com/fr/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "lefigaro",
+      "nome": "Le Figaro",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.lefigaro.fr",
+      "lingua": "fr",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.lefigaro.fr/rss/figaro_actualites.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "liberation",
+      "nome": "Libération",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.liberation.fr",
+      "lingua": "fr",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.liberation.fr/arc/outboundfeeds/rss-all/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rfi",
+      "nome": "RFI",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rfi.fr/fr/",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rfi.fr/fr/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "spiegel",
+      "nome": "Der Spiegel",
+      "paese": "Germania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.spiegel.de",
+      "lingua": "de",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.spiegel.de/schlagzeilen/index.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "zeit",
+      "nome": "Die Zeit",
+      "paese": "Germania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.zeit.de",
+      "lingua": "de",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://newsfeed.zeit.de/index",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "tagesschau",
+      "nome": "Tagesschau",
+      "paese": "Germania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.tagesschau.de",
+      "lingua": "de",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.tagesschau.de/xml/rss2/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "faz",
+      "nome": "Frankfurter Allgemeine",
+      "paese": "Germania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.faz.net",
+      "lingua": "de",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.faz.net/rss/aktuell/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dw",
+      "nome": "Deutsche Welle",
+      "paese": "Germania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dw.com/en/",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://rss.dw.com/rdf/rss-en-all",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "elmundo",
+      "nome": "El Mundo",
+      "paese": "Spagna",
+      "gruppo": "Internazionali",
+      "sito": "https://www.elmundo.es",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "independent",
+      "nome": "The Independent",
+      "paese": "Regno Unito",
+      "gruppo": "Internazionali",
+      "sito": "https://www.independent.co.uk",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.independent.co.uk/news/world/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "skynews",
+      "nome": "Sky News",
+      "paese": "Regno Unito",
+      "gruppo": "Internazionali",
+      "sito": "https://news.sky.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.skynews.com/feeds/rss/world.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rte",
+      "nome": "RTÉ News",
+      "paese": "Irlanda",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rte.ie/news/",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rte.ie/feeds/rss/?index=/news/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "irishtimes",
+      "nome": "The Irish Times",
+      "paese": "Irlanda",
+      "gruppo": "Internazionali",
+      "sito": "https://www.irishtimes.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.irishtimes.com/arc/outboundfeeds/feed-irish-news/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "publico_pt",
+      "nome": "Público",
+      "paese": "Portogallo",
+      "gruppo": "Internazionali",
+      "sito": "https://www.publico.pt",
+      "lingua": "pt",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://feeds.feedburner.com/PublicoRSS",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rtp",
+      "nome": "RTP Notícias",
+      "paese": "Portogallo",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rtp.pt/noticias/",
+      "lingua": "pt",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rtp.pt/noticias/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "nos",
+      "nome": "NOS Nieuws",
+      "paese": "Paesi Bassi",
+      "gruppo": "Internazionali",
+      "sito": "https://nos.nl",
+      "lingua": "nl",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.nos.nl/nosnieuwsalgemeen",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dutchnews",
+      "nome": "DutchNews",
+      "paese": "Paesi Bassi",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dutchnews.nl",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.dutchnews.nl/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rsi",
+      "nome": "RSI Notizie",
+      "paese": "Svizzera",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rsi.ch/info/",
+      "lingua": "it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rsi.ch/info/?f=rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "nzz",
+      "nome": "Neue Zürcher Zeitung",
+      "paese": "Svizzera",
+      "gruppo": "Internazionali",
+      "sito": "https://www.nzz.ch",
+      "lingua": "de",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.nzz.ch/recent.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "derstandard",
+      "nome": "Der Standard",
+      "paese": "Austria",
+      "gruppo": "Internazionali",
+      "sito": "https://www.derstandard.at",
+      "lingua": "de",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.derstandard.at/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "orf",
+      "nome": "ORF News",
+      "paese": "Austria",
+      "gruppo": "Internazionali",
+      "sito": "https://orf.at",
+      "lingua": "de",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://rss.orf.at/news.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "greekreporter",
+      "nome": "Greek Reporter",
+      "paese": "Grecia",
+      "gruppo": "Internazionali",
+      "sito": "https://greekreporter.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://greekreporter.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "notesfrompoland",
+      "nome": "Notes from Poland",
+      "paese": "Polonia",
+      "gruppo": "Internazionali",
+      "sito": "https://notesfrompoland.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://notesfrompoland.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "pravda_ua",
+      "nome": "Ukrainska Pravda (English)",
+      "paese": "Ucraina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.pravda.com.ua/eng/",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.pravda.com.ua/eng/rss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "meduza",
+      "nome": "Meduza (English)",
+      "paese": "Russia",
+      "gruppo": "Internazionali",
+      "sito": "https://meduza.io/en",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://meduza.io/rss/en/all",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "moscowtimes",
+      "nome": "The Moscow Times",
+      "paese": "Russia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.themoscowtimes.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.themoscowtimes.com/rss/news",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "svt",
+      "nome": "SVT Nyheter",
+      "paese": "Svezia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.svt.se",
+      "lingua": "sv",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.svt.se/nyheter/rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "nrk",
+      "nome": "NRK",
+      "paese": "Norvegia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.nrk.no",
+      "lingua": "no",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.nrk.no/toppsaker.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dr",
+      "nome": "DR Nyheder",
+      "paese": "Danimarca",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dr.dk/nyheder",
+      "lingua": "da",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.dr.dk/nyheder/service/feeds/allenyheder",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "yle",
+      "nome": "Yle News (English)",
+      "paese": "Finlandia",
+      "gruppo": "Internazionali",
+      "sito": "https://yle.fi/news",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "romaniainsider",
+      "nome": "Romania Insider",
+      "paese": "Romania",
+      "gruppo": "Internazionali",
+      "sito": "https://www.romania-insider.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.romania-insider.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dailysabah",
+      "nome": "Daily Sabah",
+      "paese": "Turchia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dailysabah.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.dailysabah.com/rss/homepage",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (in italiano)",
+      "paese": "Città del Vaticano",
+      "gruppo": "Internazionali",
+      "sito": "https://www.vaticannews.va/it.html",
+      "lingua": "it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.vaticannews.va/it.rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "balkaninsight",
+      "nome": "Balkan Insight",
+      "paese": "Balcani",
+      "gruppo": "Internazionali",
+      "sito": "https://balkaninsight.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://balkaninsight.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "hungarytoday",
+      "nome": "Hungary Today",
+      "paese": "Ungheria",
+      "gruppo": "Internazionali",
+      "sito": "https://hungarytoday.hu",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://hungarytoday.hu/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "radio_prague",
+      "nome": "Radio Prague International",
+      "paese": "Repubblica Ceca",
+      "gruppo": "Internazionali",
+      "sito": "https://english.radio.cz",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://english.radio.cz/rcz-rss/en",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "japantimes",
+      "nome": "The Japan Times",
+      "paese": "Giappone",
+      "gruppo": "Internazionali",
+      "sito": "https://www.japantimes.co.jp",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.japantimes.co.jp/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "japantoday",
+      "nome": "Japan Today",
+      "paese": "Giappone",
+      "gruppo": "Internazionali",
+      "sito": "https://japantoday.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://japantoday.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "cgtn",
+      "nome": "CGTN",
+      "paese": "Cina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.cgtn.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "scmp",
+      "nome": "South China Morning Post",
+      "paese": "Hong Kong",
+      "gruppo": "Internazionali",
+      "sito": "https://www.scmp.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.scmp.com/rss/91/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        },
+        {
+          "url": "https://www.scmp.com/rss/2/feed",
+          "categoria": "esteri",
+          "principale": false,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "yonhap",
+      "nome": "Yonhap News",
+      "paese": "Corea del Sud",
+      "gruppo": "Internazionali",
+      "sito": "https://en.yna.co.kr",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://en.yna.co.kr/RSS/news.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "koreaherald",
+      "nome": "The Korea Herald",
+      "paese": "Corea del Sud",
+      "gruppo": "Internazionali",
+      "sito": "https://www.koreaherald.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.koreaherald.com/rss/newsAll",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "thehindu",
+      "nome": "The Hindu",
+      "paese": "India",
+      "gruppo": "Internazionali",
+      "sito": "https://www.thehindu.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        },
+        {
+          "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+          "categoria": "esteri",
+          "principale": false,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "toi",
+      "nome": "The Times of India",
+      "paese": "India",
+      "gruppo": "Internazionali",
+      "sito": "https://timesofindia.indiatimes.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "ndtv",
+      "nome": "NDTV",
+      "paese": "India",
+      "gruppo": "Internazionali",
+      "sito": "https://www.ndtv.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.feedburner.com/ndtvnews-top-stories",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "hindustantimes",
+      "nome": "Hindustan Times",
+      "paese": "India",
+      "gruppo": "Internazionali",
+      "sito": "https://www.hindustantimes.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dawn",
+      "nome": "Dawn",
+      "paese": "Pakistan",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dawn.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.dawn.com/feeds/home",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "antara",
+      "nome": "Antara News",
+      "paese": "Indonesia",
+      "gruppo": "Internazionali",
+      "sito": "https://en.antaranews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://en.antaranews.com/rss/news.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rappler",
+      "nome": "Rappler",
+      "paese": "Filippine",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rappler.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rappler.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "inquirer",
+      "nome": "Philippine Daily Inquirer",
+      "paese": "Filippine",
+      "gruppo": "Internazionali",
+      "sito": "https://www.inquirer.net",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.inquirer.net/fullfeed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "cna",
+      "nome": "CNA",
+      "paese": "Singapore",
+      "gruppo": "Internazionali",
+      "sito": "https://www.channelnewsasia.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.channelnewsasia.com/rssfeeds/8395986",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "straitstimes",
+      "nome": "The Straits Times",
+      "paese": "Singapore",
+      "gruppo": "Internazionali",
+      "sito": "https://www.straitstimes.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.straitstimes.com/news/world/rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "malaymail",
+      "nome": "Malay Mail",
+      "paese": "Malesia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.malaymail.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.malaymail.com/feed/rss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "bangkokpost",
+      "nome": "Bangkok Post",
+      "paese": "Thailandia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.bangkokpost.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.bangkokpost.com/rss/data/topstories.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "vnexpress",
+      "nome": "VnExpress International",
+      "paese": "Vietnam",
+      "gruppo": "Internazionali",
+      "sito": "https://e.vnexpress.net",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://e.vnexpress.net/rss/news.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "taipeitimes",
+      "nome": "Taipei Times",
+      "paese": "Taiwan",
+      "gruppo": "Internazionali",
+      "sito": "https://www.taipeitimes.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.taipeitimes.com/xml/index.rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "haaretz",
+      "nome": "Haaretz",
+      "paese": "Israele",
+      "gruppo": "Internazionali",
+      "sito": "https://www.haaretz.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.haaretz.com/srv/haaretz-latest-headlines",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "thenational",
+      "nome": "The National",
+      "paese": "Emirati Arabi Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.thenationalnews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "tehrantimes",
+      "nome": "Tehran Times",
+      "paese": "Iran",
+      "gruppo": "Internazionali",
+      "sito": "https://www.tehrantimes.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.tehrantimes.com/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "aljazeera_ar",
+      "nome": "Al Jazeera (arabo)",
+      "paese": "Qatar",
+      "gruppo": "Internazionali",
+      "sito": "https://www.aljazeera.net",
+      "lingua": "ar",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "kabulnow",
+      "nome": "KabulNow",
+      "paese": "Afghanistan",
+      "gruppo": "Internazionali",
+      "sito": "https://kabulnow.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://kabulnow.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "kathmandupost",
+      "nome": "The Kathmandu Post",
+      "paese": "Nepal",
+      "gruppo": "Internazionali",
+      "sito": "https://kathmandupost.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://kathmandupost.com/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "hespress_en",
+      "nome": "Hespress (English)",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://en.hespress.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://en.hespress.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "hespress_fr",
+      "nome": "Hespress (français)",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://fr.hespress.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://fr.hespress.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "hespress_ar",
+      "nome": "Hespress (arabo)",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://www.hespress.com",
+      "lingua": "ar",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.hespress.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "le360",
+      "nome": "Le360",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://fr.le360.ma",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://fr.le360.ma/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "myjoyonline",
+      "nome": "MyJoyOnline",
+      "paese": "Ghana",
+      "gruppo": "Internazionali",
+      "sito": "https://www.myjoyonline.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.myjoyonline.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "graphic_gh",
+      "nome": "Graphic Online",
+      "paese": "Ghana",
+      "gruppo": "Internazionali",
+      "sito": "https://www.graphic.com.gh",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.graphic.com.gh/news.feed?type=rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "premiumtimes",
+      "nome": "Premium Times",
+      "paese": "Nigeria",
+      "gruppo": "Internazionali",
+      "sito": "https://www.premiumtimesng.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.premiumtimesng.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "punch",
+      "nome": "Punch",
+      "paese": "Nigeria",
+      "gruppo": "Internazionali",
+      "sito": "https://punchng.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://punchng.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "vanguard",
+      "nome": "Vanguard",
+      "paese": "Nigeria",
+      "gruppo": "Internazionali",
+      "sito": "https://www.vanguardngr.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.vanguardngr.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "capitalfm_ke",
+      "nome": "Capital FM Kenya",
+      "paese": "Kenya",
+      "gruppo": "Internazionali",
+      "sito": "https://www.capitalfm.co.ke/news/",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.capitalfm.co.ke/news/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "kenyans",
+      "nome": "Kenyans.co.ke",
+      "paese": "Kenya",
+      "gruppo": "Internazionali",
+      "sito": "https://www.kenyans.co.ke",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.kenyans.co.ke/feeds/news",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "dailymaverick",
+      "nome": "Daily Maverick",
+      "paese": "Sudafrica",
+      "gruppo": "Internazionali",
+      "sito": "https://www.dailymaverick.co.za",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.dailymaverick.co.za/dmrss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "egyptindependent",
+      "nome": "Egypt Independent",
+      "paese": "Egitto",
+      "gruppo": "Internazionali",
+      "sito": "https://www.egyptindependent.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.egyptindependent.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "kapitalis",
+      "nome": "Kapitalis",
+      "paese": "Tunisia",
+      "gruppo": "Internazionali",
+      "sito": "https://kapitalis.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://kapitalis.com/tunisie/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "tsa",
+      "nome": "TSA Algérie",
+      "paese": "Algeria",
+      "gruppo": "Internazionali",
+      "sito": "https://www.tsa-algerie.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.tsa-algerie.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "senego",
+      "nome": "Senego",
+      "paese": "Senegal",
+      "gruppo": "Internazionali",
+      "sito": "https://senego.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://senego.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "actucameroun",
+      "nome": "Actu Cameroun",
+      "paese": "Camerun",
+      "gruppo": "Internazionali",
+      "sito": "https://actucameroun.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://actucameroun.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "allafrica",
+      "nome": "AllAfrica",
+      "paese": "Africa (tutto il continente)",
+      "gruppo": "Internazionali",
+      "sito": "https://allafrica.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "africanews",
+      "nome": "Africanews",
+      "paese": "Africa (tutto il continente)",
+      "gruppo": "Internazionali",
+      "sito": "https://www.africanews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.africanews.com/feed/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rfi_afrique",
+      "nome": "RFI Afrique",
+      "paese": "Africa (tutto il continente)",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rfi.fr/fr/afrique/",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rfi.fr/fr/afrique/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "npr",
+      "nome": "NPR",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.npr.org",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.npr.org/1001/rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "washingtonpost",
+      "nome": "The Washington Post",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.washingtonpost.com",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://feeds.washingtonpost.com/rss/world",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "foxnews",
+      "nome": "Fox News",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.foxnews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://moxie.foxnews.com/google-publisher/latest.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "cbsnews",
+      "nome": "CBS News",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.cbsnews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.cbsnews.com/latest/rss/main",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "globalnews",
+      "nome": "Global News",
+      "paese": "Canada",
+      "gruppo": "Internazionali",
+      "sito": "https://globalnews.ca",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://globalnews.ca/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "radiocanada",
+      "nome": "Radio-Canada",
+      "paese": "Canada",
+      "gruppo": "Internazionali",
+      "sito": "https://ici.radio-canada.ca",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://ici.radio-canada.ca/rss/4159",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "mexiconewsdaily",
+      "nome": "Mexico News Daily",
+      "paese": "Messico",
+      "gruppo": "Internazionali",
+      "sito": "https://mexiconewsdaily.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://mexiconewsdaily.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "jornada",
+      "nome": "La Jornada",
+      "paese": "Messico",
+      "gruppo": "Internazionali",
+      "sito": "https://www.jornada.com.mx",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.jornada.com.mx/rss/edicion.xml?v=1",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "eluniversal_mx",
+      "nome": "El Universal",
+      "paese": "Messico",
+      "gruppo": "Internazionali",
+      "sito": "https://www.eluniversal.com.mx",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "folha",
+      "nome": "Folha de S.Paulo",
+      "paese": "Brasile",
+      "gruppo": "Internazionali",
+      "sito": "https://www.folha.uol.com.br",
+      "lingua": "pt",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "g1",
+      "nome": "G1 Globo",
+      "paese": "Brasile",
+      "gruppo": "Internazionali",
+      "sito": "https://g1.globo.com",
+      "lingua": "pt",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://g1.globo.com/rss/g1/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "agenciabrasil",
+      "nome": "Agência Brasil",
+      "paese": "Brasile",
+      "gruppo": "Internazionali",
+      "sito": "https://agenciabrasil.ebc.com.br",
+      "lingua": "pt",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "clarin",
+      "nome": "Clarín",
+      "paese": "Argentina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.clarin.com",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.clarin.com/rss/lo-ultimo/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "lanacion",
+      "nome": "La Nación",
+      "paese": "Argentina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.lanacion.com.ar",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "latercera",
+      "nome": "La Tercera",
+      "paese": "Cile",
+      "gruppo": "Internazionali",
+      "sito": "https://www.latercera.com",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.latercera.com/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "eltiempo",
+      "nome": "El Tiempo",
+      "paese": "Colombia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.eltiempo.com",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.eltiempo.com/rss/colombia.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "elcomercio_pe",
+      "nome": "El Comercio",
+      "paese": "Perù",
+      "gruppo": "Internazionali",
+      "sito": "https://elcomercio.pe",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://elcomercio.pe/arcio/rss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "granma",
+      "nome": "Granma",
+      "paese": "Cuba",
+      "gruppo": "Internazionali",
+      "sito": "https://www.granma.cu",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.granma.cu/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "mercopress",
+      "nome": "MercoPress",
+      "paese": "Uruguay",
+      "gruppo": "Internazionali",
+      "sito": "https://en.mercopress.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://en.mercopress.com/rss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "efectococuyo",
+      "nome": "Efecto Cocuyo",
+      "paese": "Venezuela",
+      "gruppo": "Internazionali",
+      "sito": "https://efectococuyo.com",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://efectococuyo.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "abc_au",
+      "nome": "ABC News Australia",
+      "paese": "Australia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.abc.net.au/news",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.abc.net.au/news/feed/2942460/rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "smh",
+      "nome": "The Sydney Morning Herald",
+      "paese": "Australia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.smh.com.au",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.smh.com.au/rss/feed.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "guardian_au",
+      "nome": "The Guardian Australia",
+      "paese": "Australia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.theguardian.com/au",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.theguardian.com/australia-news/rss",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rnz",
+      "nome": "RNZ",
+      "paese": "Nuova Zelanda",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rnz.co.nz",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rnz.co.nz/rss/national.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "nzherald",
+      "nome": "The New Zealand Herald",
+      "paese": "Nuova Zelanda",
+      "gruppo": "Internazionali",
+      "sito": "https://www.nzherald.co.nz",
+      "lingua": "en",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.nzherald.co.nz/arc/outboundfeeds/rss/curated/78/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "rnz_pacific",
+      "nome": "RNZ Pacific",
+      "paese": "Oceania (isole del Pacifico)",
+      "gruppo": "Internazionali",
+      "sito": "https://www.rnz.co.nz/international",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rnz.co.nz/rss/pacific.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "euronews_it",
+      "nome": "Euronews (in italiano)",
+      "paese": "Unione Europea",
+      "gruppo": "Internazionali",
+      "sito": "https://it.euronews.com",
+      "lingua": "it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://it.euronews.com/rss?level=theme&name=news",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "kyivindependent",
+      "nome": "The Kyiv Independent",
+      "paese": "Ucraina",
+      "gruppo": "Internazionali",
+      "sito": "https://kyivindependent.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://kyivindependent.com/news-archive/rss/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "gulfnews",
+      "nome": "Gulf News",
+      "paese": "Emirati Arabi Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://gulfnews.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://gulfnews.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "jpost",
+      "nome": "The Jerusalem Post",
+      "paese": "Israele",
+      "gruppo": "Internazionali",
+      "sito": "https://www.jpost.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.jpost.com/rss/rssfeedsfrontpage.aspx",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "vrt",
+      "nome": "VRT NWS (English)",
+      "paese": "Belgio",
+      "gruppo": "Internazionali",
+      "sito": "https://www.vrt.be/vrtnws/en/",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.vrt.be/vrtnws/en.rss.articles.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "fbcnews",
+      "nome": "FBC News",
+      "paese": "Figi",
+      "gruppo": "Internazionali",
+      "sito": "https://www.fbcnews.com.fj",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.fbcnews.com.fj/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "asahi",
+      "nome": "Asahi Shimbun",
+      "paese": "Giappone",
+      "gruppo": "Internazionali",
+      "sito": "https://www.asahi.com",
+      "lingua": "ja",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.asahi.com/rss/asahi/newsheadlines.rdf",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "lavanguardia",
+      "nome": "La Vanguardia",
+      "paese": "Spagna",
+      "gruppo": "Internazionali",
+      "sito": "https://www.lavanguardia.com",
+      "lingua": "es",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.lavanguardia.com/rss/home.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "20minutes",
+      "nome": "20 Minutes",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.20minutes.fr",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "jeuneafrique",
+      "nome": "Jeune Afrique",
+      "paese": "Africa (tutto il continente)",
+      "gruppo": "Internazionali",
+      "sito": "https://www.jeuneafrique.com",
+      "lingua": "fr",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.jeuneafrique.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "ghanaiantimes",
+      "nome": "Ghanaian Times",
+      "paese": "Ghana",
+      "gruppo": "Internazionali",
+      "sito": "https://www.ghanaiantimes.com.gh",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ghanaiantimes.com.gh/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "yabiladi",
+      "nome": "Yabiladi",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://www.yabiladi.com",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.yabiladi.com/rss/actualites.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "bladi",
+      "nome": "Bladi.net",
+      "paese": "Marocco",
+      "gruppo": "Internazionali",
+      "sito": "https://www.bladi.net",
+      "lingua": "fr",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.bladi.net/spip.php?page=backend",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "koreatimes",
+      "nome": "The Korea Times",
+      "paese": "Corea del Sud",
+      "gruppo": "Internazionali",
+      "sito": "https://www.koreatimes.co.kr",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.koreatimes.co.kr/www/rss/nation.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "ecns",
+      "nome": "China News Service (ECNS)",
+      "paese": "Cina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.ecns.cn",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ecns.cn/rss/rss.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "iranintl",
+      "nome": "Iran International",
+      "paese": "Iran",
+      "gruppo": "Internazionali",
+      "sito": "https://www.iranintl.com/en",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.iranintl.com/en/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "baherald",
+      "nome": "Buenos Aires Herald",
+      "paese": "Argentina",
+      "gruppo": "Internazionali",
+      "sito": "https://www.buenosairesherald.com",
+      "lingua": "en",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.buenosairesherald.com/feed",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "eluniverso",
+      "nome": "El Universo",
+      "paese": "Ecuador",
+      "gruppo": "Internazionali",
+      "sito": "https://www.eluniverso.com",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.eluniverso.com/arc/outboundfeeds/rss/?outputType=xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
+    },
+    {
+      "id": "prensalibre",
+      "nome": "Prensa Libre",
+      "paese": "Guatemala",
+      "gruppo": "Internazionali",
+      "sito": "https://www.prensalibre.com",
+      "lingua": "es",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.prensalibre.com/feed/",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "github-actions 22/11/2026"
+        }
+      ]
     }
   ]
 }

@@ -1,10 +1,11 @@
 """Lettore degli articoli: testo navigabile con le frecce, lettura vocale a paragrafi,
 salvataggio, download offline, esportazione e apertura della fonte originale."""
+import dataclasses
 import webbrowser
 
 import wx
 
-from .. import article_reader, config
+from .. import article_reader, config, translator
 from ..accessibility import announce
 from ..database import Database
 from ..speech_manager import STATE_PAUSED, STATE_SPEAKING, STATE_STOPPED
@@ -52,6 +53,8 @@ class ReaderDialog(wx.Dialog):
         self.spoken = []
         self.offsets = []
         self.changed = False
+        self.translation = None      # traduzione dell'articolo corrente, se richiesta
+        self.show_translated = False
         speech = core.speech
 
         main = wx.BoxSizer(wx.VERTICAL)
@@ -84,6 +87,8 @@ class ReaderDialog(wx.Dialog):
         self.b_save = button("Salva nei preferiti", self.toggle_save, art_row)
         self.b_offline = button("Scarica per la lettura offline" + shortcut_hint(core, "download"), self.download,
                                 art_row)
+        self.b_translate = button("Traduci in italiano" + shortcut_hint(core, "translate"), self.toggle_translation,
+                                  art_row)
         button("Apri articolo originale" + shortcut_hint(core, "open_original"), self.open_original, art_row)
         button("Esporta come testo" + shortcut_hint(core, "export"), self.export, art_row)
         button("Stampa" + shortcut_hint(core, "print"), self.print_article, art_row)
@@ -103,6 +108,7 @@ class ReaderDialog(wx.Dialog):
         speech.on_finished = self._on_speech_finished
         self.show_article(article)
         common.apply_theme(self, core.settings)
+        wx.CallAfter(self.auto_translate_if_needed)
         if start_reading:
             wx.CallAfter(self.start_reading)
 
@@ -113,7 +119,7 @@ class ReaderDialog(wx.Dialog):
             "restart": self.restart, "next_par": self.next_par, "prev_par": self.prev_par,
             "next_article": self.next_article, "prev_article": self.prev_article, "save": self.toggle_save,
             "download": self.download, "open_original": self.open_original, "export": self.export,
-            "help": self.show_help, "print": self.print_article,
+            "help": self.show_help, "print": self.print_article, "translate": self.toggle_translation,
         }
         entries = []
         for action, combo in self.core.keyboard.for_scope("reader"):
@@ -137,11 +143,28 @@ class ReaderDialog(wx.Dialog):
         event.Skip()
 
     # ------------------------------------------------------------------ contenuto
-    def show_article(self, article):
+    def show_article(self, article, keep_translation=False):
+        if not keep_translation or article.id != getattr(self.article, "id", None):
+            self.translation = None
+            self.show_translated = False
         self.article = article
-        self.SetTitle(article.title + " - " + config.APP_NAME)
+        shown = article
+        if self.show_translated and self.translation:
+            tr = self.translation
+            shown = dataclasses.replace(article, title=tr["title"] or article.title,
+                                        subtitle=tr["subtitle"] or article.subtitle,
+                                        content=tr["body"], description=tr["body"])
+        self.SetTitle(shown.title + " - " + config.APP_NAME)
         cat = self.core.catalog.category_name(article.category_id) if article.category_id else article.category_name
-        text, self.spoken, self.offsets = article_reader.build_reader_text(article, cat)
+        text, self.spoken, self.offsets = article_reader.build_reader_text(shown, cat)
+        if self.show_translated and self.translation:
+            note = (f"Traduzione automatica in italiano dal {translator.language_name(self.translation['source_lang'])}. "
+                    "Per tornare al testo originale premi di nuovo il pulsante Traduci.")
+            self.spoken.insert(1, note)
+            text = text.replace("\n", "\n" + note + "\n", 1)
+            first = len(shown.title) + 1
+            self.offsets = [self.offsets[0], (first, first + len(note))] + [
+                (a + len(note) + 1, b + len(note) + 1) for a, b in self.offsets[1:]]
         if article.extra.get("partial_reason") and article.is_partial:
             text += "\n" + "Motivo: " + article.extra["partial_reason"]
         self.text.SetValue(text)
@@ -161,6 +184,8 @@ class ReaderDialog(wx.Dialog):
                              + shortcut_hint(self.core, "save"))
         self.b_offline.SetLabel(("Disponibile offline (scarica di nuovo)" if a.offline
                                  else "Scarica per la lettura offline") + shortcut_hint(self.core, "download"))
+        self.b_translate.SetLabel(("Mostra il testo originale" if self.show_translated else "Traduci in italiano")
+                                  + shortcut_hint(self.core, "translate"))
         self.b_prev.Enable(self.index > 0)
         self.b_next.Enable(self.index < len(self.article_ids) - 1)
         self.b_read.Enable(self.core.speech.available)
@@ -250,6 +275,7 @@ class ReaderDialog(wx.Dialog):
         self.index = new
         self.show_article(article)
         announce(article.title)
+        wx.CallAfter(self.auto_translate_if_needed)
 
     def next_article(self):
         self._go(1)
@@ -287,6 +313,54 @@ class ReaderDialog(wx.Dialog):
             self.show_article(updated)
         self._refresh_buttons()
         announce("Articolo disponibile offline" + ("" if status == "completo" else " (solo l'anteprima del feed)"))
+
+    # ------------------------------------------------------------------ traduzione
+    def is_foreign(self, article=None):
+        a = article or self.article
+        return not translator.looks_italian(f"{a.title} {a.subtitle} {a.body_text[:1500]}")
+
+    def toggle_translation(self):
+        if self.show_translated:
+            self.core.speech.stop()
+            self.show_translated = False
+            self.show_article(self.article, keep_translation=True)
+            announce("Testo originale")
+            return
+        if not self.translation:
+            if not self.is_foreign():
+                announce("L'articolo è già in italiano")
+                return
+            if not self._translate():
+                return
+        self.core.speech.stop()
+        self.show_translated = True
+        self.show_article(self.article, keep_translation=True)
+        announce("Articolo tradotto in italiano dal " + translator.language_name(self.translation["source_lang"]))
+
+    def _translate(self):
+        art = self.article
+        db_path = self.core.db.path
+
+        def work():
+            db = Database(db_path)
+            try:
+                return translator.translate_article(art, translator.TranslationStore(db))
+            finally:
+                db.close()
+
+        result, exc, cancelled = common.run_with_wait(self, "Traduzione dell'articolo in italiano in corso...", work)
+        if cancelled:
+            return False
+        if exc or not result:
+            common.error(self, f"Traduzione non riuscita.\n\n{exc}")
+            return False
+        self.translation = result
+        return True
+
+    def auto_translate_if_needed(self):
+        """Con l'impostazione attiva traduce da solo gli articoli scritti in un'altra lingua."""
+        if self.core.settings.get("auto_translate", False) and not self.show_translated and self.is_foreign():
+            self.toggle_translation()
 
     def open_original(self):
         url = self.article.link or self.article.site_url

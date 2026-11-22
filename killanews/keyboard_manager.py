@@ -30,6 +30,7 @@ ACTIONS = {
     "next_article":  ("Articolo successivo", "Ctrl+PageDown", "reader"),
     "prev_article":  ("Articolo precedente", "Ctrl+PageUp", "reader"),
     "export":        ("Esporta l'articolo come file di testo", "Ctrl+E", "reader"),
+    "translate":     ("Traduci l'articolo in italiano o torna alla lingua originale", "Ctrl+T", "reader"),
 }
 
 MODIFIERS = ("Ctrl", "Alt", "Shift")

@@ -48,6 +48,10 @@ class SettingsDialog(wx.Dialog):
         self.app_updates = wx.CheckBox(p, label="Controlla da solo se esiste una nuova &versione di KILLA NEWS")
         self.app_updates.SetValue(bool(s.get("check_app_updates", True)))
         sz.Add(self.app_updates, 0, wx.ALL, 6)
+        self.auto_translate = wx.CheckBox(p, label="Traduci da solo in italiano gli articoli scritti in altre lin&gue "
+                                                   "(nel lettore Ctrl+T passa dalla traduzione all'originale)")
+        self.auto_translate.SetValue(bool(s.get("auto_translate", False)))
+        sz.Add(self.auto_translate, 0, wx.ALL, 6)
         self.retention = common.labeled(p, sz, "&Conserva gli articoli non salvati per giorni (da 1 a 365):",
                                         lambda: wx.SpinCtrl(p, min=1, max=365, initial=int(s.get("retention_days", 30))),
                                         expand=False)
@@ -294,7 +298,7 @@ class SettingsDialog(wx.Dialog):
             "auto_update": self.auto_update.GetValue(), "update_interval_min": self.interval.GetValue(),
             "notify_new": self.notify_new.GetValue(), "notify_windows": self.notify_windows.GetValue(),
             "auto_refresh_view": self.auto_refresh.GetValue(), "fetch_full_text": self.fulltext.GetValue(),
-            "check_app_updates": self.app_updates.GetValue(),
+            "check_app_updates": self.app_updates.GetValue(), "auto_translate": self.auto_translate.GetValue(),
             "retention_days": self.retention.GetValue(), "max_list_items": self.max_items.GetValue(),
             "download_dir": "" if folder == config.default_download_dir() else folder,
             "theme": common.THEME_LABELS[self.theme.GetSelection()][0], "font_size": self.font_size.GetValue(),

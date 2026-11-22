@@ -46,6 +46,9 @@ def main():
                                                  ("/atom.xml", "economia")])
     for f in core.catalog.feeds(sid):
         feed_manager.store_result(core.db, core.catalog, feed_manager.fetch_feed(f))
+    # le testate internazionali restano attive (senza scaricare nulla: l'aggiornamento è spento)
+    core.db.execute("UPDATE sources SET enabled = 1 WHERE country <> 'Italia' AND region = ''")
+    core.db.commit()
 
     from killanews.ui.main_window import MainFrame
     frame = MainFrame(core)
@@ -93,6 +96,29 @@ def main():
         assert "prov:Veneto:Verona" in [k for _, k in frame.list.choices]
         frame.go_key("local_sources")
         assert any("Giornale di Prova (Verona)" in t for t, _ in frame.list.choices)
+        # giornali internazionali: per continente, per nazione, per testata
+        frame.go_section("international")
+        keys = [k for _, k in frame.list.choices]
+        assert keys[:4] == ["international_all", "int_continents", "int_countries", "int_sources"], keys
+        assert "int_world" in keys, keys
+        frame.go_key("int_continents")
+        conts = [t for t, _ in frame.list.choices]
+        assert any(t.startswith("Africa") for t in conts) and any(t.startswith("Asia") for t in conts), conts
+        frame.go_key("intcont:Africa")
+        assert any(k == "intcountry-k:Ghana" for _, k in frame.list.choices), frame.list.choices
+        assert frame.list.choices[-1][1] == "intcontall:Africa"
+        frame.go_key("intcountry-k:Marocco")
+        ch = frame.list.choices
+        assert ch[-1][0].startswith("Tutti gli articoli di Marocco") and len(ch) >= 3, ch
+        assert ch[0][1].startswith("int-kc:")  # prima le testate
+        frame.go_key("int_countries")
+        assert any(t.startswith("Giappone (Asia") for t, _ in frame.list.choices), frame.list.choices[:5]
+        frame.go_key("intcountry-n:Cina")
+        assert any(k.startswith("int-nc:") for _, k in frame.list.choices)
+        frame.go_key("int_sources")
+        assert any("(Ghana)" in t for t, _ in frame.list.choices)
+        frame.go_key("intcountryall-n:Cina")
+        assert frame.current_view["kind"] == "international" and frame.current_view["country"] == "Cina"
 
     @step
     def search():
@@ -109,6 +135,12 @@ def main():
             raise AssertionError("data non valida accettata")
         except ValueError:
             pass
+        frame.search._on_clear(None)
+        assert "Africa" in [c for c, _ in frame.search._continents]
+        assert "Giappone" in [c for c, _ in frame.search._countries]
+        frame.search.continent.SetSelection([c for c, _ in frame.search._continents].index("Africa"))
+        assert frame.search.params()["continent"] == "Africa"
+        frame.on_search()
         frame.search._on_clear(None)
         frame.cycle_pane(1)
         frame.cycle_pane(-1)
@@ -149,6 +181,24 @@ def main():
         dlg.prev_par()
         dlg.restart()
         dlg.toggle_save()
+        # traduzione: con un servizio finto, poi ritorno all'originale
+        from killanews import translator
+        real = translator.translate_article
+        translator.translate_article = lambda art, store=None, session=None: {
+            "title": "Titolo tradotto", "subtitle": "", "body": "Testo tradotto in italiano.",
+            "source_lang": "en", "body_hash": ""}
+        dlg.is_foreign = lambda article=None: True
+        try:
+            dlg.toggle_translation()
+            assert dlg.show_translated and "Testo tradotto in italiano." in dlg.text.GetValue()
+            assert "Traduzione automatica in italiano dall" in dlg.text.GetValue() or "dal inglese" in dlg.text.GetValue()
+            assert len(dlg.spoken) == len(dlg.offsets)
+            for (a, b), sp in zip(dlg.offsets, dlg.spoken):
+                assert dlg.text.GetValue()[a:b] == sp, (dlg.text.GetValue()[a:b], sp)
+            dlg.toggle_translation()
+            assert not dlg.show_translated and "Testo tradotto" not in dlg.text.GetValue()
+        finally:
+            translator.translate_article = real
         dlg.next_article()
         assert dlg.index == 1
         dlg.prev_article()

@@ -3,7 +3,7 @@ import os
 import sys
 
 APP_NAME = "KILLA NEWS"
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.2.0"
 PRODUCER = "Killa Records"
 SLOGAN = "L'informazione, senza barriere."
 APP_ID = "KillaNews"
@@ -17,7 +17,7 @@ LINKS = {
     "donate": ("Sostieni il progetto con una donazione (PayPal)", "https://paypal.me/abdukilla"),
 }
 USER_AGENT = f"KillaNews/{APP_VERSION} (lettore di notizie accessibile; Windows)"
-DB_SCHEMA_VERSION = 1
+DB_SCHEMA_VERSION = 2
 # Repository GitHub da cui arrivano le nuove versioni ("utente/repository"); vuoto = aggiornamenti disattivati
 GITHUB_REPO = "__GITHUB_REPO__"
 DOWNLOAD_PAGE = "https://www.killarecordsgames.com/killa-news"
@@ -116,4 +116,5 @@ DEFAULT_SETTINGS = {
     "check_app_updates": True,        # controlla da solo se esiste una nuova versione di KILLA NEWS
     "last_app_update_check": 0,
     "skipped_app_version": "",
+    "auto_translate": False,          # traduce da solo in italiano gli articoli scritti in altre lingue
 }
