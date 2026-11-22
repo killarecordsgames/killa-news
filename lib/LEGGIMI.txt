@@ -1,0 +1,15 @@
+Cartella facoltativa per la libreria di NVDA.
+
+Per far pronunciare a NVDA i messaggi di stato di KILLA NEWS (per esempio
+"Aggiornamento completato: 12 nuove notizie") senza spostare il focus, copia qui
+il file nvdaControllerClient.dll a 64 bit.
+
+Il file si trova nel pacchetto "controllerClient" pubblicato insieme a ogni
+versione di NVDA (https://github.com/nvaccess/nvda/releases , file
+nvda_<versione>_controllerClient.zip, cartella x64). Licenza: LGPL 2.1.
+
+Gli script CREA_PORTATILE.bat e CREA_INSTALLER.bat includono automaticamente
+nel programma i file presenti in questa cartella.
+
+Senza la libreria il programma funziona ugualmente: i messaggi compaiono nella
+barra di stato, che NVDA legge con NVDA+Fine.

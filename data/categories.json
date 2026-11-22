@@ -1,0 +1,77 @@
+{
+  "_info": "Catalogo delle categorie di KILLA NEWS. 'parole_chiave' serve a classificare automaticamente gli articoli nelle sottocategorie quando la testata non offre un feed dedicato. Si possono aggiungere categorie e parole chiave senza modificare il codice.",
+  "categorie": [
+    {"id": "generale", "nome": "Notizie generali", "nascosta": true},
+    {"id": "italia", "nome": "Italia", "sottocategorie": [
+      {"id": "italia/politica", "nome": "Politica", "parole_chiave": ["politica", "partito", "elezioni", "sondaggio", "segretario del", "opposizione", "maggioranza", "coalizione"]},
+      {"id": "italia/governo", "nome": "Governo", "parole_chiave": ["governo", "consiglio dei ministri", "palazzo chigi", "ministro", "ministra", "premier", "presidente del consiglio", "decreto"]},
+      {"id": "italia/parlamento", "nome": "Parlamento", "parole_chiave": ["parlamento", "camera dei deputati", "senato", "deputat", "senator", "montecitorio", "palazzo madama", "fiducia", "emendament"]},
+      {"id": "italia/cronaca_nazionale", "nome": "Cronaca nazionale", "parole_chiave": ["carabinieri", "polizia", "incidente", "arrestat", "indagine", "vigili del fuoco"]},
+      {"id": "italia/cronaca_locale", "nome": "Cronaca locale", "parole_chiave": ["comune di", "sindaco", "quartiere", "provincia di", "consiglio comunale"]},
+      {"id": "italia/giustizia", "nome": "Giustizia", "parole_chiave": ["tribunale", "procura", "cassazione", "sentenza", "processo", "magistrat", "pm ", "condann", "corte d'appello", "csm"]},
+      {"id": "italia/attualita", "nome": "Attualità", "parole_chiave": ["meteo", "scuola", "sciopero", "trasporti", "pensioni", "bonus"]}
+    ]},
+    {"id": "esteri", "nome": "Esteri", "sottocategorie": [
+      {"id": "esteri/europa", "nome": "Europa", "parole_chiave": ["europa", "europe", "ue ", "unione europea", "bruxelles", "francia", "france", "germania", "germany", "spagna", "spain", "regno unito", "uk ", "britain", "ucraina", "ukraine", "russia", "polonia", "poland", "grecia", "portogallo", "olanda", "belgio", "austria", "svizzera", "svezia", "norvegia", "ungheria", "romania"]},
+      {"id": "esteri/africa", "nome": "Africa", "parole_chiave": ["africa", "egitto", "egypt", "libia", "libya", "tunisia", "marocco", "morocco", "algeria", "nigeria", "kenya", "etiopia", "ethiopia", "sudan", "congo", "sud africa", "south africa", "somalia", "mali", "senegal"]},
+      {"id": "esteri/america", "nome": "America", "parole_chiave": ["stati uniti", "usa", "u.s.", "washington", "casa bianca", "white house", "canada", "messico", "mexico", "brasile", "brazil", "argentina", "venezuela", "colombia", "cile", "chile", "peru", "cuba"]},
+      {"id": "esteri/asia", "nome": "Asia", "parole_chiave": ["asia", "cina", "china", "pechino", "beijing", "giappone", "japan", "india", "corea", "korea", "taiwan", "pakistan", "afghanistan", "indonesia", "filippine", "philippines", "vietnam", "thailandia", "thailand", "myanmar"]},
+      {"id": "esteri/medio_oriente", "nome": "Medio Oriente", "parole_chiave": ["medio oriente", "middle east", "israele", "israel", "gaza", "palestin", "iran", "iraq", "siria", "syria", "libano", "lebanon", "arabia saudita", "saudi", "yemen", "giordania", "jordan", "qatar", "turchia", "turkey"]},
+      {"id": "esteri/oceania", "nome": "Oceania", "parole_chiave": ["oceania", "australia", "nuova zelanda", "new zealand", "papua", "fiji"]},
+      {"id": "esteri/politica_internazionale", "nome": "Politica internazionale", "parole_chiave": ["onu", "united nations", "nazioni unite", "nato", "g7", "g20", "vertice", "summit", "ambasciat", "embassy"]},
+      {"id": "esteri/conflitti_diplomazia", "nome": "Conflitti e diplomazia", "parole_chiave": ["guerra", "war", "conflitto", "conflict", "tregua", "ceasefire", "cessate il fuoco", "negoziat", "diplomazia", "diplomat", "missili", "missile", "attacco", "sanzioni", "sanctions"]}
+    ]},
+    {"id": "cronaca", "nome": "Cronaca"},
+    {"id": "economia", "nome": "Economia e finanza", "sottocategorie": [
+      {"id": "economia/economia_italiana", "nome": "Economia italiana", "parole_chiave": ["istat", "pil italiano", "manovra", "legge di bilancio", "inps", "agenzia delle entrate", "fisco", "tasse", "irpef"]},
+      {"id": "economia/economia_internazionale", "nome": "Economia internazionale", "parole_chiave": ["fmi", "imf", "bce", "ecb", "fed ", "federal reserve", "dazi", "tariffs", "commercio mondiale", "global economy", "inflation", "inflazione"]},
+      {"id": "economia/banche", "nome": "Banche", "parole_chiave": ["banca", "banche", "bank", "credito", "mutui", "mutuo", "tassi", "intesa sanpaolo", "unicredit"]},
+      {"id": "economia/borsa", "nome": "Borsa", "parole_chiave": ["borsa", "piazza affari", "ftse mib", "wall street", "nasdaq", "dow jones", "titoli", "azioni"]},
+      {"id": "economia/mercati", "nome": "Mercati finanziari", "parole_chiave": ["mercati", "markets", "spread", "btp", "bond", "petrolio", "oil", "oro", "gold", "euro dollaro", "cambio", "bitcoin", "criptovalut"]},
+      {"id": "economia/lavoro", "nome": "Lavoro", "parole_chiave": ["lavoro", "lavoratori", "occupazione", "disoccupazione", "sindacat", "contratto", "stipendi", "salari", "licenziament", "jobs", "employment"]},
+      {"id": "economia/imprese", "nome": "Imprese", "parole_chiave": ["impresa", "imprese", "aziend", "industria", "fatturato", "utile", "ricavi", "acquisizione", "startup", "pmi"]},
+      {"id": "economia/finanza_personale", "nome": "Finanza personale", "parole_chiave": ["risparmio", "risparmi", "investire", "conto corrente", "pensione", "bollette", "isee", "detrazion", "730"]}
+    ]},
+    {"id": "sport", "nome": "Sport", "sottocategorie": [
+      {"id": "sport/calcio", "nome": "Calcio", "parole_chiave": ["calcio", "gol", "allenatore", "calciomercato", "rigore", "attaccante", "difensore", "centrocampista", "football", "soccer"]},
+      {"id": "sport/serie_a", "nome": "Serie A", "parole_chiave": ["serie a", "juventus", "juve", "inter ", "milan", "napoli", "roma ", "lazio", "atalanta", "fiorentina", "bologna", "torino", "genoa", "udinese", "hellas verona", "cagliari", "lecce", "parma", "como", "sassuolo"]},
+      {"id": "sport/serie_b", "nome": "Serie B", "parole_chiave": ["serie b", "cadetteria"]},
+      {"id": "sport/serie_c", "nome": "Serie C", "parole_chiave": ["serie c", "lega pro"]},
+      {"id": "sport/champions", "nome": "Champions League", "parole_chiave": ["champions league", "champions"]},
+      {"id": "sport/europa_league", "nome": "Europa League", "parole_chiave": ["europa league"]},
+      {"id": "sport/conference", "nome": "Conference League", "parole_chiave": ["conference league"]},
+      {"id": "sport/calcio_internazionale", "nome": "Calcio internazionale", "parole_chiave": ["premier league", "liga", "bundesliga", "ligue 1", "real madrid", "barcellona", "barcelona", "manchester", "liverpool", "chelsea", "arsenal", "bayern", "psg"]},
+      {"id": "sport/nazionali", "nome": "Nazionali", "parole_chiave": ["nazionale", "azzurri", "mondiali", "europei", "qualificazioni", "world cup", "nations league"]},
+      {"id": "sport/f1", "nome": "Formula 1", "parole_chiave": ["formula 1", "formula uno", "f1", "gran premio", "ferrari", "red bull racing", "mclaren", "mercedes amg", "pole position"]},
+      {"id": "sport/motogp", "nome": "MotoGP", "parole_chiave": ["motogp", "moto gp", "motomondiale", "ducati", "superbike", "sbk"]},
+      {"id": "sport/tennis", "nome": "Tennis", "parole_chiave": ["tennis", "atp", "wta", "wimbledon", "roland garros", "us open", "australian open", "davis", "internazionali d'italia", "sinner"]},
+      {"id": "sport/basket", "nome": "Basket", "parole_chiave": ["basket", "nba", "eurolega", "euroleague", "pallacanestro"]},
+      {"id": "sport/pallavolo", "nome": "Pallavolo", "parole_chiave": ["pallavolo", "volley", "superlega"]},
+      {"id": "sport/altri_sport", "nome": "Altri sport", "parole_chiave": ["ciclismo", "giro d'italia", "tour de france", "sci ", "rugby", "nuoto", "atletica", "golf", "boxe", "scherma", "olimpiadi", "olympic"]}
+    ]},
+    {"id": "tecnologia", "nome": "Tecnologia", "sottocategorie": [
+      {"id": "tecnologia/informatica", "nome": "Informatica", "parole_chiave": ["software", "windows", "linux", "programm", "sicurezza informatica", "hacker", "cyber", "app ", "aggiornamento"]},
+      {"id": "tecnologia/ia", "nome": "Intelligenza artificiale", "parole_chiave": ["intelligenza artificiale", "artificial intelligence", " ia ", " ai ", "chatbot", "machine learning", "modello linguistico", "openai", "anthropic", "gemini"]},
+      {"id": "tecnologia/smartphone", "nome": "Smartphone", "parole_chiave": ["smartphone", "iphone", "android", "samsung galaxy", "pixel", "xiaomi", "cellulare"]},
+      {"id": "tecnologia/computer", "nome": "Computer", "parole_chiave": ["computer", "pc ", "notebook", "laptop", "processore", "cpu", "gpu", "scheda video", "intel", "amd", "nvidia", "monitor"]},
+      {"id": "tecnologia/innovazione", "nome": "Innovazione", "parole_chiave": ["innovazione", "innovation", "ricerca", "spazio", "space", "robot", "auto elettrica", "electric vehicle", "energia rinnovabile"]},
+      {"id": "tecnologia/accessibilita", "nome": "Accessibilità", "parole_chiave": ["accessibilità", "accessibility", "non vedenti", "ciechi", "ipovedenti", "disabilità", "disability", "screen reader", "lettore di schermo", "braille", "nvda"]}
+    ]},
+    {"id": "cultura", "nome": "Cultura e spettacolo", "sottocategorie": [
+      {"id": "cultura/musica", "nome": "Musica", "parole_chiave": ["musica", "music", "concerto", "concert", "album", "cantante", "singer", "sanremo", "rapper", "band", "canzone"]},
+      {"id": "cultura/cinema", "nome": "Cinema", "parole_chiave": ["cinema", "film", "regista", "attore", "attrice", "festival di venezia", "oscar", "box office"]},
+      {"id": "cultura/televisione", "nome": "Televisione", "parole_chiave": ["televisione", "tv ", "serie tv", "rai ", "mediaset", "netflix", "streaming", "programma tv", "ascolti"]},
+      {"id": "cultura/teatro", "nome": "Teatro", "parole_chiave": ["teatro", "theatre", "theater", "opera lirica", "spettacolo teatrale", "arena di verona"]},
+      {"id": "cultura/libri", "nome": "Libri", "parole_chiave": ["libro", "libri", "book", "romanzo", "novel", "scrittore", "scrittrice", "premio strega", "editore"]},
+      {"id": "cultura/arte", "nome": "Arte", "parole_chiave": ["arte", "art ", "mostra", "museo", "museum", "pittore", "dipinto", "esposizione", "biennale"]},
+      {"id": "cultura/eventi", "nome": "Eventi", "parole_chiave": ["evento", "eventi", "festival", "rassegna", "fiera", "sagra"]}
+    ]},
+    {"id": "salute", "nome": "Salute e benessere", "sottocategorie": [
+      {"id": "salute/medicina", "nome": "Medicina", "parole_chiave": ["medicina", "medico", "ospedale", "hospital", "malattia", "disease", "terapia", "farmaco", "vaccin", "tumore", "cancer", "chirurg"]},
+      {"id": "salute/ricerca", "nome": "Ricerca scientifica", "parole_chiave": ["ricerca scientifica", "studio pubblicato", "scienziati", "scientists", "researchers", "ricercatori", "university", "università", "nature", "lancet"]},
+      {"id": "salute/salute_generale", "nome": "Salute", "parole_chiave": ["salute", "health", "sanità", "servizio sanitario", "asl", "pronto soccorso"]},
+      {"id": "salute/alimentazione", "nome": "Alimentazione", "parole_chiave": ["alimentazione", "dieta", "diet", "cibo", "food", "nutrizion", "nutrition"]},
+      {"id": "salute/benessere", "nome": "Benessere", "parole_chiave": ["benessere", "wellbeing", "sonno", "sleep", "attività fisica", "stress", "fitness"]}
+    ]}
+  ]
+}

@@ -1,0 +1,7 @@
+# KILLA NEWS 1.0.0 - dipendenze (Python 3.11, 3.12 o 3.13 per Windows, 64 bit)
+wxPython>=4.2.2
+feedparser>=6.0.11
+requests>=2.31
+lxml>=5.0
+trafilatura>=1.12        # estrazione del testo integrale (facoltativa ma consigliata)
+pywin32>=306; sys_platform == "win32"   # sintesi vocale SAPI5 tramite COM

@@ -1,0 +1,989 @@
+{
+  "_info": "Catalogo iniziale delle fonti di KILLA NEWS 1.0.0. Ogni indirizzo di feed qui elencato e' stato controllato il 20/11/2026 su directory pubbliche che verificano il funzionamento dei feed (campo 'verifica': feeder = Feeder.co, che riportava il feed come attivo; feedspot = elenco Feedspot). Le testate con 'feed' vuoto non hanno un feed pubblico confermato: il programma apre il loro sito originale e puo' cercare automaticamente il feed ufficiale dichiarato nella pagina del sito (menu Fonti > Cerca feed sul sito; il programma lo fa anche da solo durante l'aggiornamento, al massimo una volta alla settimana per testata). Per aggiungere testate, regioni, province o citta' basta aggiungere voci a questo file oppure usare il menu Fonti del programma.",
+  "versione_catalogo": 2,
+  "fonti": [
+    {
+      "id": "ansa",
+      "nome": "ANSA",
+      "paese": "Italia",
+      "gruppo": "Agenzie di stampa",
+      "sito": "https://www.ansa.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/sito/ansait_rss.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
+          "categoria": "generale",
+          "evidenza": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",
+          "categoria": "cronaca",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/politica/politica_rss.xml",
+          "categoria": "italia/politica",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
+          "categoria": "economia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/sito/notizie/sport/sport_rss.xml",
+          "categoria": "sport",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.ansa.it/europa/notizie/rss.xml",
+          "categoria": "esteri/europa",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "agi",
+      "nome": "AGI - Agenzia Italia",
+      "paese": "Italia",
+      "gruppo": "Agenzie di stampa",
+      "sito": "https://www.agi.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.agi.it/rss.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "adnkronos",
+      "nome": "Adnkronos",
+      "paese": "Italia",
+      "gruppo": "Agenzie di stampa",
+      "sito": "https://www.adnkronos.com",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.adnkronos.com/RSS_Ultimora.xml",
+          "categoria": "generale",
+          "evidenza": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.adnkronos.com/RSS_PrimaPagina.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.adnkronos.com//RSS_Cronaca.xml",
+          "categoria": "cronaca",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.adnkronos.com//RSS_Esteri.xml",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.adnkronos.com//RSS_Finanza.xml",
+          "categoria": "economia/mercati",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "rainews",
+      "nome": "Rai News",
+      "paese": "Italia",
+      "gruppo": "Televisioni e radio",
+      "sito": "https://www.rainews.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.rainews.it/rss/tutti",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.rainews.it/rss/ultimora",
+          "categoria": "generale",
+          "evidenza": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.rainews.it/rss/esteri",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.rainews.it/rss/sport",
+          "categoria": "sport",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "corriere",
+      "nome": "Corriere della Sera",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.corriere.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "repubblica",
+      "nome": "la Repubblica",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.repubblica.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa",
+      "nome": "La Stampa",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.lastampa.it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.lastampa.it/rss/copertina.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feedspot"
+        }
+      ]
+    },
+    {
+      "id": "sole24ore",
+      "nome": "Il Sole 24 Ore",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.ilsole24ore.com",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.ilsole24ore.com/rss/italia.xml",
+          "categoria": "italia",
+          "principale": true,
+          "verifica": "feedspot"
+        },
+        {
+          "url": "https://www.ilsole24ore.com/rss/finanza.xml",
+          "categoria": "economia/mercati",
+          "verifica": "feedspot"
+        }
+      ]
+    },
+    {
+      "id": "messaggero",
+      "nome": "Il Messaggero",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.ilmessaggero.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "ilgiornale",
+      "nome": "il Giornale",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.ilgiornale.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ilgiornale.it/feed.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "avvenire",
+      "nome": "Avvenire",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.avvenire.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "fattoquotidiano",
+      "nome": "Il Fatto Quotidiano",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.ilfattoquotidiano.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "manifesto",
+      "nome": "il manifesto",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://ilmanifesto.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "iltempo",
+      "nome": "Il Tempo",
+      "paese": "Italia",
+      "gruppo": "Quotidiani nazionali",
+      "sito": "https://www.iltempo.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "ilpost",
+      "nome": "Il Post",
+      "paese": "Italia",
+      "gruppo": "Quotidiani online",
+      "sito": "https://www.ilpost.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "gazzetta",
+      "nome": "La Gazzetta dello Sport",
+      "paese": "Italia",
+      "gruppo": "Sport",
+      "sito": "https://www.gazzetta.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "corrieredellosport",
+      "nome": "Corriere dello Sport",
+      "paese": "Italia",
+      "gruppo": "Sport",
+      "sito": "https://www.corrieredellosport.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.corrieredellosport.it/rss",
+          "categoria": "sport",
+          "principale": true,
+          "verifica": "feedspot"
+        },
+        {
+          "url": "https://www.corrieredellosport.it/rss/moto",
+          "categoria": "sport/motogp",
+          "verifica": "feedspot"
+        }
+      ]
+    },
+    {
+      "id": "tuttosport",
+      "nome": "Tuttosport",
+      "paese": "Italia",
+      "gruppo": "Sport",
+      "sito": "https://www.tuttosport.com",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.tuttosport.com/rss/",
+          "categoria": "sport",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.tuttosport.com/rss/calcio",
+          "categoria": "sport/calcio",
+          "verifica": "feedspot"
+        },
+        {
+          "url": "https://www.tuttosport.com/rss/formula-1",
+          "categoria": "sport/f1",
+          "verifica": "feedspot"
+        },
+        {
+          "url": "https://www.tuttosport.com/rss/tennis",
+          "categoria": "sport/tennis",
+          "verifica": "feedspot"
+        }
+      ]
+    },
+    {
+      "id": "skysport",
+      "nome": "Sky Sport",
+      "paese": "Italia",
+      "gruppo": "Sport",
+      "sito": "https://sport.sky.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "eurosport",
+      "nome": "Eurosport",
+      "paese": "Italia",
+      "gruppo": "Sport",
+      "sito": "https://www.eurosport.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "skysportsuk",
+      "nome": "Sky Sports (Regno Unito)",
+      "paese": "Regno Unito",
+      "gruppo": "Sport",
+      "sito": "https://www.skysports.com",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.skysports.com/rss/11095",
+          "categoria": "sport/calcio_internazionale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "bbc",
+      "nome": "BBC News",
+      "paese": "Regno Unito",
+      "gruppo": "Internazionali",
+      "sito": "https://www.bbc.com/news",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://feeds.bbci.co.uk/news/rss.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml",
+          "categoria": "esteri/africa",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/world/asia/rss.xml",
+          "categoria": "esteri/asia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+          "categoria": "esteri/medio_oriente",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml",
+          "categoria": "esteri/america",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+          "categoria": "economia/economia_internazionale",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+          "categoria": "tecnologia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
+          "categoria": "salute",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+          "categoria": "cultura",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.bbci.co.uk/sport/formula1/rss.xml",
+          "categoria": "sport/f1",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "reuters",
+      "nome": "Reuters",
+      "paese": "Regno Unito",
+      "gruppo": "Internazionali",
+      "sito": "https://www.reuters.com",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "guardian",
+      "nome": "The Guardian",
+      "paese": "Regno Unito",
+      "gruppo": "Internazionali",
+      "sito": "https://www.theguardian.com/international",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.theguardian.com/international/rss",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/rss",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/europe-news/rss",
+          "categoria": "esteri/europa",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/americas/rss",
+          "categoria": "esteri/america",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/asia/rss",
+          "categoria": "esteri/asia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/middleeast/rss",
+          "categoria": "esteri/medio_oriente",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://www.theguardian.com/world/africa/rss",
+          "categoria": "esteri/africa",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ap",
+      "nome": "Associated Press",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://apnews.com",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lemonde",
+      "nome": "Le Monde",
+      "paese": "Francia",
+      "gruppo": "Internazionali",
+      "sito": "https://www.lemonde.fr",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://www.lemonde.fr/rss/une.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "elpais",
+      "nome": "El País",
+      "paese": "Spagna",
+      "gruppo": "Internazionali",
+      "sito": "https://elpais.com",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://elpais.com/rss/internacional/portada.xml",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/tecnologia/portada",
+          "categoria": "tecnologia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/cultura/portada",
+          "categoria": "cultura",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "nyt",
+      "nome": "The New York Times",
+      "paese": "Stati Uniti",
+      "gruppo": "Internazionali",
+      "sito": "https://www.nytimes.com",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+          "categoria": "generale",
+          "principale": true,
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+          "categoria": "esteri",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",
+          "categoria": "esteri/europa",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml",
+          "categoria": "esteri/medio_oriente",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Africa.xml",
+          "categoria": "esteri/africa",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml",
+          "categoria": "esteri/america",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+          "categoria": "economia/economia_internazionale",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+          "categoria": "tecnologia",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",
+          "categoria": "salute/ricerca",
+          "verifica": "feeder"
+        },
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Books.xml",
+          "categoria": "cultura/libri",
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "aljazeera",
+      "nome": "Al Jazeera English",
+      "paese": "Qatar",
+      "gruppo": "Internazionali",
+      "sito": "https://www.aljazeera.com",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.aljazeera.com/xml/rss/all.xml",
+          "categoria": "esteri",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "hwupgrade",
+      "nome": "Hardware Upgrade",
+      "paese": "Italia",
+      "gruppo": "Tecnologia",
+      "sito": "https://www.hwupgrade.it",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "http://feeds.hwupgrade.it/rss_hwup.xml",
+          "categoria": "tecnologia/computer",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "hdblog",
+      "nome": "HDblog",
+      "paese": "Italia",
+      "gruppo": "Tecnologia",
+      "sito": "https://www.hdblog.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "wiredit",
+      "nome": "Wired Italia",
+      "paese": "Italia",
+      "gruppo": "Tecnologia",
+      "sito": "https://www.wired.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "larena",
+      "nome": "L'Arena",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "provincia": "Verona",
+      "citta": "Verona",
+      "gruppo": "Locali",
+      "sito": "https://www.larena.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "veronasera",
+      "nome": "VeronaSera",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "provincia": "Verona",
+      "citta": "Verona",
+      "gruppo": "Locali",
+      "sito": "https://www.veronasera.it",
+      "testo_completo": true,
+      "feed": []
+    },
+    {
+      "id": "giornalevicenza",
+      "nome": "Il Giornale di Vicenza",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "provincia": "Vicenza",
+      "citta": "Vicenza",
+      "gruppo": "Locali",
+      "sito": "https://www.ilgiornaledivicenza.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "mattinopadova",
+      "nome": "Il Mattino di Padova",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "provincia": "Padova",
+      "citta": "Padova",
+      "gruppo": "Locali",
+      "sito": "https://www.mattinopadova.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "corriereveneto",
+      "nome": "Corriere del Veneto",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "gruppo": "Locali",
+      "sito": "https://corrieredelveneto.corriere.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "gazzettino",
+      "nome": "Il Gazzettino",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "provincia": "Venezia",
+      "citta": "Venezia",
+      "gruppo": "Locali",
+      "sito": "https://www.ilgazzettino.it",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "ansa_veneto",
+      "nome": "ANSA Veneto",
+      "paese": "Italia",
+      "regione": "Veneto",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/veneto/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/veneto/notizie/veneto_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_lombardia",
+      "nome": "ANSA Lombardia",
+      "paese": "Italia",
+      "regione": "Lombardia",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/lombardia/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/lombardia/notizie/lombardia_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_piemonte",
+      "nome": "ANSA Piemonte",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/piemonte/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/piemonte/notizie/piemonte_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_lazio",
+      "nome": "ANSA Lazio",
+      "paese": "Italia",
+      "regione": "Lazio",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/lazio/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/lazio/notizie/lazio_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_campania",
+      "nome": "ANSA Campania",
+      "paese": "Italia",
+      "regione": "Campania",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/campania/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/campania/notizie/campania_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_puglia",
+      "nome": "ANSA Puglia",
+      "paese": "Italia",
+      "regione": "Puglia",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/puglia/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/puglia/notizie/puglia_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_sardegna",
+      "nome": "ANSA Sardegna",
+      "paese": "Italia",
+      "regione": "Sardegna",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/sardegna/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/sardegna/notizie/sardegna_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "ansa_calabria",
+      "nome": "ANSA Calabria",
+      "paese": "Italia",
+      "regione": "Calabria",
+      "gruppo": "Locali",
+      "sito": "https://www.ansa.it/calabria/",
+      "testo_completo": true,
+      "feed": [
+        {
+          "url": "https://www.ansa.it/calabria/notizie/calabria_rss.xml",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "feeder"
+        }
+      ]
+    },
+    {
+      "id": "lastampa_torino",
+      "nome": "La Stampa Torino",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Torino",
+      "citta": "Torino",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/torino/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_alessandria",
+      "nome": "La Stampa Alessandria",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Alessandria",
+      "citta": "Alessandria",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/alessandria/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_asti",
+      "nome": "La Stampa Asti",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Asti",
+      "citta": "Asti",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/asti/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_biella",
+      "nome": "La Stampa Biella",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Biella",
+      "citta": "Biella",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/biella/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_cuneo",
+      "nome": "La Stampa Cuneo",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Cuneo",
+      "citta": "Cuneo",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/cuneo/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_novara",
+      "nome": "La Stampa Novara",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Novara",
+      "citta": "Novara",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/novara/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_vercelli",
+      "nome": "La Stampa Vercelli",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Vercelli",
+      "citta": "Vercelli",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/vercelli/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_vco",
+      "nome": "La Stampa Verbano Cusio Ossola",
+      "paese": "Italia",
+      "regione": "Piemonte",
+      "provincia": "Verbano-Cusio-Ossola",
+      "citta": "Verbania",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/verbano-cusio-ossola/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_aosta",
+      "nome": "La Stampa Aosta",
+      "paese": "Italia",
+      "regione": "Valle d'Aosta",
+      "provincia": "Aosta",
+      "citta": "Aosta",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/aosta/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_savona",
+      "nome": "La Stampa Savona",
+      "paese": "Italia",
+      "regione": "Liguria",
+      "provincia": "Savona",
+      "citta": "Savona",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/savona/",
+      "testo_completo": false,
+      "feed": []
+    },
+    {
+      "id": "lastampa_imperia",
+      "nome": "La Stampa Imperia e Sanremo",
+      "paese": "Italia",
+      "regione": "Liguria",
+      "provincia": "Imperia",
+      "citta": "Imperia e Sanremo",
+      "gruppo": "Locali",
+      "sito": "https://www.lastampa.it/imperia-sanremo/",
+      "testo_completo": false,
+      "feed": []
+    }
+  ]
+}

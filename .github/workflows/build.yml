@@ -1,0 +1,100 @@
+name: Compila e pubblica KILLA NEWS
+
+# Come si pubblica una nuova versione (lo fa Claude, oppure chiunque abbia accesso al repository):
+#   1. cambiare APP_VERSION in killanews/config.py (es. 1.0.1)
+#   2. creare il tag v1.0.1 e inviarlo a GitHub
+# GitHub compila tutto su un computer Windows e crea la "release" con:
+#   - KillaNews_Installazione.exe  (installatore)
+#   - KillaNews_Portatile.zip      (versione portatile)
+#   - KillaNews.exe                (eseguibile singolo, usato dagli aggiornamenti automatici)
+#   - SHA256SUMS.txt               (impronte di controllo dei file)
+# Il programma installato controlla l'ultima release e si aggiorna da solo.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x64
+
+      - name: Versione dal tag e repository per gli aggiornamenti
+        shell: pwsh
+        run: |
+          $versione = "${{ github.ref_name }}".TrimStart("v")
+          if ("${{ github.ref_type }}" -ne "tag") { $versione = (Select-String -Path killanews/config.py -Pattern 'APP_VERSION = "(.+)"').Matches[0].Groups[1].Value }
+          "VERSIONE=$versione" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
+          $cfg = Get-Content killanews/config.py -Raw -Encoding utf8
+          $cfg = $cfg -replace 'APP_VERSION = ".*?"', "APP_VERSION = `"$versione`""
+          $cfg = $cfg -replace '__GITHUB_REPO__', '${{ github.repository }}'
+          Set-Content killanews/config.py $cfg -Encoding utf8 -NoNewline
+          Write-Host "Versione $versione per ${{ github.repository }}"
+
+      - name: Dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+
+      - name: Test automatici
+        run: python -m unittest discover -s tests -v
+
+      - name: Prova di avvio dell'interfaccia (importazioni)
+        run: python -c "import wx; import killanews.ui.main_window as m; import killanews.app_updates as u; print('ok', wx.version())"
+
+      - name: Eseguibile singolo
+        env:
+          KILLANEWS_ONEFILE: "1"
+        run: python -m PyInstaller --clean -y --distpath dist --workpath build/portatile installer/killa_news.spec
+
+      - name: Cartella per l'installatore
+        run: python -m PyInstaller --clean -y --distpath dist --workpath build/installer installer/killa_news.spec
+
+      - name: Pacchetti
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force pubblica | Out-Null
+          Copy-Item dist/KillaNews_Portatile.exe pubblica/KillaNews.exe
+          New-Item -ItemType Directory -Force "dist/KILLA NEWS Portatile" | Out-Null
+          Copy-Item dist/KillaNews_Portatile.exe "dist/KILLA NEWS Portatile/KillaNews.exe"
+          Copy-Item README.md, CHECKLIST_NVDA.md "dist/KILLA NEWS Portatile/"
+          Set-Content "dist/KILLA NEWS Portatile/portable.flag" "Dati personali nella sottocartella dati. Elimina questo file per usare AppData."
+          Compress-Archive -Force -Path "dist/KILLA NEWS Portatile" -DestinationPath pubblica/KillaNews_Portatile.zip
+
+      - name: Installatore (Inno Setup)
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$env:VERSIONE" installer\killa_news.iss
+          Copy-Item dist/KillaNews_Installazione.exe pubblica/
+
+      - name: Impronte SHA-256
+        shell: pwsh
+        run: |
+          Get-ChildItem pubblica -File | ForEach-Object {
+            "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name
+          } | Set-Content pubblica/SHA256SUMS.txt -Encoding ascii
+          Get-Content pubblica/SHA256SUMS.txt
+
+      - name: Pubblica la release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: KILLA NEWS ${{ env.VERSIONE }}
+          body_path: NOVITA.md
+          files: pubblica/*
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
+        with:
+          name: KillaNews-${{ env.VERSIONE }}-Windows
+          path: pubblica/*
