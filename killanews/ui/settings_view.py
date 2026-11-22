@@ -103,6 +103,11 @@ class SettingsDialog(wx.Dialog):
         self.volume = common.labeled(p, sz, "V&olume (da 0 a 100):",
                                      lambda: wx.SpinCtrl(p, min=0, max=100, initial=int(s.get("speech_volume", 100))),
                                      expand=False)
+        self.nvda_note = wx.StaticText(p, label="Con la voce di NVDA la velocità e il volume si regolano in NVDA "
+                                                "(NVDA+Ctrl+V, Impostazioni voce). NVDA deve essere acceso.")
+        sz.Add(self.nvda_note, 0, wx.ALL, 6)
+        self.voice.Bind(wx.EVT_CHOICE, lambda e: self._update_voice_controls())
+        self._update_voice_controls()
         self.follow = wx.CheckBox(p, label="&Sposta il cursore sul paragrafo letto dalla voce")
         self.follow.SetValue(bool(s.get("follow_reading_caret")))
         sz.Add(self.follow, 0, wx.ALL, 6)
@@ -286,6 +291,14 @@ class SettingsDialog(wx.Dialog):
     def _voice_id(self):
         i = self.voice.GetSelection()
         return self.voices[i - 1].id if i > 0 else ""
+
+    def _update_voice_controls(self):
+        from ..speech_manager import NVDA_VOICE_ID
+        nvda = self._voice_id() == NVDA_VOICE_ID
+        self.rate.Enable(not nvda)
+        self.volume.Enable(not nvda)
+        self.nvda_note.Show(nvda)
+        self.nvda_note.GetParent().Layout()
 
     def on_test_voice(self, event):
         self.core.speech.apply_settings(self._voice_id(), self.rate.GetValue(), self.volume.GetValue())

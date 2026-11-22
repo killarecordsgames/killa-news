@@ -1,4 +1,4 @@
-# KILLA NEWS 1.2.1
+# KILLA NEWS 1.3.0
 
 **Killa Records** · *L'informazione, senza barriere.*
 
@@ -59,6 +59,8 @@ Nel **lettore**, il testo si legge con le frecce come un documento. Si può usar
 - **si interrompe subito con Ctrl+K o con Esc**, anche negli articoli molto lunghi.
 
 Se il feed fornisce solo un estratto, il lettore lo scrive chiaramente e offre il pulsante **Apri articolo originale**.
+
+**Voce di NVDA.** In Impostazioni > Voce, oltre alle voci di Windows, c'è «Voce di NVDA»: la lettura vocale usa la sintesi, la voce e la velocità scelte in NVDA. Con NVDA 2024.1 o successivo il programma sa quando NVDA ha finito un paragrafo e passa subito al successivo; con versioni più vecchie stima la durata. La pausa ferma la voce e la ripresa rilegge il paragrafo dall'inizio. Se NVDA è spento si usa la voce di Windows.
 
 **Traduzione.** Gli articoli scritti in altre lingue si traducono in italiano con il pulsante **Traduci in italiano** o con **Ctrl+T**; premendo di nuovo Ctrl+T si torna alla lingua originale. Sotto il titolo il lettore dice da quale lingua è stato tradotto. Nelle Impostazioni si può scegliere di tradurre tutto da solo. La traduzione usa il servizio gratuito di Google Traduttore (se non risponde, MyMemory): serve Internet, è automatica e può contenere errori. Ogni articolo viene tradotto una sola volta e poi resta salvato.
 

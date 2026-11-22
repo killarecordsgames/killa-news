@@ -653,3 +653,78 @@ class TestMigrazione(unittest.TestCase):
         self.assertIn("language", cols)
         self.assertTrue(db._has_table("translations"))
         db.close()
+
+
+class TestVoceNVDA(unittest.TestCase):
+    class FakeNvda:
+        def __init__(self, running=True):
+            self.running = running
+            self.texts = []
+            self.cancelled = 0
+
+        def nvdaController_testIfRunning(self):
+            return 0 if self.running else 1
+
+        def nvdaController_speakSsml(self, ssml, level, prio, asynchronous):
+            self.texts.append(ssml.value)
+            time.sleep(0.05)
+            return 0
+
+        def nvdaController_speakText(self, text):
+            self.texts.append(text.value)
+            return 0
+
+        def nvdaController_cancelSpeech(self):
+            self.cancelled += 1
+            return 0
+
+    def _wait(self, sm, state, limit=3.0):
+        end = time.monotonic() + limit
+        while time.monotonic() < end and sm.state != state:
+            sm.tick()
+            time.sleep(0.01)
+
+    def test_lettura_con_nvda(self):
+        from killanews.speech_manager import MultiBackend, NvdaBackend, NVDA_VOICE_ID
+        fake = self.FakeNvda()
+        backend = MultiBackend(FakeBackend(), NvdaBackend(fake))
+        self.assertEqual(backend.voices()[0].id, NVDA_VOICE_ID)
+        sm = SpeechManager(backend)
+        sm.apply_settings(NVDA_VOICE_ID)
+        sm.load(["Primo paragrafo & <prova>", "Secondo paragrafo"])
+        sm.start()
+        self._wait(sm, STATE_STOPPED)
+        self.assertEqual(len(fake.texts), 2)
+        self.assertIn("&amp; &lt;prova&gt;", fake.texts[0])
+        self.assertEqual(backend.sapi.spoken, [])
+        # pausa = la voce di NVDA si ferma; ripresa = rilegge il paragrafo
+        sm.load(["Uno", "Due"])
+        sm.start()
+        sm.pause()
+        self.assertEqual(sm.state, STATE_PAUSED)
+        self.assertGreaterEqual(fake.cancelled, 1)
+        sm.resume()
+        self._wait(sm, STATE_STOPPED)
+        sm.stop()
+
+    def test_nvda_spento_o_vecchio(self):
+        from killanews.speech_manager import MultiBackend, NvdaBackend, NVDA_VOICE_ID
+        fake = self.FakeNvda(running=False)
+        backend = MultiBackend(FakeBackend(), NvdaBackend(fake))
+        sm = SpeechManager(backend)
+        sm.apply_settings(NVDA_VOICE_ID)
+        sm.load(["Testo letto dalla voce di Windows"])
+        sm.start()
+        self._wait(sm, STATE_STOPPED)
+        self.assertEqual(backend.sapi.spoken, ["Testo letto dalla voce di Windows"])
+        self.assertEqual(fake.texts, [])
+        old = self.FakeNvda()
+        old.nvdaController_speakSsml = lambda *a: 1717  # NVDA troppo vecchio: funzione sconosciuta al server
+        nb = NvdaBackend(old)
+        nb.MS_PER_CHAR = 1
+        sm2 = SpeechManager(MultiBackend(FakeBackend(), nb))
+        sm2.apply_settings(NVDA_VOICE_ID)
+        sm2.load(["Versione vecchia di NVDA"])
+        sm2.start()
+        self._wait(sm2, STATE_STOPPED)
+        self.assertEqual(old.texts, ["Versione vecchia di NVDA"])

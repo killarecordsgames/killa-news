@@ -211,16 +211,213 @@ class FakeBackend(NullBackend):
         self._end = 0.0
 
 
+NVDA_VOICE_ID = "nvda"
+NVDA_VOICE_NAME = "Voce di NVDA (usa la sintesi vocale, la voce e la velocità scelte in NVDA)"
+_SYMBOL_LEVEL_UNCHANGED = -1
+_PRIORITY_NORMAL = 0
+
+
+def _xml_escape(text):
+    return (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+class NvdaBackend(NullBackend):
+    """Legge con la voce di NVDA tramite la libreria ufficiale nvdaControllerClient.
+
+    Con NVDA 2024.1 o successivo usa nvdaController_speakSsml in modo sincrono (in un
+    thread separato): la chiamata termina quando NVDA ha finito il paragrafo, così la
+    lettura passa al successivo al momento giusto. Con versioni più vecchie di NVDA
+    usa speakText e stima la durata del paragrafo. NVDA non ha una vera pausa: la pausa
+    ferma la voce e la ripresa rilegge il paragrafo dall'inizio."""
+
+    error = "NVDA non è in esecuzione: avvia NVDA oppure scegli un'altra voce nelle Impostazioni."
+    MS_PER_CHAR = 70  # stima per le versioni di NVDA senza speakSsml
+
+    def __init__(self, library=None):
+        import threading
+        self._threading = threading
+        if library is None:
+            from .accessibility import announcer
+            library = announcer._nvda
+        self.lib = library
+        self._lock = threading.Lock()
+        self._gen = 0
+        self._done = True
+        self._estimated_end = None
+        self._last_text = ""
+        self._paused = False
+        self._ssml_ok = True
+
+    @property
+    def available(self):
+        return self.lib is not None
+
+    def running(self):
+        if self.lib is None:
+            return False
+        try:
+            return self.lib.nvdaController_testIfRunning() == 0
+        except Exception:
+            return False
+
+    def voices(self):
+        return [Voice(NVDA_VOICE_ID, NVDA_VOICE_NAME, "")] if self.lib is not None else []
+
+    def set_voice(self, voice_id):
+        return voice_id == NVDA_VOICE_ID
+
+    def speak(self, text):
+        import ctypes
+        with self._lock:
+            self._gen += 1
+            gen = self._gen
+            self._done = False
+            self._estimated_end = None
+            self._last_text = text
+            self._paused = False
+        if self._ssml_ok and hasattr(self.lib, "nvdaController_speakSsml"):
+            ssml = "<speak>" + _xml_escape(text) + "</speak>"
+
+            def work():
+                try:
+                    res = self.lib.nvdaController_speakSsml(ctypes.c_wchar_p(ssml), _SYMBOL_LEVEL_UNCHANGED,
+                                                           _PRIORITY_NORMAL, False)
+                except Exception:
+                    log.exception("speakSsml di NVDA non riuscito")
+                    res = -1
+                with self._lock:
+                    if gen != self._gen:
+                        return
+                    if res == 0:
+                        self._done = True
+                        return
+                    self._ssml_ok = False  # NVDA troppo vecchio: si passa a speakText
+                self._speak_text(text, gen)
+
+            self._threading.Thread(target=work, name="voce-nvda", daemon=True).start()
+        else:
+            self._speak_text(text, gen)
+
+    def _speak_text(self, text, gen):
+        import ctypes
+        try:
+            self.lib.nvdaController_speakText(ctypes.c_wchar_p(text))
+        except Exception:
+            log.exception("speakText di NVDA non riuscito")
+        with self._lock:
+            if gen == self._gen:
+                self._estimated_end = time.monotonic() + len(text) * self.MS_PER_CHAR / 1000.0
+
+    def is_done(self):
+        with self._lock:
+            if self._paused:
+                return False
+            if self._estimated_end is not None:
+                return time.monotonic() >= self._estimated_end
+            return self._done
+
+    def _cancel(self):
+        try:
+            self.lib.nvdaController_cancelSpeech()
+        except Exception:
+            pass
+
+    def pause(self):
+        with self._lock:
+            self._gen += 1
+            self._paused = True
+        self._cancel()
+
+    def resume(self):
+        if self._paused:
+            text = self._last_text
+            self._paused = False
+            if text:
+                self.speak(text)
+
+    def purge(self):
+        with self._lock:
+            self._gen += 1
+            self._done = True
+            self._estimated_end = None
+            self._paused = False
+        self._cancel()
+
+
+class MultiBackend:
+    """Voci di Windows (SAPI5) più la voce di NVDA: si usa quella scelta nelle Impostazioni.
+    Se è scelta la voce di NVDA ma NVDA non è acceso, legge con la voce di Windows."""
+
+    def __init__(self, sapi, nvda):
+        self.sapi = sapi
+        self.nvda = nvda
+        self.use_nvda = False
+        self._current = sapi
+
+    @property
+    def available(self):
+        return self.sapi.available or self.nvda.available
+
+    @property
+    def error(self):
+        return self.sapi.error if not self.available else ""
+
+    def voices(self):
+        return self.nvda.voices() + self.sapi.voices()
+
+    def set_voice(self, voice_id):
+        if voice_id == NVDA_VOICE_ID and self.nvda.available:
+            self.use_nvda = True
+            return True
+        self.use_nvda = False
+        return self.sapi.set_voice(voice_id)
+
+    def set_rate(self, rate):
+        self.sapi.set_rate(rate)
+
+    def set_volume(self, volume):
+        self.sapi.set_volume(volume)
+
+    def speak(self, text):
+        if self.use_nvda and self.nvda.running():
+            self._current = self.nvda
+        elif self.sapi.available:
+            self._current = self.sapi
+        else:
+            self._current = self.nvda
+        self._current.speak(text)
+
+    def is_done(self):
+        return self._current.is_done()
+
+    def pause(self):
+        self._current.pause()
+
+    def resume(self):
+        self._current.resume()
+
+    def purge(self):
+        for b in (self.sapi, self.nvda):
+            if b.available:
+                try:
+                    b.purge()
+                except Exception:
+                    log.exception("Errore durante l'arresto della voce")
+
+
 def create_backend():
+    nvda = NvdaBackend()
     if not sys.platform.startswith("win"):
-        return NullBackend()
-    try:
-        return SapiBackend()
-    except Exception as exc:
-        log.exception("SAPI5 non disponibile")
-        backend = NullBackend()
-        backend.error = f"Impossibile avviare la sintesi vocale di Windows: {exc}"
-        return backend
+        sapi = NullBackend()
+    else:
+        try:
+            sapi = SapiBackend()
+        except Exception as exc:
+            log.exception("SAPI5 non disponibile")
+            sapi = NullBackend()
+            sapi.error = f"Impossibile avviare la sintesi vocale di Windows: {exc}"
+    return MultiBackend(sapi, nvda) if nvda.available else sapi
 
 
 class SpeechManager:
