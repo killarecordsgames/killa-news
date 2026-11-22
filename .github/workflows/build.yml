@@ -67,14 +67,21 @@ jobs:
         run: |
           $rel = gh api repos/nvaccess/nvda/releases/latest | ConvertFrom-Json
           $asset = $rel.assets | Where-Object { $_.name -like "*controllerClient*.zip" } | Select-Object -First 1
-          if (-not $asset) { throw "Pacchetto controllerClient di NVDA non trovato nella release $($rel.tag_name)" }
-          Invoke-WebRequest $asset.browser_download_url -OutFile nvda_cc.zip
+          $ver = $rel.tag_name -replace '^release-', ''
+          if ($asset) { $url = $asset.browser_download_url; $nome = $asset.name }
+          else {
+            Write-Host "Pacchetti nella release GitHub: $(($rel.assets | ForEach-Object name) -join ', ')"
+            $nome = "nvda_${ver}_controllerClient.zip"
+            $url = "https://download.nvaccess.org/releases/$ver/$nome"
+          }
+          Write-Host "Scarico $url"
+          Invoke-WebRequest $url -OutFile nvda_cc.zip
           Expand-Archive nvda_cc.zip -DestinationPath nvda_cc -Force
           $dll = Get-ChildItem nvda_cc -Recurse -Filter nvdaControllerClient.dll | Where-Object { $_.FullName -match "x64" } | Select-Object -First 1
           if (-not $dll) { throw "nvdaControllerClient.dll a 64 bit non trovata" }
           Copy-Item $dll.FullName lib/nvdaControllerClient.dll
           Get-ChildItem nvda_cc -Recurse -Include "*.txt","*.md","license*","copying*" | Select-Object -First 3 | ForEach-Object { Copy-Item $_.FullName ("lib/NVDA_" + $_.Name) }
-          Write-Host "NVDA controller client da $($rel.tag_name): $($asset.name)"
+          Write-Host "NVDA controller client da $($rel.tag_name): $nome"
           python -c "import ctypes; l=ctypes.WinDLL(r'lib/nvdaControllerClient.dll'); print('speakSsml presente:', hasattr(l,'nvdaController_speakSsml'))"
 
       - name: Eseguibile singolo
