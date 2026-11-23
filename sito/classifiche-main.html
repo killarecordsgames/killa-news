@@ -1,0 +1,62 @@
+<main id="contenuto" class="container cl-pagina">
+    <p class="eyebrow">KILLA RECORDS GAMES</p>
+    <h1>Classifiche dei giochi</h1>
+    <p>Ogni settimana sfidi gli altri giocatori di <strong>Il Mio Bar</strong> e <strong>Global Manager</strong>. Vince chi guadagna di più dal lunedì alla domenica. Il lunedì a mezzanotte la settimana si chiude e il vincitore viene pubblicato qui, con il suo nickname.</p>
+
+    <section aria-labelledby="titolo-vincitori" class="cl-blocco">
+      <h2 id="titolo-vincitori">Vincitori della settimana</h2>
+      <div id="cl-vincitori" aria-live="polite"><p>Caricamento dei vincitori…</p></div>
+    </section>
+
+    <section aria-labelledby="titolo-corrente" class="cl-blocco">
+      <h2 id="titolo-corrente">Classifica della settimana in corso</h2>
+      <p id="cl-periodo" class="cl-nota"></p>
+      <div id="cl-tabelle" aria-live="polite"><p>Caricamento della classifica…</p></div>
+      <p class="cl-nota">Il punteggio è quanto hai guadagnato da lunedì: per Il Mio Bar conta la cassa del bar, per Global Manager il patrimonio verificato dal server. Il totale è quello che hai adesso. Vengono mostrati i primi 20 di ogni gioco.</p>
+    </section>
+
+    <section aria-labelledby="titolo-partecipa" class="cl-blocco cl-partecipa">
+      <h2 id="titolo-partecipa">Partecipa alla classifica</h2>
+      <p>La classifica è facoltativa: compari solo se scegli un nickname. Entra con lo stesso account (email e password) che usi nei giochi. Il nickname è l'unica cosa che vedono gli altri: non usare il tuo nome e cognome.</p>
+
+      <form id="cl-accesso" novalidate>
+        <h3>Entra con il tuo account dei giochi</h3>
+        <p>
+          <label for="cl-email">Email</label><br>
+          <input id="cl-email" type="email" autocomplete="email" required>
+        </p>
+        <p>
+          <label for="cl-password">Password</label><br>
+          <input id="cl-password" type="password" autocomplete="current-password" required>
+        </p>
+        <button type="submit" class="button button-primary">Entra</button>
+      </form>
+
+      <form id="cl-nick" hidden novalidate>
+        <h3>Il tuo nickname</h3>
+        <p id="cl-stato"></p>
+        <p>
+          <label for="cl-nickname">Nickname (da 3 a 20 caratteri: lettere, numeri, spazio, punto, trattino)</label><br>
+          <input id="cl-nickname" type="text" maxlength="20" autocomplete="nickname" required aria-describedby="cl-nick-aiuto">
+        </p>
+        <p id="cl-nick-aiuto" class="cl-nota">Nickname offensivi non sono accettati e possono essere rimossi.</p>
+        <button type="submit" class="button button-primary" id="cl-salva">Partecipa alla classifica</button>
+        <button type="button" class="button button-secondary" id="cl-esci-classifica" hidden>Esci dalla classifica</button>
+        <button type="button" class="button button-secondary" id="cl-logout">Esci dall'account</button>
+      </form>
+
+      <p id="cl-messaggio" role="status" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="titolo-regole" class="cl-blocco">
+      <h2 id="titolo-regole">Regole in breve</h2>
+      <ul>
+        <li>La settimana va dal lunedì alla domenica, ora italiana.</li>
+        <li>Il tuo punteggio parte da zero dal momento in cui ti iscrivi alla classifica.</li>
+        <li>Vince chi ha guadagnato di più nella settimana. Se nessuno guadagna, quella settimana non c'è un vincitore.</li>
+        <li>Puoi cambiare nickname o uscire dalla classifica quando vuoi da questa pagina.</li>
+        <li>Chi imbroglia o usa nickname offensivi viene tolto dalla classifica.</li>
+      </ul>
+      <p>Non hai ancora i giochi? Scaricali dalla pagina <a href="/games">Games</a>.</p>
+    </section>
+  </main>
