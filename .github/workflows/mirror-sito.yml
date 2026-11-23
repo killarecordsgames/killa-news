@@ -1,0 +1,31 @@
+name: Copia pagine del sito
+on:
+  push:
+    branches: [main]
+    paths: ['.github/mirror-trigger']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  copia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica le pagine pubbliche
+        run: |
+          mkdir -p sito/originali
+          for p in index music games app killa-news news about contact privacy termini classifiche epk scarica-il-mio-bar articolo; do
+            f=$p; [ "$p" = index ] && u="" || u="$p"
+            curl -fsSL "https://www.killarecordsgames.com/$u" -o "sito/originali/$f.html"
+          done
+          for a in style.css site-content.js news.js share.js killa-newsletter.js contact.js articolo.js supabase-config.js killa-assistant.js .htaccess; do
+            curl -fsSL "https://www.killarecordsgames.com/$a" -o "sito/originali/$a" || echo "manca $a"
+          done
+          ls -la sito/originali
+      - name: Salva nel repository
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sito/originali
+          git commit -m "Copia delle pagine del sito" || echo "niente di nuovo"
+          git push
