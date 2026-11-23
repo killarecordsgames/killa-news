@@ -11,10 +11,8 @@ globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
 };
 const { gestisci } = await import("../supabase/killa-news-telegram/index.ts");
 for (const t of ["/start", "📰 Prima pagina", "⚽ Sport", "Verona", "Juventus", "🎧 Giornale parlato", "/giornale"]) {
-  inviati.length = 0;
-  await gestisci({ message: { chat: { id: 1 }, text: t } });
   // deno-lint-ignore no-explicit-any
-  const m: any = inviati[0];
-  console.log("=== " + t + " -> " + m?.metodo);
-  console.log(String(m?.corpo?.text ?? m?.corpo?.audio ?? "").slice(0, 600));
+  const m: any = await gestisci({ message: { chat: { id: 1 }, text: t } });
+  console.log("=== " + t + " -> " + m?.method + " (chiamate dirette a Telegram: " + inviati.length + ")");
+  console.log(String(m?.text ?? m?.audio ?? "").slice(0, 600));
 }

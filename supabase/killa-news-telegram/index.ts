@@ -1,7 +1,7 @@
 // Bot Telegram di KILLA NEWS: le notizie sul telefono, accessibili con VoiceOver e TalkBack.
 // Segreto richiesto: TELEGRAM_BOT_TOKEN (creato dal titolare con @BotFather).
 // Il bot non salva nessun dato degli utenti: legge il messaggio, risponde e dimentica.
-// Prima configurazione: aprire una volta l'indirizzo della funzione con ?configura=1.
+// Prima configurazione: pagina https://killarecordsgames.github.io/killa-news/telegram/ (il token resta nel browser del titolare).
 
 const TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "";
 const API = `https://api.telegram.org/bot${TOKEN}`;
@@ -101,27 +101,21 @@ async function cerca(testo: string) {
   return elenco(`Notizie su «${q}»`, notizie);
 }
 
-async function invia(chat: number, testo: string) {
-  await fetch(`${API}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chat, text: testo, parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: TASTIERA }),
-  });
+// Le risposte non partono con una chiamata a Telegram ma tornano nella risposta al webhook
+// (Telegram lo permette): così il bot funziona anche quando i server di Supabase sono limitati da Telegram.
+function invia(chat: number, testo: string) {
+  return { method: "sendMessage", chat_id: chat, text: testo, parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: TASTIERA };
 }
 
 async function giornaleParlato(chat: number) {
   try {
     const p = await (await fetch(PODCAST, { signal: AbortSignal.timeout(8000) })).json();
+    if (!p.file) throw new Error("manca il file");
     const audio = `https://killarecordsgames.github.io/killa-news/podcast/${p.file}`;
-    const r = await fetch(`${API}/sendAudio`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chat, audio, title: p.titolo, performer: "KILLA NEWS", caption: "🎧 " + p.titolo + ". Le notizie principali di oggi, lette ad alta voce.", reply_markup: TASTIERA }),
-    });
-    if (!r.ok) throw new Error(await r.text());
+    return { method: "sendAudio", chat_id: chat, audio, title: p.titolo, performer: "KILLA NEWS", caption: "🎧 " + p.titolo + ". Le notizie principali di oggi, lette ad alta voce.", reply_markup: TASTIERA };
   } catch (e) {
     console.error("giornale parlato", e);
-    await invia(chat, "Il giornale parlato di oggi non è ancora pronto. Esce ogni mattina verso le sei e mezza: riprova più tardi.");
+    return invia(chat, "Il giornale parlato di oggi non è ancora pronto. Esce ogni mattina verso le sei e mezza: riprova più tardi.");
   }
 }
 
@@ -132,9 +126,9 @@ const AIUTO = "<b>Benvenuto nel bot di KILLA NEWS!</b>\n\n" +
   "• Scrivi il nome di una <b>città</b> (per esempio Verona) o un <b>argomento</b> (per esempio Juventus o pensioni) e ti mando le ultime notizie.\n\n" +
   "Il bot è gratuito e non salva i tuoi messaggi. È un servizio di Killa Records: killarecordsgames.com";
 
-async function gestisci(update: any) {
+async function gestisci(update: any): Promise<Record<string, unknown> | null> {
   const msg = update.message;
-  if (!msg?.chat?.id || typeof msg.text !== "string") return;
+  if (!msg?.chat?.id || typeof msg.text !== "string") return null;
   const chat = msg.chat.id;
   const testo = msg.text.replace(/[^\p{L}\p{N}\s'’.,-]/gu, " ").replace(/\s+/g, " ").trim();
   if (/^\/?(start|aiuto|help)\b/i.test(msg.text.trim()) || /^aiuto$/i.test(testo)) return invia(chat, AIUTO);
@@ -189,7 +183,8 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("ok");
   if (req.headers.get("X-Telegram-Bot-Api-Secret-Token") !== await segretoWebhook()) return new Response("no", { status: 401 });
   try {
-    await gestisci(await req.json());
+    const risposta = await gestisci(await req.json());
+    if (risposta) return new Response(JSON.stringify(risposta), { headers: { "Content-Type": "application/json" } });
   } catch (e) {
     console.error("errore", e);
   }
