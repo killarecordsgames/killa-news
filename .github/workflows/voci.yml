@@ -1,0 +1,40 @@
+name: Genera le voci dei video
+on:
+  push:
+    branches: [main]
+    paths: ['voci/testi.txt', '.github/workflows/voci.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  voci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Installa Piper e le voci italiane
+        run: |
+          pip install piper-tts
+          base=https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT
+          curl -fsSL -o paola.onnx $base/paola/medium/it_IT-paola-medium.onnx
+          curl -fsSL -o paola.onnx.json $base/paola/medium/it_IT-paola-medium.onnx.json
+          curl -fsSL -o riccardo.onnx $base/riccardo/x_low/it_IT-riccardo-x_low.onnx
+          curl -fsSL -o riccardo.onnx.json $base/riccardo/x_low/it_IT-riccardo-x_low.onnx.json
+          curl -fsSL -o paola.MODEL_CARD $base/paola/medium/MODEL_CARD || true
+      - name: Genera
+        run: |
+          mkdir -p voci/paola voci/riccardo
+          while IFS='|' read -r v n t; do
+            echo "$t" | piper -m paola.onnx --length_scale 1.0 --sentence_silence 0.2 --output_file voci/paola/v${v}_${n}.wav
+            echo "$t" | piper -m riccardo.onnx --length_scale 1.0 --output_file voci/riccardo/v${v}_${n}.wav
+          done < voci/testi.txt
+          cp paola.MODEL_CARD voci/paola/MODEL_CARD.txt || true
+          ls -la voci/paola | head
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add voci
+          git commit -m "Voci dei video" || echo nulla
+          git push

@@ -1,0 +1,35 @@
+1|1|Hai mai sognato di aprire un bar?
+1|2|Con Il Mio Bar lo fai davvero: compri il locale, servi i clienti, assumi il personale.
+1|3|Si gioca tutto con la tastiera, anche senza vedere, con NVDA e JAWS.
+1|4|C'è anche il multiplayer, per sfidare i tuoi amici.
+1|5|È gratis. Scaricalo da killa records games punto com.
+2|1|Diventa il manager dell'azienda più grande del mondo.
+2|2|Riunioni, segretarie, contabilità, e la tua auto per girare la città.
+2|3|Suoni realistici e comandi da tastiera: è pensato per chi non vede.
+2|4|E online lavori insieme agli altri giocatori, nella stessa azienda.
+2|5|Global Manager, da Killa Records Games.
+3|1|Ogni settimana, una nuova sfida.
+3|2|Gioca a Il Mio Bar o a Global Manager, e guadagna più di tutti.
+3|3|Il lunedì a mezzanotte pubblichiamo il vincitore della settimana, con il suo nickname.
+3|4|Iscriviti alla classifica dal sito: è facoltativo e gratuito.
+3|5|Chi sarà il primo campione? Tocca a te.
+4|1|Leggere il giornale, senza barriere.
+4|2|Killa News è l'edicola digitale per Windows, pensata per chi usa NVDA.
+4|3|Giornali italiani, locali e di tutto il mondo, in un solo programma.
+4|4|Tutto da tastiera, e si aggiorna da solo.
+4|5|È gratis. Scaricalo da killa records games punto com.
+5|1|Vuoi sapere cosa scrivono i giornali in Giappone, in Marocco o in Brasile?
+5|2|Con Killa News scegli il continente, la nazione o il giornale.
+5|3|Premi Control T, e l'articolo si traduce in italiano.
+5|4|Oppure lo leggi nella lingua originale.
+5|5|Il mondo intero, a portata di tastiera.
+6|1|Non hai voglia di leggere? Te lo legge lui.
+6|2|Killa News legge gli articoli ad alta voce, anche con la voce di NVDA.
+6|3|Premi K, o Esc, e si ferma subito.
+6|4|Salva gli articoli, e rileggili anche senza internet.
+6|5|Killa News: l'informazione, senza barriere.
+7|1|Rap, melodic rap e trap, con barre sincere.
+7|2|Abdu Killa: ogni brano nasce da una storia vera.
+7|3|Ascolta l'album Dalla Cenere al Sole, e il singolo Resta Qui.
+7|4|Lo trovi su Spotify e su YouTube.
+7|5|Killa Records: diamo voce alla musica.
