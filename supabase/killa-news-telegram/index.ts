@@ -3,7 +3,8 @@
 // Il bot non salva nessun dato degli utenti: legge il messaggio, risponde e dimentica.
 // Prima configurazione: pagina https://killarecordsgames.github.io/killa-news/telegram/ (il token resta nel browser del titolare).
 
-const TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "";
+// Dal segreto si prende solo il token vero e proprio, anche se è stato incollato tutto il messaggio di BotFather
+const TOKEN = ((Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "").match(/\d{6,12}:[A-Za-z0-9_-]{35}/) ?? [""])[0];
 const API = `https://api.telegram.org/bot${TOKEN}`;
 const UA = "KillaNews-Telegram/1.0 (+https://www.killarecordsgames.com/killa-news)";
 const PODCAST = "https://killarecordsgames.github.io/killa-news/podcast/ultima.json";
@@ -151,6 +152,7 @@ Deno.serve(async (req) => {
     const wh = await (await fetch(`${API}/getWebhookInfo`)).json();
     const r = wh.result || {};
     return new Response(JSON.stringify({
+      token_trovato: TOKEN !== "", segreto_con_testo_in_piu: (Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "").trim() !== TOKEN,
       bot: me.ok ? me.result.username : me, webhook: r.url || "(nessuno)", in_attesa: r.pending_update_count,
       ultimo_errore: r.last_error_message || "", data_errore: r.last_error_date ? new Date(r.last_error_date * 1000).toISOString() : "",
     }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
