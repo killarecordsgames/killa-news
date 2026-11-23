@@ -350,7 +350,12 @@ class ReaderDialog(wx.Dialog):
         def work():
             db = Database(db_path)
             try:
-                return translator.translate_article(art, translator.TranslationStore(db))
+                try:
+                    row = db.conn.execute("SELECT language FROM sources WHERE id = ?", (art.source_id,)).fetchone()
+                    lingua = (row[0] if row else "") or ""
+                except Exception:
+                    lingua = ""
+                return translator.translate_article(art, translator.TranslationStore(db), source_lang=lingua)
             finally:
                 db.close()
 

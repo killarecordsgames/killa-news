@@ -614,10 +614,10 @@ class TestTraduzione(unittest.TestCase):
             headers = {}
             calls = 0
 
-            def get(self, url, params=None, timeout=None):
+            def post(self, url, params=None, data=None, timeout=None):
                 FakeSession.calls += 1
-                q = params["q"]
-                return FakeResp([[["IT:" + line, line] for line in q.split("\n")], None, "en"])
+                q = data["q"]
+                return FakeResp([["\n".join("IT:" + line for line in q.split("\n")), "en"]])
 
         core = new_core("traduzione")
         sid = core.db.query_one("SELECT id FROM sources LIMIT 1")["id"]
@@ -637,6 +637,75 @@ class TestTraduzione(unittest.TestCase):
         self.assertEqual(again["body"], res["body"])
         self.assertEqual(FakeSession.calls, calls)  # seconda volta dalla memoria, senza rete
         core.db.close()
+
+    def test_google_occupato_si_usa_mymemory_con_la_lingua_della_testata(self):
+        from killanews import translator
+        translator._PAUSA.clear()
+
+        class Resp:
+            def __init__(self, code, data=None):
+                self.status_code, self.data = code, data
+
+            def raise_for_status(self):
+                if self.status_code >= 400:
+                    raise translator.requests.HTTPError(str(self.status_code))
+
+            def json(self):
+                return self.data
+
+        class Sess:
+            headers = {}
+            coppie = []
+            post_calls = 0
+
+            def post(self, url, params=None, data=None, timeout=None):
+                Sess.post_calls += 1
+                return Resp(429)
+
+            def get(self, url, params=None, timeout=None):
+                Sess.coppie.append(params["langpair"])
+                return Resp(200, {"responseStatus": 200, "responseData": {"translatedText": "IT:" + params["q"]}})
+
+        testo = "Bonjour. " * 120 + "\nDeuxième paragraphe."
+        out, lang = translator.translate_text(testo, "fr", session=Sess())
+        self.assertEqual(lang, "fr")
+        self.assertTrue(all(c == "fr|it" for c in Sess.coppie))
+        self.assertTrue(len(Sess.coppie) >= 3)  # testo lungo diviso in pezzi brevi, niente tagliato
+        self.assertIn("IT:Deuxième paragraphe.", out)
+        self.assertEqual(out.count("Bonjour"), 120)
+        # Google ha risposto 429: per qualche minuto non lo si riprova
+        prima = Sess.post_calls
+        translator.translate_text("Salut", "fr", session=Sess())
+        self.assertEqual(Sess.post_calls, prima)
+        # senza lingua nota si usa il rilevamento automatico
+        Sess.coppie.clear()
+        translator.translate_text("Hola amigos", "", session=Sess())
+        self.assertEqual(Sess.coppie, ["autodetect|it"])
+        translator._PAUSA.clear()
+
+    def test_tutti_i_servizi_occupati(self):
+        from killanews import translator
+        translator._PAUSA.clear()
+
+        class Resp:
+            status_code = 429
+
+            def raise_for_status(self):
+                raise translator.requests.HTTPError("429")
+
+        class Sess:
+            headers = {}
+
+            def post(self, *a, **k):
+                return Resp()
+
+            def get(self, *a, **k):
+                return Resp()
+
+        with self.assertRaises(translator.TranslationError) as ctx:
+            translator.translate_text("Bonjour", "fr", session=Sess())
+        self.assertIn("occupati", str(ctx.exception))
+        translator._PAUSA.clear()
 
 
 class TestMigrazione(unittest.TestCase):
