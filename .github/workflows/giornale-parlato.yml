@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Recupera le puntate già pubblicate
         run: |
-          git fetch origin gh-pages --depth=1 && git worktree add pagine origin/gh-pages || mkdir -p pagine
+          git fetch origin gh-pages --depth=1 && git worktree add --detach pagine origin/gh-pages || mkdir -p pagine
           mkdir -p pagine/podcast
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
@@ -35,11 +35,13 @@ jobs:
           cp podcast/copertina.png pagine/podcast/copertina.png
           python podcast/giornale_parlato.py pagine/podcast
       - name: Pubblica (ramo gh-pages, solo le ultime 30 puntate)
+        env: { GH_TOKEN: '${{ github.token }}' }
         run: |
           cd pagine
+          rm -rf .git
           touch .nojekyll
           printf '<!DOCTYPE html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=https://www.killarecordsgames.com/giornale-parlato"><title>Il giornale parlato di KILLA NEWS</title><a href="https://www.killarecordsgames.com/giornale-parlato">Il giornale parlato di KILLA NEWS</a>' > index.html
-          git checkout --orphan nuova 2>/dev/null || git checkout -B nuova
+          git init -q -b gh-pages
           git add -A
           git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -q -m "Giornale parlato $(date +%F)"
-          git push -f origin HEAD:gh-pages
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:gh-pages
