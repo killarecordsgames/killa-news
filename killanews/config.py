@@ -3,7 +3,7 @@ import os
 import sys
 
 APP_NAME = "KILLA NEWS"
-APP_VERSION = "1.5.0"
+APP_VERSION = "1.5.1"
 PRODUCER = "Killa Records"
 SLOGAN = "L'informazione, senza barriere."
 APP_ID = "KillaNews"

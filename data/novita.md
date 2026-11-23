@@ -1,5 +1,9 @@
 # Novità di KILLA NEWS
 
+## Versione 1.5.1 (23 novembre 2026)
+- Corretto: la traduzione degli articoli non funzionava quando il servizio di Google era occupato e compariva «Traduzione non riuscita». Ora KILLA NEWS prova da solo altri servizi di traduzione gratuiti, usa la lingua del giornale e traduce anche gli articoli lunghi per intero.
+- Modificato: se tutti i servizi sono occupati, il messaggio lo dice chiaramente e ti chiede di riprovare tra qualche minuto, invece di parlare di problemi di connessione.
+
 ## Versione 1.5.0 (22 novembre 2026)
 - Aggiunto: condividi un articolo con Ctrl+Maiusc+C o con il pulsante «Condividi»: puoi mandarlo su WhatsApp, per email oppure copiare titolo e collegamento negli appunti.
 - Aggiunto: statistiche anonime d'uso. KILLA NEWS invia a Killa Records solo la versione, il tipo di installazione e quante volte vengono usate le sezioni, con un codice casuale che non dice chi sei: nessun nome, nessun articolo letto, nessuna ricerca. Si possono disattivare in Impostazioni.
