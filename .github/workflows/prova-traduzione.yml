@@ -1,0 +1,15 @@
+name: Prova traduzione
+on:
+  push:
+    branches: [main]
+    paths: ['tools/prova_traduzione.py']
+  workflow_dispatch:
+jobs:
+  prova:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install requests
+      - run: python tools/prova_traduzione.py
