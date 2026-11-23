@@ -82,7 +82,10 @@ function unisci(liste: Notizia[][], quante: number): Notizia[] {
 function elenco(titolo: string, notizie: Notizia[]): string {
   if (!notizie.length) return `<b>${esc(titolo)}</b>\n\nNon ho trovato notizie in questo momento. Riprova tra poco.`;
   const righe = notizie.map((n, i) => `${i + 1}. <a href="${esc(n.link)}">${esc(n.titolo)}</a>, ${esc(n.giornale)}`);
-  return `<b>${esc(titolo)}</b>\n\n${righe.join("\n\n")}\n\n<i>Tocca un titolo per leggere l'articolo. Per leggere tutto con NVDA sul computer c'è l'app gratuita KILLA NEWS: killarecordsgames.com/killa-news</i>`;
+  const piede = "\n\n<i>Tocca un titolo per leggere l'articolo. Per leggere tutto con NVDA sul computer c'è l'app gratuita KILLA NEWS: killarecordsgames.com/killa-news</i>";
+  // Telegram accetta messaggi fino a 4096 caratteri: se serve si tolgono le ultime notizie
+  while (righe.length > 1 && (`<b>${titolo}</b>\n\n` + righe.join("\n\n") + piede).length > 4000) righe.pop();
+  return `<b>${esc(titolo)}</b>\n\n${righe.join("\n\n")}${piede}`;
 }
 
 async function sezione(chiave: string) {
