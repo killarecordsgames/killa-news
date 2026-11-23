@@ -185,13 +185,35 @@ def launch_installer(path: str, kind: str) -> None:
     """Avvia l'installazione. Il chiamante deve poi chiudere KILLA NEWS subito."""
     flags = getattr(subprocess, "DETACHED_PROCESS", 0) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
     if kind == "installata":
-        # Inno Setup: installazione silenziosa che chiude e poi riavvia il programma (vedi [Run] nel file .iss).
-        # Si installa nella STESSA cartella e con gli STESSI permessi della versione in uso: se la cartella
-        # è protetta (installazione per tutti gli utenti) serve /ALLUSERS e Windows chiede la conferma.
+        # Inno Setup: installazione silenziosa nella STESSA cartella e con gli STESSI permessi della versione
+        # in uso (se la cartella è protetta serve /ALLUSERS e Windows chiede la conferma).
+        # L'installatore parte solo DOPO che KILLA NEWS si è chiuso del tutto: così non deve chiuderlo lui
+        # (prima, se il programma tardava a chiudersi, l'installazione restava ferma). Scrive un registro
+        # in %APPDATA%\\KillaNews\\installazione.log per capire cosa è successo se qualcosa va storto.
         folder = config.program_dir()
         mode = "/CURRENTUSER" if folder_is_writable(folder) else "/ALLUSERS"
-        subprocess.Popen([path, "/SILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CLOSEAPPLICATIONS",
-                          mode, f"/DIR={folder}", "/AGGIORNAMENTO"], close_fds=True, creationflags=flags)
+        log_path = os.path.join(config.user_data_dir(), "installazione.log")
+        script = os.path.join(os.path.dirname(path), "installa_killa_news.cmd")
+        pid = os.getpid()
+        lines = [
+            "@echo off",
+            "chcp 65001 >nul",
+            "set ATTESA=0",
+            ":attendi",
+            f'tasklist /FI "PID eq {pid}" 2>nul | find "{pid}" >nul',
+            "if errorlevel 1 goto installa",
+            "set /a ATTESA+=1",
+            "if %ATTESA% GEQ 20 taskkill /PID " + str(pid) + " /F >nul 2>&1",
+            "timeout /t 1 /nobreak >nul",
+            "goto attendi",
+            ":installa",
+            f'start "" "{path}" /SILENT /SUPPRESSMSGBOXES /NORESTART {mode} "/DIR={folder}" "/LOG={log_path}" /AGGIORNAMENTO',
+            'del "%~f0"',
+        ]
+        with open(script, "w", encoding="utf-8", newline="\r\n") as fh:
+            fh.write("\r\n".join(lines) + "\r\n")
+        subprocess.Popen(["cmd.exe", "/c", script], close_fds=True,
+                         creationflags=flags | getattr(subprocess, "CREATE_NO_WINDOW", 0))
         return
     # Eseguibile singolo: uno script aspetta che KILLA NEWS si chiuda, sostituisce il file e lo riavvia.
     target = sys.executable

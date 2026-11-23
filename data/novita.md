@@ -1,5 +1,10 @@
 # Novità di KILLA NEWS
 
+## Versione 1.5.2 (23 novembre 2026)
+- Corretto: l'aggiornamento automatico poteva bloccarsi e Windows diceva che KILLA NEWS «non risponde». Ora KILLA NEWS si chiude del tutto prima di installare la nuova versione, e se la chiusura si blocca esce comunque.
+- Aggiunto: prima di installare un aggiornamento, KILLA NEWS ti dice a voce cosa fare se Windows chiede conferma («Sì» al Controllo account utente; «Ulteriori informazioni» e poi «Esegui comunque» se compare «Windows ha protetto il PC»).
+- Aggiunto: l'installazione degli aggiornamenti scrive un registro, così se qualcosa va storto si capisce subito il motivo.
+
 ## Versione 1.5.1 (23 novembre 2026)
 - Corretto: la traduzione degli articoli non funzionava quando il servizio di Google era occupato e compariva «Traduzione non riuscita». Ora KILLA NEWS prova da solo altri servizi di traduzione gratuiti, usa la lingua del giornale e traduce anche gli articoli lunghi per intero.
 - Modificato: se tutti i servizi sono occupati, il messaggio lo dice chiaramente e ti chiede di riprovare tra qualche minuto, invece di parlare di problemi di connessione.

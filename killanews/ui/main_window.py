@@ -232,10 +232,17 @@ class MainFrame(wx.Frame):
             if app_updates.is_newer(pending, config.APP_VERSION):
                 log.warning("Aggiornamento a %s non completato (versione in uso %s, cartella %s)",
                             pending, config.APP_VERSION, config.program_dir())
+                try:
+                    with open(os.path.join(config.user_data_dir(), "installazione.log"), encoding="utf-8",
+                              errors="replace") as fh:
+                        log.warning("Ultime righe del registro di installazione:\n%s", "".join(fh.readlines()[-25:]))
+                except OSError:
+                    pass
                 wx.CallLater(1500, lambda: common.error(
                     self, f"L'aggiornamento a KILLA NEWS {pending} non è stato completato: stai ancora usando la "
-                          f"versione {config.APP_VERSION}.\n\nPossibili cause: la richiesta di Windows è stata "
-                          "annullata oppure l'antivirus ha bloccato l'installazione. Puoi riprovare dal menu "
+                          f"versione {config.APP_VERSION}.\n\nPossibili cause: la richiesta di Windows (Controllo account utente "
+                          "oppure «Windows ha protetto il PC») è stata annullata o è rimasta senza risposta, "
+                          "oppure l'antivirus ha bloccato l'installazione. Puoi riprovare dal menu "
                           "Killa Records, «Controlla aggiornamenti di KILLA NEWS», oppure scaricare la nuova "
                           "versione da www.killarecordsgames.com/killa-news."))
         previous = self.core.settings.get("last_run_version", "") or ""
@@ -387,8 +394,17 @@ class MainFrame(wx.Frame):
                 common.error(self, "Impossibile avviare l'aggiornamento. Puoi scaricare la nuova versione dal sito.")
                 return
             self.core.settings.set("pending_update", info.version, notify=False)
-            announce("Aggiornamento scaricato. KILLA NEWS si chiude e si riapre tra pochi secondi.")
-            wx.CallLater(1500, self.Close)
+            if kind == "installata":
+                announce("Aggiornamento scaricato. KILLA NEWS si chiude e installa la nuova versione. "
+                         "Se Windows chiede conferma, scegli Sì. Se compare Windows ha protetto il PC, scegli "
+                         "Ulteriori informazioni e poi Esegui comunque. Poi KILLA NEWS si riapre da solo.")
+            else:
+                announce("Aggiornamento scaricato. KILLA NEWS si chiude e si riapre tra pochi secondi.")
+            # Se la chiusura si blocca, il programma esce comunque: l'installazione aspetta che sia chiuso.
+            guardia = threading.Timer(12, lambda: os._exit(0))
+            guardia.daemon = True
+            guardia.start()
+            wx.CallLater(4000 if kind == "installata" else 1500, self.Close)
 
         threading.Thread(target=lavoro, name="download-aggiornamento", daemon=True).start()
 
