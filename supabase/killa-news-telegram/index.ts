@@ -152,9 +152,22 @@ async function segretoWebhook() {
 Deno.serve(async (req) => {
   if (!TOKEN) return new Response("Manca il segreto TELEGRAM_BOT_TOKEN", { status: 500 });
   const url = new URL(req.url);
+  if (req.method === "GET" && url.searchParams.get("stato") === "1") {
+    const me = await (await fetch(`${API}/getMe`)).json();
+    const wh = await (await fetch(`${API}/getWebhookInfo`)).json();
+    const r = wh.result || {};
+    return new Response(JSON.stringify({
+      bot: me.ok ? me.result.username : me, webhook: r.url || "(nessuno)", in_attesa: r.pending_update_count,
+      ultimo_errore: r.last_error_message || "", data_errore: r.last_error_date ? new Date(r.last_error_date * 1000).toISOString() : "",
+    }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
+  }
   if (req.method === "GET" && url.searchParams.get("configura") === "1") {
     const indirizzo = `https://${url.host}/functions/v1/killa-news-telegram`;
     const segreto = await segretoWebhook();
+    const info = await (await fetch(`${API}/getWebhookInfo`)).json();
+    if (info.ok && info.result?.url === indirizzo) {
+      return new Response("Bot già collegato a questo indirizzo.", { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+    }
     const r1 = await fetch(`${API}/setWebhook`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url: indirizzo, secret_token: segreto, allowed_updates: ["message"], drop_pending_updates: true }),
