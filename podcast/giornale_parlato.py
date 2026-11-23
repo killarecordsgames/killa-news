@@ -36,6 +36,7 @@ SEZIONI = [  # (titolo letto, prefissi di categoria, quante notizie)
     ("Tecnologia", ("tecnologia",), 3),
 ]
 PREFERITE = ["ansa", "agi", "rainews", "adnkronos", "ilpost", "corriere", "repubblica", "sole24ore", "lastampa"]
+SCARTA = re.compile(r"pronostic|quote e consigli|scommess|oroscopo|lotto|superenalotto", re.I)
 TACI = re.compile(r"\b(VIDEO|FOTO|LIVE|DIRETTA|PODCAST|GALLERY|INTERVISTA)\b\s*[:|\-–]?\s*", re.I)
 PAROLE_VUOTE = set("il lo la i gli le un una di a da in con su per tra fra e o ma che non è ai al alla alle agli del della dei delle degli nel nella nei nelle sul sulla dopo come piu più".split())
 
@@ -75,7 +76,7 @@ def raccogli():
                 if quando < limite:
                     continue
                 titolo = pulisci(e.get("title", ""), f["nome"])
-                if len(titolo) < 25 or len(titolo) > 220:
+                if len(titolo) < 25 or len(titolo) > 220 or SCARTA.search(titolo):
                     continue
                 notizie.append({"titolo": titolo, "testata": f["nome"], "id": f["id"], "cat": categoria,
                                 "pos": i, "quando": quando, "parole": parole(titolo)})
