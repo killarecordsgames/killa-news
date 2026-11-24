@@ -46,13 +46,15 @@ Deno.serve(async (req) => {
     if (!r.ok) throw new Error(percorso.split("?")[0] + ": " + r.status);
     return await r.json();
   };
-  const nomi = ["totale", "pagine", "provenienza", "paesi", "sistemi"];
+  // Il totale non si chiede più a /stats/total (sul nostro GoatCounter risponde 404):
+  // i visitatori sono la somma dei paesi (ogni visitatore ha un solo paese) e i clic
+  // sono la somma degli eventi tra le pagine.
+  const nomi = ["pagine", "provenienza", "paesi", "sistemi"];
   // una richiesta alla volta: GoatCounter limita le richieste troppo ravvicinate
   const percorsi = [
-    "/stats/total?" + periodo,
-    "/stats/hits?" + periodo + "&limit=30",
+    "/stats/hits?" + periodo + "&limit=100",
     "/stats/toprefs?" + periodo + "&limit=15",
-    "/stats/locations?" + periodo + "&limit=15",
+    "/stats/locations?" + periodo + "&limit=100",
     "/stats/systems?" + periodo + "&limit=10",
   ];
   const risultati: PromiseSettledResult<unknown>[] = [];
@@ -69,5 +71,16 @@ Deno.serve(async (req) => {
     if (r.status === "fulfilled") out[nomi[i]] = r.value;
     else (out.errori as string[]).push(String(r.reason));
   });
+  // deno-lint-ignore no-explicit-any
+  const somma = (lista: any[] | undefined, filtro: (x: any) => boolean = () => true) =>
+    (lista ?? []).filter(filtro).reduce((t, x) => t + (Number(x.count) || 0), 0);
+  // deno-lint-ignore no-explicit-any
+  const pagine = out.pagine as any, paesi = out.paesi as any;
+  out.totale = {
+    total: somma(paesi?.stats),
+    total_events: somma(pagine?.hits, (h) => h.event === true),
+  };
+  if (pagine?.hits) pagine.hits = pagine.hits.slice(0, 30);
+  if (paesi?.stats) paesi.stats = paesi.stats.slice(0, 15);
   return risposta(200, out);
 });
