@@ -2,7 +2,7 @@ name: Prova bot Telegram
 on:
   push:
     branches: [main]
-    paths: ['tools/prova_bot.ts', 'supabase/killa-news-telegram/**']
+    paths: ['tools/prova_bot.ts', 'supabase/killa-news-telegram/**', 'supabase/killa-vault/**']
   workflow_dispatch:
 jobs:
   prova:
@@ -11,4 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
         with: { deno-version: v2.x }
+      - name: Controllo della funzione del Vault
+        run: deno check supabase/killa-vault/index.ts
       - run: deno run --allow-net --allow-env tools/prova_bot.ts
