@@ -13,7 +13,6 @@ CANZONI = [  # (titolo da cercare, interprete, titolo da mostrare)
     ("Torna a Surriento", "Gigli", "Torna a Surriento"),
     ("Marechiare", "Schipa", "Marechiare"),
     ("Funiculi", "", "Funiculì funiculà"),
-    ("Musica proibita", "", "Musica proibita"),
 ]
 UA = {"User-Agent": "KillaRadio/1.0 (killarecordsgames.com)"}
 

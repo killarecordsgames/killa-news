@@ -2,15 +2,24 @@ name: Killa Radio - canzoni d'epoca
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   scarica:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-      - run: python3 tools/radio_epoca.py epoca
-      - uses: actions/upload-artifact@v4
-        with:
-          name: epoca
-          path: epoca/
+      - run: python3 tools/radio_epoca.py /tmp/epoca
+      - name: Carica in radio/epoca sul ramo gh-pages
+        run: |
+          git fetch origin gh-pages
+          git worktree add /tmp/ghp origin/gh-pages
+          cd /tmp/ghp
+          git checkout -B gh-pages
+          mkdir -p radio/epoca
+          cp /tmp/epoca/*.mp3 /tmp/epoca/epoca.json radio/epoca/
+          git config user.name "Killa Records"
+          git config user.email "info@killarecordsgames.com"
+          git add radio/epoca
+          git commit -m "Killa Radio: canzoni d'epoca di dominio pubblico"
+          git push origin gh-pages
