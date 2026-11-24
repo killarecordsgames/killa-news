@@ -45,3 +45,12 @@ jobs:
           git add -A
           git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -q -m "Giornale parlato $(date +%F)"
           git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:gh-pages
+      - name: Pubblica il giornale nel gruppo Telegram Killa Radio
+        run: |
+          # GitHub Pages impiega circa un minuto a mettere online la puntata nuova
+          for i in 1 2 3 4 5; do
+            sleep 90
+            esito=$(curl -s "https://srkepkkkwrmutzcecrdw.supabase.co/functions/v1/killa-news-telegram?mattino=1")
+            echo "$esito"
+            case "$esito" in *pubblicato*|*Già*) break;; esac
+          done
