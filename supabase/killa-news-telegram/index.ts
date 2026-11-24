@@ -97,8 +97,15 @@ async function sezione(chiave: string) {
 
 async function cerca(testo: string) {
   const q = testo.slice(0, 80);
-  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}+when:3d&hl=it&gl=IT&ceid=IT:it`;
-  const notizie = unisci([await leggiFeed(url, "")], 8);
+  const enc = encodeURIComponent(q);
+  // 1) Google News; 2) Bing News se Google non risponde dai server di Supabase; 3) i titoli delle sezioni che contengono la parola
+  let notizie = unisci([await leggiFeed(`https://news.google.com/rss/search?q=${enc}+when:3d&hl=it&gl=IT&ceid=IT:it`, "")], 8);
+  if (!notizie.length) notizie = unisci([await leggiFeed(`https://www.bing.com/news/search?q=${enc}&format=rss&setlang=it-IT&cc=IT`, "Bing News")], 8);
+  if (!notizie.length) {
+    const parole = q.toLowerCase().split(/\s+/).filter((p) => p.length > 2);
+    const tutte = await Promise.all(Object.values(SEZIONI).flatMap((s) => s.feed.map(([g, u]) => leggiFeed(u, g))));
+    notizie = unisci(tutte.map((l) => l.filter((n) => parole.some((p) => n.titolo.toLowerCase().includes(p)))), 8);
+  }
   return elenco(`Notizie su «${q}»`, notizie);
 }
 
