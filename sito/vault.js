@@ -114,7 +114,7 @@
     var c = cosaSuona();
     attuale = c.voce;
     $("v-in-onda").textContent = c.voce.titolo;
-    if (audio.src !== c.voce.url) audio.src = c.voce.url;
+    if (audio.src !== c.voce.url) { audio.preload = "auto"; audio.src = c.voce.url; audio.load(); }
     var parti = function () {
       try { audio.currentTime = Math.max(0, c.offset - 0.5); } catch (e) { /* alcuni browser non lo permettono subito */ }
       audio.play().catch(function () { /* il browser vuole un clic */ });
