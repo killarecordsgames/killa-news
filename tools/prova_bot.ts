@@ -21,14 +21,20 @@ globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
 const { gestisci } = await import("../supabase/killa-news-telegram/index.ts");
 for (const t of ["/start", "✅ Accetto l'informativa", "/start", "📰 Prima pagina", "⚽ Sport", "Verona", "Juventus", "🎧 Giornale parlato", "/giornale"]) {
   // deno-lint-ignore no-explicit-any
-  const m: any = await gestisci({ message: { chat: { id: 1 }, from: { id: 1 }, text: t } });
+  const m: any = await gestisci({ message: { chat: { id: 1, type: "private" }, from: { id: 1 }, text: t } });
   console.log("=== " + t + " -> " + m?.method + " (chiamate dirette a Telegram: " + inviati.length + ")");
   console.log(String(m?.text ?? m?.audio ?? "").slice(0, 600));
 }
 
 // deno-lint-ignore no-explicit-any
-const r: any = await gestisci({ message: { chat: { id: 1 }, from: { id: 1 }, text: "/revoca" } });
+const r: any = await gestisci({ message: { chat: { id: 1, type: "private" }, from: { id: 1 }, text: "/revoca" } });
 console.log("=== /revoca -> " + r.text);
 // deno-lint-ignore no-explicit-any
-const r2: any = await gestisci({ message: { chat: { id: 1 }, from: { id: 1 }, text: "Sport" } });
+const r2: any = await gestisci({ message: { chat: { id: 1, type: "private" }, from: { id: 1 }, text: "Sport" } });
 console.log("=== dopo revoca, Sport -> " + String(r2.text).slice(0, 60));
+// deno-lint-ignore no-explicit-any
+const g: any = await gestisci({ message: { chat: { id: -5, type: "group" }, from: { id: 1 }, text: "Ciao a tutti" } });
+console.log("=== messaggio nel gruppo -> " + (g === null ? "ignorato (giusto)" : "RISPOSTA (sbagliato)"));
+// deno-lint-ignore no-explicit-any
+const a: any = await gestisci({ message: { chat: { id: 1, type: "private" }, from: { id: 1 }, text: "annuncia la diretta Quiz" } });
+console.log("=== annuncia la diretta da non admin -> " + String(a?.text ?? "").slice(0, 50));
