@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Killa Beat Maker | Killa Records</title>
+<meta name="description" content="Killa Beat Maker: crea basi trap e rap con la tastiera, accessibile con NVDA. Di Killa Records.">
+<style>
+  :root { --viola:#7c3aed; --viola2:#2e1065; --oro:#facc15; --fondo:#0d0618; --pannello:#1a0f2e; --testo:#f3eeff; --tenue:#b9a8e0; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--fondo); color:var(--testo); font:17px/1.5 system-ui,"Segoe UI",Arial,sans-serif; }
+  a { color:var(--oro); }
+  .salta { position:absolute; left:-9999px; } .salta:focus { left:8px; top:8px; background:#fff; color:#000; padding:8px; z-index:9; }
+  header { padding:18px 20px 6px; display:flex; flex-wrap:wrap; align-items:baseline; gap:14px; }
+  h1 { margin:0; font-size:1.7rem; letter-spacing:.02em; } h1 span { color:var(--oro); }
+  header p { margin:0; color:var(--tenue); }
+  main { padding:0 20px 40px; max-width:1200px; }
+  section { background:var(--pannello); border:1px solid #3b2a63; border-radius:14px; padding:14px 16px; margin:14px 0; }
+  h2 { margin:0 0 10px; font-size:1.15rem; color:var(--oro); }
+  .riga { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  label { color:var(--tenue); }
+  button, select, input { font:inherit; color:var(--testo); background:#2a1b47; border:1px solid #5b44a0; border-radius:9px; padding:7px 12px; }
+  button:hover { background:#3a2763; }
+  button.grande { background:var(--viola); border-color:var(--viola); font-weight:700; padding:9px 20px; }
+  :focus-visible { outline:3px solid var(--oro); outline-offset:2px; }
+  input[type=number] { width:5.5em; } input[type=range] { width:10em; accent-color:var(--viola); }
+  .griglia { display:grid; grid-template-columns: 150px repeat(16, minmax(30px,1fr)); gap:4px; margin-top:8px; }
+  .nome { display:flex; align-items:center; gap:6px; padding:0 6px; border-radius:8px; background:#24163f; font-weight:600; }
+  .nome small { color:var(--tenue); font-weight:400; }
+  .cella { height:42px; border-radius:7px; background:#2b1c4a; border:1px solid #3d2b66; position:relative; cursor:pointer; padding:0; font-size:11px; color:#fff; }
+  .cella.quarto { background:#33225a; }
+  .cella.on { background:var(--viola); border-color:#a78bfa; }
+  .cella.on.e808 { background:#db2777; border-color:#f9a8d4; }
+  .cella.glide::after { content:"↗"; position:absolute; top:1px; right:3px; color:var(--oro); font-size:12px; }
+  .cella.ora { box-shadow:0 0 0 3px var(--oro) inset; }
+  .muta { opacity:.45; }
+  #annuncio { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  .aiuto dt { font-weight:700; color:var(--oro); } .aiuto dd { margin:0 0 6px 0; }
+  .aiuto dl { display:grid; grid-template-columns: max-content 1fr; gap:4px 16px; }
+  #stato { color:var(--tenue); }
+  footer { color:var(--tenue); padding:0 20px 30px; font-size:.9rem; }
+</style>
+</head>
+<body>
+<a class="salta" href="#zona-griglia">Vai alla griglia dei suoni</a>
+<header>
+  <h1>KILLA <span>BEAT MAKER</span></h1>
+  <p>Crea basi trap e rap con la tastiera. Premi H per l'aiuto.</p>
+</header>
+<div id="annuncio" aria-live="polite" aria-atomic="true"></div>
+<main>
+  <section aria-labelledby="t-trasporto">
+    <h2 id="t-trasporto">Riproduzione</h2>
+    <div class="riga">
+      <button id="play" class="grande" aria-keyshortcuts="Enter">▶ Play</button>
+      <label for="bpm">Velocità (BPM)</label><input id="bpm" type="number" min="50" max="200" value="140">
+      <label for="swing">Swing</label><input id="swing" type="range" min="0" max="60" value="0" aria-valuetext="0 per cento">
+      <label for="volume">Volume generale</label><input id="volume" type="range" min="0" max="100" value="80" aria-valuetext="80 per cento">
+      <label for="modo">Suona</label>
+      <select id="modo"><option value="pattern">solo il pattern scelto</option><option value="canzone">tutta la canzone</option></select>
+      <span id="stato" role="status">Fermo</span>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-pattern">
+    <h2 id="t-pattern">Pattern e canzone</h2>
+    <div class="riga">
+      <label for="pattern">Pattern da modificare</label>
+      <select id="pattern"></select>
+      <button id="duplica">Copia nel pattern successivo</button>
+      <button id="svuota">Svuota il pattern</button>
+      <label for="scala">Nota base dell'808</label>
+      <select id="scala"></select>
+    </div>
+    <div class="riga" style="margin-top:10px">
+      <label for="sequenza">Sequenza della canzone (numeri dei pattern, separati da spazi)</label>
+      <input id="sequenza" type="text" size="40" value="1 1 2 2" aria-describedby="seq-desc">
+      <span id="seq-desc">Esempio: 1 1 2 2 3 2 vuol dire intro, intro, strofa, strofa, ritornello, strofa.</span>
+    </div>
+  </section>
+
+  <section id="zona-griglia" aria-labelledby="t-griglia">
+    <h2 id="t-griglia">Griglia dei suoni: pattern <span id="num-pattern">1</span></h2>
+    <p id="istruzioni-griglia" style="margin:0;color:var(--tenue)">Frecce per muoverti, Spazio per mettere o togliere un colpo, Invio per Play e Stop. Sulla riga dell'808: Pagina su e Pagina giù cambiano la nota, G attiva lo scivolamento, L cambia la lunghezza.</p>
+    <div id="griglia" class="griglia" role="grid" aria-labelledby="t-griglia" aria-describedby="istruzioni-griglia"></div>
+  </section>
+
+  <section aria-labelledby="t-file">
+    <h2 id="t-file">Salva ed esporta</h2>
+    <div class="riga">
+      <label for="nome-progetto">Nome della base</label>
+      <input id="nome-progetto" type="text" value="La mia base Killa">
+      <button id="esporta">Esporta la base in WAV</button>
+      <label for="giri">Ripetizioni nell'esportazione</label>
+      <input id="giri" type="number" min="1" max="16" value="2">
+      <button id="salva-file">Salva il progetto su file</button>
+      <button id="apri-file">Apri un progetto</button>
+      <input id="file-progetto" type="file" accept=".json,application/json" hidden>
+      <button id="demo">Carica la base di esempio</button>
+    </div>
+    <p style="margin:8px 0 0;color:var(--tenue)">Il lavoro si salva da solo in questo browser a ogni modifica.</p>
+  </section>
+
+  <section class="aiuto" aria-labelledby="t-aiuto" id="aiuto">
+    <h2 id="t-aiuto">Aiuto: tutti i tasti</h2>
+    <dl>
+      <dt>Frecce</dt><dd>Muoversi tra suoni (su e giù) e passi (destra e sinistra). Inizio e Fine vanno al primo e all'ultimo passo.</dd>
+      <dt>Spazio</dt><dd>Mettere o togliere un colpo sul passo.</dd>
+      <dt>Invio</dt><dd>Play e Stop, da qualsiasi punto della pagina.</dd>
+      <dt>Pagina su / Pagina giù</dt><dd>Sull'808: alzare o abbassare la nota di un semitono. Con Maiuscolo: di un'ottava.</dd>
+      <dt>G</dt><dd>Sull'808: scivolamento (glide) dalla nota precedente.</dd>
+      <dt>L</dt><dd>Sull'808: lunghezza della nota, da 1 a 8 passi.</dd>
+      <dt>V</dt><dd>Forza del colpo: forte, media, piano.</dd>
+      <dt>Ascolta (A)</dt><dd>Sentire il suono della riga, senza mettere il colpo.</dd>
+      <dt>M</dt><dd>Silenziare o riattivare la riga.</dd>
+      <dt>R</dt><dd>Leggere tutta la riga: quali passi sono attivi.</dd>
+      <dt>Alt + numero da 1 a 8</dt><dd>Passare a un altro pattern.</dd>
+      <dt>+ e -</dt><dd>Velocità più alta o più bassa di 5 BPM.</dd>
+      <dt>H</dt><dd>Andare a questo aiuto.</dd>
+    </dl>
+    <p>Un pattern è una battuta di 16 passi: ogni passo è un sedicesimo. I passi 1, 5, 9 e 13 sono i quattro battiti della battuta.</p>
+  </section>
+</main>
+<footer>Killa Beat Maker 1.0 · Killa Records · <a href="https://www.killarecordsgames.com">killarecordsgames.com</a> · Tutti i suoni sono generati dal programma: le basi che crei sono tue.</footer>
+
+<script>
+"use strict";
+/* ============ dati ============ */
+const PASSI = 16, NPATTERN = 8;
+const TRACCE = [
+  { id:"kick",  nome:"Cassa" },
+  { id:"snare", nome:"Rullante" },
+  { id:"clap",  nome:"Clap" },
+  { id:"hat",   nome:"Charleston chiuso" },
+  { id:"ohat",  nome:"Charleston aperto" },
+  { id:"rim",   nome:"Percussione" },
+  { id:"b808",  nome:"808" },
+];
+const NOTE = ["Do","Do diesis","Re","Re diesis","Mi","Fa","Fa diesis","Sol","Sol diesis","La","La diesis","Si"];
+const FORZE = [1, 0.7, 0.45], NOMI_FORZA = ["forte","media","piano"];
+const ann = document.getElementById("annuncio");
+function annuncia(t) { ann.textContent = ""; setTimeout(() => { ann.textContent = t; }, 30); }
+function nomeNota(midi) { return NOTE[midi % 12] + " " + (Math.floor(midi / 12) - 1); }
+
+function patternVuoto() {
+  const p = {};
+  TRACCE.forEach(t => { p[t.id] = Array.from({ length: PASSI }, () => null); });
+  return p;
+}
+let progetto = {
+  versione: 1, nome: "La mia base Killa", bpm: 140, swing: 0, volume: 80, base808: 36,
+  sequenza: "1 1 2 2", muti: {}, pattern: Array.from({ length: NPATTERN }, patternVuoto),
+};
+let corrente = 0, cursore = { r: 0, c: 0 };
+
+function salvaLocale() { try { localStorage.setItem("killa-beat-maker", JSON.stringify(progetto)); } catch (e) {} }
+function caricaLocale() {
+  try { const s = localStorage.getItem("killa-beat-maker"); if (s) return normalizza(JSON.parse(s)); } catch (e) {}
+  return null;
+}
+function normalizza(p) {
+  if (!p || !Array.isArray(p.pattern)) throw new Error("File non valido");
+  const out = Object.assign({}, progetto, p);
+  out.pattern = Array.from({ length: NPATTERN }, (_, i) => {
+    const src = p.pattern[i] || {}, pv = patternVuoto();
+    TRACCE.forEach(t => { if (Array.isArray(src[t.id])) pv[t.id] = src[t.id].slice(0, PASSI).concat(Array(PASSI).fill(null)).slice(0, PASSI); });
+    return pv;
+  });
+  out.muti = p.muti || {};
+  return out;
+}
+
+/* ============ suoni (Web Audio) ============ */
+let ctx = null, master = null;
+function audio() {
+  if (!ctx) {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = creaMaster(ctx);
+  }
+  if (ctx.state === "suspended") ctx.resume();
+  master.gain.value = progetto.volume / 100;
+  return ctx;
+}
+// uscita: volume -> compressore -> limitatore, così la base non distorce mai
+function creaMaster(c) {
+  const g = c.createGain();
+  const pre = c.createGain(); pre.gain.value = 0.5;
+  const comp = c.createDynamicsCompressor();
+  comp.threshold.value = -16; comp.ratio.value = 3; comp.knee.value = 8; comp.attack.value = 0.005; comp.release.value = 0.2;
+  const lim = c.createDynamicsCompressor();
+  lim.threshold.value = -3; lim.ratio.value = 20; lim.knee.value = 0; lim.attack.value = 0.001; lim.release.value = 0.08;
+  const fine = c.createGain(); fine.gain.value = 0.95;
+  g.connect(pre); pre.connect(comp); comp.connect(lim); lim.connect(fine); fine.connect(c.destination);
+  return g;
+}
+const rumori = new WeakMap();
+function rumore(c) {
+  if (rumori.has(c)) return rumori.get(c);
+  const b = c.createBuffer(1, c.sampleRate, c.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  rumori.set(c, b); return b;
+}
+function inviluppo(c, t, picco, att, dec) {
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(Math.max(picco, 0.0002), t + att);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + att + dec);
+  return g;
+}
+function sorgenteRumore(c, t, dur) {
+  const s = c.createBufferSource(); s.buffer = rumore(c); s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.05); return s;
+}
+const SUONI = {
+  kick(c, out, t, v) {
+    const o = c.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+    const g = inviluppo(c, t, 1.0 * v, 0.002, 0.45);
+    o.connect(g); g.connect(out); o.start(t); o.stop(t + 0.5);
+    const cl = sorgenteRumore(c, t, 0.02), hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2500;
+    const gc = inviluppo(c, t, 0.25 * v, 0.001, 0.015); cl.connect(hp); hp.connect(gc); gc.connect(out);
+  },
+  snare(c, out, t, v) {
+    const n = sorgenteRumore(c, t, 0.25), bp = c.createBiquadFilter(); bp.type = "highpass"; bp.frequency.value = 1200;
+    const g = inviluppo(c, t, 0.7 * v, 0.001, 0.2); n.connect(bp); bp.connect(g); g.connect(out);
+    const o = c.createOscillator(); o.type = "triangle"; o.frequency.setValueAtTime(220, t); o.frequency.exponentialRampToValueAtTime(160, t + 0.1);
+    const go = inviluppo(c, t, 0.5 * v, 0.001, 0.12); o.connect(go); go.connect(out); o.start(t); o.stop(t + 0.2);
+  },
+  clap(c, out, t, v) {
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1500; bp.Q.value = 0.8; bp.connect(out);
+    [0, 0.011, 0.022, 0.034].forEach((d, i) => {
+      const n = sorgenteRumore(c, t + d, i === 3 ? 0.25 : 0.02);
+      const g = inviluppo(c, t + d, (i === 3 ? 0.9 : 0.6) * v, 0.001, i === 3 ? 0.22 : 0.012);
+      n.connect(g); g.connect(bp);
+    });
+  },
+  hat(c, out, t, v, aperto) {
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7000;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 10000; bp.Q.value = 0.6;
+    const dur = aperto ? 0.35 : 0.05;
+    const g = inviluppo(c, t, (aperto ? 0.35 : 0.3) * v, 0.001, dur);
+    [2, 3, 4.16, 5.43, 6.79, 8.21].forEach(r => {
+      const o = c.createOscillator(); o.type = "square"; o.frequency.value = 40 * r * 4; o.connect(bp); o.start(t); o.stop(t + dur + 0.05);
+    });
+    const n = sorgenteRumore(c, t, dur), gn = c.createGain(); gn.gain.value = 0.5; n.connect(gn); gn.connect(hp);
+    bp.connect(hp); hp.connect(g); g.connect(out);
+  },
+  ohat(c, out, t, v) { SUONI.hat(c, out, t, v, true); },
+  rim(c, out, t, v) {
+    const o = c.createOscillator(); o.type = "square"; o.frequency.value = 820;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = 3;
+    const g = inviluppo(c, t, 0.5 * v, 0.001, 0.05); o.connect(bp); bp.connect(g); g.connect(out); o.start(t); o.stop(t + 0.08);
+  },
+  b808(c, out, t, v, nota, durata, daNota) {
+    const f = 440 * Math.pow(2, (nota - 69) / 12);
+    const o = c.createOscillator(); o.type = "sine";
+    if (daNota != null) {
+      const f0 = 440 * Math.pow(2, (daNota - 69) / 12);
+      o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f, t + Math.min(0.12, durata * 0.5));
+    } else {
+      o.frequency.setValueAtTime(f * 1.9, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.04);
+    }
+    const dist = c.createWaveShaper(), curva = new Float32Array(1024);
+    for (let i = 0; i < 1024; i++) { const x = i / 512 - 1; curva[i] = Math.tanh(2.2 * x); }
+    dist.curve = curva;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.85 * v, t + 0.005);
+    g.gain.setValueAtTime(0.85 * v, t + Math.max(0.01, durata - 0.06));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + durata);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 900;
+    o.connect(dist); dist.connect(lp); lp.connect(g); g.connect(out);
+    o.start(t); o.stop(t + durata + 0.05);
+  },
+};
+
+/* ============ scaletta ============ */
+function durataPasso() { return 60 / progetto.bpm / 4; }
+function tempoPasso(i) { // con lo swing i passi dispari arrivano un po' dopo
+  const d = durataPasso();
+  return i * d + (i % 2 === 1 ? d * progetto.swing / 100 * 0.5 : 0);
+}
+function sequenzaPattern() {
+  const nums = progetto.sequenza.split(/[\s,;]+/).map(Number).filter(n => n >= 1 && n <= NPATTERN);
+  return nums.length ? nums.map(n => n - 1) : [0];
+}
+// suona il passo "passo" del pattern "pi" all'istante t, sull'uscita "out"
+function suonaPasso(c, out, pi, passo, t, precedente808) {
+  const p = progetto.pattern[pi];
+  TRACCE.forEach(tr => {
+    if (progetto.muti[tr.id]) return;
+    const cel = p[tr.id][passo];
+    if (!cel) return;
+    const v = FORZE[cel.f || 0];
+    if (tr.id === "b808") {
+      const nota = cel.n != null ? cel.n : progetto.base808;
+      const durata = Math.max(1, cel.l || 2) * durataPasso();
+      SUONI.b808(c, out, t, v, nota, durata, cel.g && precedente808 != null ? precedente808 : null);
+    } else SUONI[tr.id](c, out, t, v);
+  });
+}
+function ultima808Prima(pi, passo) {
+  const r = progetto.pattern[pi].b808;
+  for (let i = passo - 1; i >= 0; i--) if (r[i]) return r[i].n != null ? r[i].n : progetto.base808;
+  return null;
+}
+
+/* ============ riproduzione in tempo reale ============ */
+let inRiproduzione = false, timer = null, prossimo = 0, passoCorr = 0, indiceSeq = 0, inizioBattuta = 0, visuali = [];
+function avvia() {
+  const c = audio();
+  inRiproduzione = true; passoCorr = 0; indiceSeq = 0;
+  inizioBattuta = c.currentTime + 0.08; prossimo = 0;
+  document.getElementById("play").textContent = "■ Stop";
+  stato(progetto.bpm + " BPM, in riproduzione");
+  pianifica();
+}
+function ferma() {
+  inRiproduzione = false; clearTimeout(timer);
+  document.getElementById("play").textContent = "▶ Play";
+  document.querySelectorAll(".cella.ora").forEach(e => e.classList.remove("ora"));
+  stato("Fermo");
+}
+function patternInSuono() {
+  return document.getElementById("modo").value === "canzone" ? sequenzaPattern()[indiceSeq % sequenzaPattern().length] : corrente;
+}
+function pianifica() {
+  if (!inRiproduzione) return;
+  const c = ctx;
+  while (true) {
+    const t = inizioBattuta + tempoPasso(passoCorr);
+    if (t > c.currentTime + 0.12) break;
+    const pi = patternInSuono();
+    suonaPasso(c, master, pi, passoCorr, t, ultima808Prima(pi, passoCorr));
+    const passo = passoCorr, mostra = pi === corrente;
+    setTimeout(() => evidenzia(mostra ? passo : -1), Math.max(0, (t - c.currentTime) * 1000));
+    passoCorr++;
+    if (passoCorr >= PASSI) { passoCorr = 0; indiceSeq++; inizioBattuta += PASSI * durataPasso(); }
+  }
+  timer = setTimeout(pianifica, 25);
+}
+function evidenzia(passo) {
+  document.querySelectorAll(".cella.ora").forEach(e => e.classList.remove("ora"));
+  if (passo < 0 || !inRiproduzione) return;
+  document.querySelectorAll('.cella[data-c="' + passo + '"]').forEach(e => e.classList.add("ora"));
+}
+function stato(t) { document.getElementById("stato").textContent = t; }
+function playStop() { inRiproduzione ? ferma() : avvia(); annuncia(inRiproduzione ? "Play" : "Stop"); }
+
+/* ============ griglia accessibile ============ */
+const griglia = document.getElementById("griglia");
+function costruisciGriglia() {
+  griglia.innerHTML = "";
+  TRACCE.forEach((tr, r) => {
+    const riga = document.createElement("div"); riga.setAttribute("role", "row"); riga.style.display = "contents";
+    const nome = document.createElement("div"); nome.className = "nome"; nome.setAttribute("role", "rowheader");
+    nome.id = "nome-" + tr.id; nome.innerHTML = tr.nome + ' <small id="m-' + tr.id + '"></small>';
+    riga.appendChild(nome);
+    for (let c = 0; c < PASSI; c++) {
+      const b = document.createElement("div");
+      b.className = "cella" + (c % 4 === 0 ? " quarto" : "");
+      b.setAttribute("role", "gridcell"); b.tabIndex = -1;
+      b.dataset.r = r; b.dataset.c = c;
+      b.addEventListener("click", () => { cursore = { r, c }; aggiornaFocus(); attiva(); });
+      riga.appendChild(b);
+    }
+    griglia.appendChild(riga);
+  });
+  aggiornaGriglia(); aggiornaFocus(false);
+}
+function cella(r, c) { return griglia.querySelector('.cella[data-r="' + r + '"][data-c="' + c + '"]'); }
+function descrivi(r, c) {
+  const tr = TRACCE[r], v = progetto.pattern[corrente][tr.id][c];
+  let t = tr.nome + ", passo " + (c + 1) + (c % 4 === 0 ? ", battito " + (c / 4 + 1) : "");
+  if (!v) return t + ", vuoto";
+  t += ", attivo";
+  if (tr.id === "b808") {
+    t += ", nota " + nomeNota(v.n != null ? v.n : progetto.base808) + ", lunghezza " + (v.l || 2) + " passi";
+    if (v.g) t += ", scivolamento";
+  }
+  if (v.f) t += ", forza " + NOMI_FORZA[v.f];
+  return t;
+}
+function aggiornaGriglia() {
+  document.getElementById("num-pattern").textContent = corrente + 1;
+  TRACCE.forEach((tr, r) => {
+    document.getElementById("m-" + tr.id).textContent = progetto.muti[tr.id] ? "(muto)" : "";
+    document.getElementById("nome-" + tr.id).classList.toggle("muta", !!progetto.muti[tr.id]);
+    for (let c = 0; c < PASSI; c++) {
+      const e = cella(r, c), v = progetto.pattern[corrente][tr.id][c];
+      e.classList.toggle("on", !!v); e.classList.toggle("e808", tr.id === "b808");
+      e.classList.toggle("glide", !!(v && v.g));
+      e.textContent = v && tr.id === "b808" ? NOTE[(v.n != null ? v.n : progetto.base808) % 12].replace(" diesis", "#") : "";
+      e.setAttribute("aria-label", descrivi(r, c));
+      e.setAttribute("aria-selected", v ? "true" : "false");
+    }
+  });
+}
+function aggiornaFocus(focus = true) {
+  griglia.querySelectorAll(".cella").forEach(e => e.tabIndex = -1);
+  const e = cella(cursore.r, cursore.c); e.tabIndex = 0;
+  if (focus) e.focus();
+}
+function modificato() { aggiornaGriglia(); salvaLocale(); }
+function corr() { return progetto.pattern[corrente][TRACCE[cursore.r].id]; }
+function anteprima(r, extra) {
+  const c = audio(), tr = TRACCE[r], v = corr()[cursore.c];
+  if (tr.id === "b808") SUONI.b808(c, master, c.currentTime + 0.01, 1, (extra != null ? extra : (v && v.n != null ? v.n : progetto.base808)), 0.4, null);
+  else SUONI[tr.id](c, master, c.currentTime + 0.01, v ? FORZE[v.f || 0] : 1);
+}
+function attiva() {
+  const riga = corr(), c = cursore.c;
+  if (riga[c]) riga[c] = null;
+  else { riga[c] = TRACCE[cursore.r].id === "b808" ? { n: progetto.base808, l: 2, g: false, f: 0 } : { f: 0 }; if (!inRiproduzione) anteprima(cursore.r); }
+  modificato(); annuncia(riga[c] ? "attivo" : "vuoto");
+}
+function leggiRiga() {
+  const riga = corr(), attivi = [];
+  riga.forEach((v, i) => { if (v) attivi.push(i + 1); });
+  annuncia(TRACCE[cursore.r].nome + ": " + (attivi.length ? "passi attivi " + attivi.join(", ") : "nessun passo attivo"));
+}
+griglia.addEventListener("keydown", (e) => {
+  const tr = TRACCE[cursore.r], riga = corr(), v = riga[cursore.c];
+  let gestito = true;
+  switch (e.key) {
+    case "ArrowRight": cursore.c = Math.min(PASSI - 1, cursore.c + 1); aggiornaFocus(); break;
+    case "ArrowLeft": cursore.c = Math.max(0, cursore.c - 1); aggiornaFocus(); break;
+    case "ArrowDown": cursore.r = Math.min(TRACCE.length - 1, cursore.r + 1); aggiornaFocus(); break;
+    case "ArrowUp": cursore.r = Math.max(0, cursore.r - 1); aggiornaFocus(); break;
+    case "Home": cursore.c = 0; aggiornaFocus(); break;
+    case "End": cursore.c = PASSI - 1; aggiornaFocus(); break;
+    case " ": attiva(); break;
+    case "PageUp": case "PageDown":
+      if (tr.id !== "b808") { annuncia("La nota si cambia solo sulla riga dell'808"); break; }
+      if (!v) { attiva(); }
+      { const cel = riga[cursore.c], salto = (e.shiftKey ? 12 : 1) * (e.key === "PageUp" ? 1 : -1);
+        cel.n = Math.max(24, Math.min(60, (cel.n != null ? cel.n : progetto.base808) + salto));
+        modificato(); anteprima(cursore.r, cel.n); annuncia(nomeNota(cel.n)); }
+      break;
+    default: gestito = false;
+  }
+  if (!gestito && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    const k = e.key.toLowerCase();
+    gestito = true;
+    if (k === "g") {
+      if (tr.id !== "b808" || !v) annuncia("Lo scivolamento si mette su una nota attiva dell'808");
+      else { v.g = !v.g; modificato(); annuncia(v.g ? "scivolamento attivo" : "scivolamento tolto"); }
+    } else if (k === "l") {
+      if (tr.id !== "b808" || !v) annuncia("La lunghezza si cambia su una nota attiva dell'808");
+      else { const lun = [1, 2, 3, 4, 6, 8]; v.l = lun[(lun.indexOf(v.l || 2) + 1) % lun.length]; modificato(); annuncia("lunghezza " + v.l + " passi"); }
+    } else if (k === "v") {
+      if (!v) annuncia("Prima metti un colpo");
+      else { v.f = ((v.f || 0) + 1) % 3; modificato(); anteprima(cursore.r); annuncia("forza " + NOMI_FORZA[v.f]); }
+    } else if (k === "a") { anteprima(cursore.r); }
+    else if (k === "m") { progetto.muti[tr.id] = !progetto.muti[tr.id]; modificato(); annuncia(tr.nome + (progetto.muti[tr.id] ? " silenziato" : " riattivato")); }
+    else if (k === "r") { leggiRiga(); }
+    else gestito = false;
+  }
+  if (gestito) e.preventDefault();
+});
+
+/* ============ tasti globali ============ */
+document.addEventListener("keydown", (e) => {
+  const campo = e.target.matches("input[type=text], input[type=number], select, textarea");
+  if (e.key === "Enter" && !campo && !e.target.matches("button")) { e.preventDefault(); playStop(); return; }
+  if (e.altKey && /^[1-8]$/.test(e.key)) { e.preventDefault(); scegliPattern(Number(e.key) - 1); return; }
+  if (campo) return;
+  if (e.key === "+") { cambiaBpm(5); e.preventDefault(); }
+  else if (e.key === "-") { cambiaBpm(-5); e.preventDefault(); }
+  else if (e.key.toLowerCase() === "h" && !e.ctrlKey && !e.altKey && e.target.closest("#griglia")) {
+    e.preventDefault(); document.getElementById("t-aiuto").tabIndex = -1; document.getElementById("t-aiuto").focus();
+  }
+});
+function cambiaBpm(d) {
+  progetto.bpm = Math.max(50, Math.min(200, progetto.bpm + d));
+  document.getElementById("bpm").value = progetto.bpm; salvaLocale(); annuncia(progetto.bpm + " BPM");
+}
+function scegliPattern(i) {
+  corrente = i; document.getElementById("pattern").value = i; aggiornaGriglia(); aggiornaFocus(false);
+  const pieni = TRACCE.reduce((n, t) => n + progetto.pattern[i][t.id].filter(Boolean).length, 0);
+  annuncia("Pattern " + (i + 1) + (pieni ? ", " + pieni + " colpi" : ", vuoto"));
+}
+
+/* ============ controlli ============ */
+const $ = (id) => document.getElementById(id);
+$("play").addEventListener("click", playStop);
+$("bpm").addEventListener("change", () => { progetto.bpm = Math.max(50, Math.min(200, Number($("bpm").value) || 140)); $("bpm").value = progetto.bpm; salvaLocale(); });
+$("swing").addEventListener("input", () => { progetto.swing = Number($("swing").value); $("swing").setAttribute("aria-valuetext", progetto.swing + " per cento"); salvaLocale(); });
+$("volume").addEventListener("input", () => { progetto.volume = Number($("volume").value); $("volume").setAttribute("aria-valuetext", progetto.volume + " per cento"); if (master) master.gain.value = progetto.volume / 100; salvaLocale(); });
+for (let i = 0; i < NPATTERN; i++) { const o = document.createElement("option"); o.value = i; o.textContent = "Pattern " + (i + 1); $("pattern").appendChild(o); }
+$("pattern").addEventListener("change", () => scegliPattern(Number($("pattern").value)));
+for (let n = 24; n <= 48; n++) { const o = document.createElement("option"); o.value = n; o.textContent = nomeNota(n); $("scala").appendChild(o); }
+$("scala").addEventListener("change", () => { progetto.base808 = Number($("scala").value); modificato(); });
+$("sequenza").addEventListener("change", () => { progetto.sequenza = $("sequenza").value; salvaLocale(); annuncia("Sequenza: pattern " + sequenzaPattern().map(n => n + 1).join(", ")); });
+$("nome-progetto").addEventListener("change", () => { progetto.nome = $("nome-progetto").value.trim() || "La mia base Killa"; salvaLocale(); });
+$("duplica").addEventListener("click", () => {
+  if (corrente >= NPATTERN - 1) { annuncia("Questo è l'ultimo pattern"); return; }
+  progetto.pattern[corrente + 1] = JSON.parse(JSON.stringify(progetto.pattern[corrente]));
+  salvaLocale(); annuncia("Copiato nel pattern " + (corrente + 2));
+});
+$("svuota").addEventListener("click", () => {
+  if (!confirm("Vuoi svuotare il pattern " + (corrente + 1) + "?")) return;
+  progetto.pattern[corrente] = patternVuoto(); modificato(); annuncia("Pattern svuotato");
+});
+$("salva-file").addEventListener("click", () => {
+  scarica(new Blob([JSON.stringify(progetto, null, 1)], { type: "application/json" }), nomeFile() + ".json");
+  annuncia("Progetto salvato nella cartella dei download");
+});
+$("apri-file").addEventListener("click", () => $("file-progetto").click());
+$("file-progetto").addEventListener("change", async () => {
+  const f = $("file-progetto").files[0]; if (!f) return;
+  try { progetto = normalizza(JSON.parse(await f.text())); applica(); salvaLocale(); annuncia("Progetto aperto: " + progetto.nome); }
+  catch (e) { alert("Non riesco ad aprire questo file: non è un progetto di Killa Beat Maker."); }
+  $("file-progetto").value = "";
+});
+$("demo").addEventListener("click", () => { if (confirm("La base di esempio sostituisce il lavoro attuale. Continuo?")) { progetto = esempio(); applica(); salvaLocale(); annuncia("Base di esempio caricata: trap a 140 BPM, pattern 1 e 2"); } });
+$("esporta").addEventListener("click", esportaWav);
+
+function applica() {
+  $("bpm").value = progetto.bpm; $("swing").value = progetto.swing; $("volume").value = progetto.volume;
+  $("scala").value = progetto.base808; $("sequenza").value = progetto.sequenza; $("nome-progetto").value = progetto.nome;
+  scegliPattern(0);
+}
+function nomeFile() { return (progetto.nome || "base").replace(/[^\w\- àèéìòù]+/gi, "").trim().replace(/\s+/g, "_") || "base"; }
+function scarica(blob, nome) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ============ esportazione WAV ============ */
+async function esportaWav() {
+  const giri = Math.max(1, Math.min(16, Number($("giri").value) || 2));
+  const seq = $("modo").value === "canzone" ? sequenzaPattern() : [corrente];
+  const lista = []; for (let g = 0; g < giri; g++) lista.push(...seq);
+  const battuta = PASSI * durataPasso(), durata = lista.length * battuta + 1.5, sr = 44100;
+  stato("Esportazione in corso..."); annuncia("Esportazione in corso, attendi");
+  const off = new OfflineAudioContext(2, Math.ceil(durata * sr), sr);
+  const out = creaMaster(off); out.gain.value = progetto.volume / 100;
+  lista.forEach((pi, b) => {
+    for (let p = 0; p < PASSI; p++) suonaPasso(off, out, pi, p, b * battuta + tempoPasso(p), ultima808Prima(pi, p));
+  });
+  const buf = await off.startRendering();
+  scarica(inWav(buf), nomeFile() + ".wav");
+  const sec = Math.round(durata);
+  stato(inRiproduzione ? "In riproduzione" : "Fermo");
+  annuncia("Base esportata: " + nomeFile() + ".wav, " + sec + " secondi, nella cartella dei download");
+}
+function inWav(buf) {
+  const nc = buf.numberOfChannels, len = buf.length, sr = buf.sampleRate;
+  const dati = new DataView(new ArrayBuffer(44 + len * nc * 2));
+  const scrivi = (o, s) => { for (let i = 0; i < s.length; i++) dati.setUint8(o + i, s.charCodeAt(i)); };
+  scrivi(0, "RIFF"); dati.setUint32(4, 36 + len * nc * 2, true); scrivi(8, "WAVE"); scrivi(12, "fmt ");
+  dati.setUint32(16, 16, true); dati.setUint16(20, 1, true); dati.setUint16(22, nc, true); dati.setUint32(24, sr, true);
+  dati.setUint32(28, sr * nc * 2, true); dati.setUint16(32, nc * 2, true); dati.setUint16(34, 16, true);
+  scrivi(36, "data"); dati.setUint32(40, len * nc * 2, true);
+  const ch = []; for (let c = 0; c < nc; c++) ch.push(buf.getChannelData(c));
+  let o = 44;
+  for (let i = 0; i < len; i++) for (let c = 0; c < nc; c++) { const s = Math.max(-1, Math.min(1, ch[c][i])); dati.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2; }
+  return new Blob([dati], { type: "audio/wav" });
+}
+
+/* ============ base di esempio ============ */
+function esempio() {
+  const p = normalizza({ nome: "Esempio trap Killa", bpm: 140, swing: 0, volume: 80, base808: 36, sequenza: "1 1 2 2", pattern: [] });
+  const set = (pi, id, passi, extra) => passi.forEach(i => { p.pattern[pi][id][i] = Object.assign({ f: 0 }, extra ? extra(i) : {}); });
+  for (const pi of [0, 1]) {
+    set(pi, "kick", [0, 7, 10]);
+    set(pi, "snare", [4, 12]);
+    set(pi, "clap", [4, 12]);
+    set(pi, "hat", [0, 2, 4, 6, 8, 10, 12, 13, 14, 15], (i) => ({ f: i % 4 === 2 ? 1 : 0 }));
+    set(pi, "ohat", [6]);
+  }
+  set(1, "rim", [3, 11]);
+  set(0, "b808", [0, 7, 10], (i) => ({ n: i === 10 ? 39 : 36, l: i === 0 ? 6 : 3, g: i === 10 }));
+  set(1, "b808", [0, 7, 10, 14], (i) => ({ n: [36, 36, 41, 43][[0, 7, 10, 14].indexOf(i)], l: i === 0 ? 6 : 2, g: i >= 10 }));
+  return p;
+}
+
+/* ============ avvio ============ */
+progetto = caricaLocale() || esempio();
+costruisciGriglia(); applica();
+</script>
+</body>
+</html>
