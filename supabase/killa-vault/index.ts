@@ -8,7 +8,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const DOMINI = ["https://www.killarecordsgames.com", "https://killarecordsgames.com"];
 const SITO = "https://www.killarecordsgames.com";
 const MITTENTE = { name: "Killa Records", email: "info@killarecordsgames.com" };
-const ADMIN_EMAIL = Deno.env.get("VAULT_ADMIN_EMAIL") || "info@killarecordsgames.com";
+const ADMIN_EMAIL = Deno.env.get("VAULT_ADMIN_EMAIL") || "vault@killarecordsgames.com";
 const RADIO = "https://killarecordsgames.github.io/killa-news/radio/palinsesto.json";
 const EMAIL_VALIDA = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/;
 const NICK_VALIDO = /^[\p{L}\p{N}_.\- ]{3,24}$/u;
