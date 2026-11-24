@@ -36,3 +36,6 @@
 R|1|Stai ascoltando Killa Radio. Solo per la Killa Family, dentro il Vault.
 R|2|Killa Radio. E adesso, il giornale parlato di oggi.
 R|3|Killa Radio. Musica originale Killa On The Beat.
+V|1|Killa Vault. L'area segreta della Killa Family.
+V|2|Dentro c'è Killa Radio, ventiquattro ore su ventiquattro, con le mie canzoni, le dirette, le interviste e i quiz.
+V|3|Si entra solo su invito. Chiedi il tuo posto su killarecordsgames punto com, barra vault.
