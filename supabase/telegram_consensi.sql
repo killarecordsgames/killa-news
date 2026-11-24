@@ -8,3 +8,4 @@ create table if not exists public.telegram_consensi (
 alter table public.telegram_consensi enable row level security;
 -- Nessuna policy: solo la funzione del bot (chiave di servizio) può leggere e scrivere.
 revoke all on public.telegram_consensi from anon, authenticated;
+grant select, insert, update, delete on public.telegram_consensi to service_role;
