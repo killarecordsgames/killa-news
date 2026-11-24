@@ -1,0 +1,16 @@
+name: Killa Radio - canzoni d'epoca
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scarica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python3 tools/radio_epoca.py epoca
+      - uses: actions/upload-artifact@v4
+        with:
+          name: epoca
+          path: epoca/
