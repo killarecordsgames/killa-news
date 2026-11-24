@@ -8,6 +8,7 @@ import webbrowser
 import wx
 
 from .. import app_updates, changelog, config, database
+from ..catalog import TOPICS_GROUP
 from ..accessibility import announcer, announce
 from ..models import format_date
 from . import common
@@ -101,6 +102,7 @@ class MainFrame(wx.Frame):
             "share": self.share_selected,
             "show_to_read": lambda: self.go_section("to_read"), "show_offline": lambda: self.go_section("offline"),
             "folders": self.manage_folders, "failed_sources": self.show_failed, "update_source": self.update_selected_source,
+            "follow_topic": self.follow_topic,
             "backup": self.backup_now, "about": lambda: show_about(self), "exit": self.Close,
             "remove_history": self.remove_from_history, "clear_history": self.clear_history,
             "report": self.report_problem, "credits": lambda: show_credits(self),
@@ -172,6 +174,8 @@ class MainFrame(wx.Frame):
         item(m, "sources", "&Gestione delle fonti...")
         item(m, "failed_sources", "Fonti &non raggiungibili...")
         item(m, "update_source", "&Aggiorna solo la testata selezionata")
+        m.AppendSeparator()
+        item(m, "follow_topic", "&Segui un argomento dal web (squadre, sport minori, città)...")
         bar.Append(m, "F&onti")
         m = wx.Menu()
         item(m, "settings", "&Impostazioni...")
@@ -884,6 +888,39 @@ class MainFrame(wx.Frame):
         if data_changed:
             self.sidebar.build(keep_key="settings")
         announce("Impostazioni salvate" if result == wx.ID_OK else "Impostazioni non modificate")
+
+    def follow_topic(self):
+        text = common.ask_text(
+            self, "Scrivi l'argomento da seguire: una squadra, uno sport, una città o una persona.\n"
+                  "Per esempio: Dinamo Sassari, basket Serie A2, pallavolo femminile.\n"
+                  "KILLA NEWS cercherà le notizie in tutti i giornali italiani sul web.",
+            "Segui un argomento dal web - " + config.APP_NAME)
+        if not text:
+            return
+        cats = [("generale", "Nessuna categoria (solo nella sezione dell'argomento)")]
+        for top, subs in self.core.catalog.categories_tree():
+            cats.append((top["id"], top["name"]))
+            cats.extend((sub["id"], f"{top['name']} - {sub['name']}") for sub in subs)
+        dlg = wx.SingleChoiceDialog(self, "In quale sezione vuoi vedere anche queste notizie?",
+                                    "Sezione - " + config.APP_NAME, [c[1] for c in cats])
+        try:
+            if dlg.ShowModal() != wx.ID_OK:
+                return
+            category_id = cats[dlg.GetSelection()][0]
+        finally:
+            dlg.Destroy()
+        try:
+            source_id, created = self.core.catalog.follow_topic(text, category_id)
+        except Exception as exc:  # noqa: BLE001
+            common.error(self, str(exc))
+            return
+        self.sidebar.build(keep_key=f"source:{source_id}")
+        self.search.refresh_choices()
+        if created:
+            announce(f"Ora segui «{text}». Lo trovi in Tutti i giornali, {TOPICS_GROUP}. Scarico le notizie...")
+        else:
+            announce(f"Segui già «{text}». Aggiorno le sue notizie...")
+        self.updater.trigger(source_id)
 
     def open_sources(self):
         dlg = SourcesDialog(self, self.core)

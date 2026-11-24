@@ -3,6 +3,7 @@ import json
 import logging
 import re
 import uuid
+from urllib.parse import quote_plus
 
 from . import config
 
@@ -11,6 +12,14 @@ log = logging.getLogger(__name__)
 
 class CatalogError(Exception):
     pass
+
+
+TOPICS_GROUP = "Argomenti seguiti (dal web)"
+
+
+def google_news_url(query: str) -> str:
+    """Feed RSS pubblico di Google News con le notizie in italiano che parlano di «query»."""
+    return f"https://news.google.com/rss/search?q={quote_plus(query)}&hl=it&gl=IT&ceid=IT:it"
 
 
 def _norm_text(value) -> str:
@@ -253,6 +262,25 @@ class Catalog:
                 else:
                     self.db.execute("DELETE FROM feeds WHERE source_id = ?", (source_id,))
         return source_id
+
+    def follow_topic(self, text: str, category_id: str = "generale"):
+        """Crea una fonte che raccoglie dal web (Google News) le notizie su un argomento
+        qualsiasi: una squadra, uno sport minore, una città, una persona."""
+        text = _norm_text(text)
+        if len(text) < 2:
+            raise CatalogError("Scrivi l'argomento da seguire, per esempio: Dinamo Sassari.")
+        query = text if '"' in text or " " not in text else f'"{text}"'
+        existing = self.db.query_one(
+            "SELECT id FROM sources WHERE group_name = ? AND lower(name) = lower(?)", (TOPICS_GROUP, text))
+        if existing:
+            return existing["id"], False
+        site = "https://news.google.com/search?q=" + quote_plus(query) + "&hl=it&gl=IT&ceid=IT:it"
+        source_id = self.save_source(
+            {"name": text, "country": "Italia", "group_name": TOPICS_GROUP, "site_url": site,
+             "fulltext_allowed": False},
+            feeds=[{"url": google_news_url(query), "category_id": category_id or "generale", "is_main": True,
+                    "verification": "google-news"}])
+        return source_id, True
 
     def add_feed(self, source_id, url, category_id="generale", verification=""):
         with self.db.conn:

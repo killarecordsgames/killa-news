@@ -20,6 +20,7 @@ sys.path.insert(0, ROOT)
 TMP = tempfile.mkdtemp(prefix="killanews_test_")
 os.environ["KILLANEWS_DATA_DIR"] = TMP
 
+from killanews import catalog as catalog_module
 from killanews import article_reader, config, database, feed_manager  # noqa: E402
 from killanews.core import Core  # noqa: E402
 from killanews.keyboard_manager import KeyboardManager, ShortcutError, normalize  # noqa: E402
@@ -156,7 +157,7 @@ class TestDatabaseCatalog(unittest.TestCase):
         self.assertEqual(len(core.catalog.feeds()), n_feeds)
         for f in core.catalog.feeds():
             self.assertTrue(f["url"].startswith("http"))
-            self.assertIn(f["verification"], ("feeder", "feedspot", "github-actions 22/11/2026"))
+            self.assertIn(f["verification"], ("feeder", "feedspot", "github-actions 22/11/2026", "google-news"))
             self.assertIsNotNone(core.db.query_one("SELECT 1 FROM categories WHERE id = ?", (f["category_id"],)),
                                  f"categoria inesistente {f['category_id']}")
         tree = core.catalog.categories_tree()
@@ -188,6 +189,24 @@ class TestDatabaseCatalog(unittest.TestCase):
         self.assertEqual(len(core.catalog.sources()), before - 1)
         core.catalog.restore_catalog()
         self.assertEqual(len(core.catalog.sources()), before)
+
+    def test_follow_topic(self):
+        core = new_core("topic")
+        before = len(core.catalog.sources())
+        sid, created = core.catalog.follow_topic("Dinamo Sassari", "sport/basket")
+        self.assertTrue(created)
+        self.assertEqual(len(core.catalog.sources()), before + 1)
+        feeds = core.catalog.feeds(sid)
+        self.assertEqual(len(feeds), 1)
+        self.assertIn("news.google.com/rss/search?q=%22Dinamo+Sassari%22", feeds[0]["url"])
+        self.assertEqual(feeds[0]["category_id"], "sport/basket")
+        self.assertEqual(core.catalog.source(sid)["group_name"], catalog_module.TOPICS_GROUP)
+        self.assertEqual(core.catalog.follow_topic("dinamo sassari"), (sid, False))
+        with self.assertRaises(Exception):
+            core.catalog.follow_topic(" ")
+        sarde = core.db.query_one("SELECT id FROM sources WHERE key = 'lanuovasardegna'")
+        self.assertIsNotNone(sarde)
+        self.assertIn("Sardegna", core.catalog.local_tree())
 
     def test_backup(self):
         core = new_core("backup")

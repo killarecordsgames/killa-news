@@ -313,6 +313,35 @@ def main():
         assert "Programma: KILLA NEWS" in technical_info()
 
     @step
+    def follow_topic():
+        from killanews.ui import common as cm
+        real_ask, real_choice = cm.ask_text, wx.SingleChoiceDialog
+
+        class FakeChoice:
+            def __init__(self, parent, message, title, choices):
+                self.choices = choices
+            def ShowModal(self):
+                return wx.ID_OK
+            def GetSelection(self):
+                return next(i for i, c in enumerate(self.choices) if c.endswith("Basket"))
+            def Destroy(self):
+                pass
+        triggered = []
+        real_trigger = frame.updater.trigger
+        cm.ask_text = lambda *a, **k: "Dinamo Sassari"
+        wx.SingleChoiceDialog = FakeChoice
+        frame.updater.trigger = lambda source_id=None, *a, **k: triggered.append(source_id)
+        try:
+            frame.run_action("follow_topic")
+        finally:
+            cm.ask_text, wx.SingleChoiceDialog, frame.updater.trigger = real_ask, real_choice, real_trigger
+        assert triggered and triggered[0], triggered
+        view = frame.sidebar.current_view()
+        assert view["key"] == f"source:{triggered[0]}", view
+        feed = core.catalog.feeds(triggered[0])[0]
+        assert feed["category_id"] == "sport/basket" and "news.google.com" in feed["url"], dict(feed)
+
+    @step
     def update_done():
         from killanews.updater import UpdateSummary
         frame.on_update_done(UpdateSummary(new_articles=3, manual=True))

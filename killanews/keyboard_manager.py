@@ -16,6 +16,7 @@ ACTIONS = {
     "prev_pane":     ("Passa al riquadro precedente", "Shift+F6", "main"),
     "settings":      ("Impostazioni", "Ctrl+Shift+I", "main"),
     "sources":       ("Gestione delle fonti", "Ctrl+Shift+F", "main"),
+    "follow_topic":  ("Segui un argomento dal web", "Ctrl+Shift+A", "main"),
     "help":          ("Guida", "F1", "both"),
     "save":          ("Salva o rimuovi dai preferiti", "Ctrl+S", "both"),
     "read":          ("Avvia la lettura vocale", "Ctrl+P", "both"),

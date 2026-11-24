@@ -1,6 +1,6 @@
 {
-  "_info": "Catalogo iniziale delle fonti di KILLA NEWS 1.0.0. Ogni indirizzo di feed qui elencato e' stato controllato il 20/11/2026 su directory pubbliche che verificano il funzionamento dei feed (campo 'verifica': feeder = Feeder.co, che riportava il feed come attivo; feedspot = elenco Feedspot). Le testate con 'feed' vuoto non hanno un feed pubblico confermato: il programma apre il loro sito originale e puo' cercare automaticamente il feed ufficiale dichiarato nella pagina del sito (menu Fonti > Cerca feed sul sito; il programma lo fa anche da solo durante l'aggiornamento, al massimo una volta alla settimana per testata). Per aggiungere testate, regioni, province o citta' basta aggiungere voci a questo file oppure usare il menu Fonti del programma. Dalla versione 3 (KILLA NEWS 1.2.0) il catalogo contiene anche le testate internazionali di tutti i continenti: ogni feed è stato scaricato e letto il 22/11/2026 da un server di GitHub (verifica = github-actions) e conteneva notizie recenti. Il campo 'lingua' indica la lingua in cui la testata scrive.",
-  "versione_catalogo": 3,
+  "_info": "Catalogo iniziale delle fonti di KILLA NEWS 1.0.0. Ogni indirizzo di feed qui elencato e' stato controllato il 20/11/2026 su directory pubbliche che verificano il funzionamento dei feed (campo 'verifica': feeder = Feeder.co, che riportava il feed come attivo; feedspot = elenco Feedspot). Le testate con 'feed' vuoto non hanno un feed pubblico confermato: il programma apre il loro sito originale e puo' cercare automaticamente il feed ufficiale dichiarato nella pagina del sito (menu Fonti > Cerca feed sul sito; il programma lo fa anche da solo durante l'aggiornamento, al massimo una volta alla settimana per testata). Per aggiungere testate, regioni, province o citta' basta aggiungere voci a questo file oppure usare il menu Fonti del programma. Dalla versione 3 (KILLA NEWS 1.2.0) il catalogo contiene anche le testate internazionali di tutti i continenti: ogni feed è stato scaricato e letto il 22/11/2026 da un server di GitHub (verifica = github-actions) e conteneva notizie recenti. Il campo 'lingua' indica la lingua in cui la testata scrive. Dalla versione 4 (KILLA NEWS 1.6.0) alcune testate e gli sport minori usano il feed pubblico di ricerca di Google News (verifica = google-news), che raccoglie gli articoli dei giornali sul web: il titolo e il riassunto si leggono in KILLA NEWS, l'articolo completo si apre sul sito del giornale.",
+  "versione_catalogo": 4,
   "fonti": [
     {
       "id": "ansa",
@@ -877,6 +877,124 @@
           "categoria": "italia/cronaca_locale",
           "principale": true,
           "verifica": "feeder"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "lanuovasardegna",
+      "nome": "La Nuova Sardegna",
+      "paese": "Italia",
+      "regione": "Sardegna",
+      "provincia": "Sassari",
+      "citta": "Sassari",
+      "gruppo": "Locali",
+      "sito": "https://www.lanuovasardegna.it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=site%3Alanuovasardegna.it&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "google-news"
+        },
+        {
+          "url": "https://news.google.com/rss/search?q=site%3Alanuovasardegna.it+sport&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport",
+          "verifica": "google-news"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "unionesarda",
+      "nome": "L'Unione Sarda",
+      "paese": "Italia",
+      "regione": "Sardegna",
+      "provincia": "Cagliari",
+      "citta": "Cagliari",
+      "gruppo": "Locali",
+      "sito": "https://www.unionesarda.it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=site%3Aunionesarda.it&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "italia/cronaca_locale",
+          "principale": true,
+          "verifica": "google-news"
+        },
+        {
+          "url": "https://news.google.com/rss/search?q=site%3Aunionesarda.it+sport&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport",
+          "verifica": "google-news"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "web_dinamo_sassari",
+      "nome": "Dinamo Sassari (basket)",
+      "paese": "Italia",
+      "gruppo": "Sport dal web",
+      "sito": "https://news.google.com/search?q=%22Dinamo+Sassari%22&hl=it&gl=IT&ceid=IT:it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=%22Dinamo+Sassari%22&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport/basket",
+          "principale": true,
+          "verifica": "google-news"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "web_basket_serie_a",
+      "nome": "Basket Serie A",
+      "paese": "Italia",
+      "gruppo": "Sport dal web",
+      "sito": "https://news.google.com/search?q=basket+%22Serie+A%22+LBA&hl=it&gl=IT&ceid=IT:it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=basket+%22Serie+A%22+LBA&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport/basket",
+          "principale": true,
+          "verifica": "google-news"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "web_basket_serie_a2",
+      "nome": "Basket Serie A2",
+      "paese": "Italia",
+      "gruppo": "Sport dal web",
+      "sito": "https://news.google.com/search?q=basket+%22Serie+A2%22&hl=it&gl=IT&ceid=IT:it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=basket+%22Serie+A2%22&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport/basket",
+          "principale": true,
+          "verifica": "google-news"
+        }
+      ],
+      "lingua": "it"
+    },
+    {
+      "id": "web_pallavolo",
+      "nome": "Pallavolo Serie A",
+      "paese": "Italia",
+      "gruppo": "Sport dal web",
+      "sito": "https://news.google.com/search?q=pallavolo+OR+volley+%22Serie+A%22&hl=it&gl=IT&ceid=IT:it",
+      "testo_completo": false,
+      "feed": [
+        {
+          "url": "https://news.google.com/rss/search?q=pallavolo+OR+volley+%22Serie+A%22&hl=it&gl=IT&ceid=IT:it",
+          "categoria": "sport/pallavolo",
+          "principale": true,
+          "verifica": "google-news"
         }
       ],
       "lingua": "it"
