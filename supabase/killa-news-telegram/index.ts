@@ -166,10 +166,117 @@ async function haAccettato(codice: string) {
   return (await r.json()).length > 0;
 }
 
+
+// ---- Gruppo Killa Radio: post del mattino e comandi dell'amministratore ----
+async function tg(metodo: string, dati: unknown) {
+  const r = await fetch(`${API}/${metodo}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dati) });
+  return await r.json();
+}
+async function config(chiave: string): Promise<string> {
+  const r = await fetch(`${SB_URL}/rest/v1/telegram_config?chiave=eq.${chiave}&select=valore`, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+  const j = r.ok ? await r.json() : [];
+  return j[0]?.valore ?? "";
+}
+async function salvaConfig(chiave: string, valore: string) {
+  await fetch(`${SB_URL}/rest/v1/telegram_config`, {
+    method: "POST",
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: JSON.stringify({ chiave, valore }),
+  });
+}
+async function statoVault(attiva: boolean, link: string, titolo: string) {
+  await fetch(`${SB_URL}/rest/v1/vault_stato?id=eq.1`, {
+    method: "PATCH",
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+    body: JSON.stringify({ in_diretta: attiva, link_diretta: attiva ? link : "", titolo_diretta: titolo.slice(0, 120), aggiornato_il: new Date().toISOString() }),
+  });
+}
+// È amministratore chi è proprietario o amministratore del gruppo Killa Radio
+async function eAdminRadio(userId: number) {
+  const gruppo = await config("gruppo_id");
+  if (!gruppo || !userId) return false;
+  const r = await tg("getChatMember", { chat_id: gruppo, user_id: userId });
+  return r.ok && ["creator", "administrator"].includes(r.result?.status);
+}
+const COMANDI_ADMIN = "<b>Comandi per te (solo amministratore)</b>\n\n" +
+  "• <b>annuncia la diretta</b>: avvisa il gruppo Killa Radio e ferma la radio del Vault. Puoi aggiungere il titolo, per esempio: annuncia la diretta Quiz del venerdì\n" +
+  "• <b>fine diretta</b>: avvisa che la diretta è finita e fa ripartire la musica nel Vault\n" +
+  "• <b>annuncia</b> seguito da un testo: lo pubblico nel gruppo così com'è\n" +
+  "• <b>giornale nel gruppo</b>: pubblico adesso il giornale parlato di oggi nel gruppo";
+
+async function comandoAdmin(msg: any): Promise<Record<string, unknown> | null> {
+  const t = msg.text.trim();
+  const chat = msg.chat.id;
+  const m1 = t.match(/^\/?(annuncia|avvia)\s+(la\s+)?diretta\s*[:,-]?\s*(.*)$/i);
+  const m2 = /^\/?(fine|chiudi|termina)\s+(la\s+)?diretta\b/i.test(t);
+  const m3 = t.match(/^\/?annuncia\s+([\s\S]+)$/i);
+  const m4 = /^\/?(giornale nel gruppo|mattino)\b/i.test(t);
+  const m5 = /^\/?(comandi|admin)$/i.test(t);
+  if (!m1 && !m2 && !m3 && !m4 && !m5) return null;
+  if (!(await eAdminRadio(msg.from?.id))) return null; // per gli altri sono messaggi normali
+  const gruppo = await config("gruppo_id");
+  const link = await config("gruppo_link");
+  if (m5) return invia(chat, COMANDI_ADMIN);
+  if (m1) {
+    const titolo = (m1[3] || "").trim();
+    const testo = "🔴 <b>KILLA È IN DIRETTA ADESSO!</b>" + (titolo ? "\n\n🎙 " + esc(titolo) : "") +
+      "\n\nEntra nella diretta qui nel gruppo: tocca la barra della diretta in alto, oppure apri il gruppo e scegli Partecipa." +
+      "\nVuoi parlare? Alza la mano. Per i quiz scrivi la risposta qui in chat.";
+    const r = await tg("sendMessage", { chat_id: gruppo, text: testo, parse_mode: "HTML" });
+    await statoVault(true, link, titolo || "Diretta di Killa");
+    return invia(chat, r.ok ? "Fatto! Ho avvisato il gruppo Killa Radio e nel Vault la musica si è fermata con l'avviso della diretta. Quando finisci scrivimi: fine diretta" : "Non riesco a scrivere nel gruppo: controlla che io sia ancora nel gruppo. Errore: " + esc(r.description || ""));
+  }
+  if (m2) {
+    await tg("sendMessage", { chat_id: gruppo, text: "✅ La diretta è finita. Grazie a tutti! La registrazione arriverà presto nella Killa Radio del Vault." });
+    await statoVault(false, "", "");
+    return invia(chat, "Diretta chiusa: ho avvisato il gruppo e nel Vault la musica è ripartita.");
+  }
+  if (m4) {
+    const esito = await postMattino(true);
+    return invia(chat, esito);
+  }
+  if (m3) {
+    const r = await tg("sendMessage", { chat_id: gruppo, text: m3[1].slice(0, 4000) });
+    return invia(chat, r.ok ? "Pubblicato nel gruppo Killa Radio." : "Non riesco a scrivere nel gruppo. Errore: " + esc(r.description || ""));
+  }
+  return null;
+}
+
+// Post del mattino nel gruppo: il giornale parlato di oggi, una volta sola al giorno
+async function postMattino(forza = false): Promise<string> {
+  const gruppo = await config("gruppo_id");
+  if (!gruppo) return "Il gruppo non è ancora collegato: scrivi /collega nel gruppo Killa Radio.";
+  const p = await (await fetch(PODCAST + "?t=" + Date.now(), { signal: AbortSignal.timeout(8000) })).json();
+  const oggi = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+  if (p.data !== oggi) return "Il giornale parlato di oggi non è ancora pronto.";
+  if (!forza && (await config("ultimo_mattino")) === oggi) return "Già pubblicato oggi.";
+  const audio = `https://killarecordsgames.github.io/killa-news/podcast/${p.file}`;
+  const r = await tg("sendAudio", {
+    chat_id: gruppo, audio, title: p.titolo, performer: "KILLA NEWS",
+    caption: "☀️ Buongiorno Killa Family! Ecco " + p.titolo.charAt(0).toLowerCase() + p.titolo.slice(1) + ": le notizie principali di oggi in pochi minuti.\n\nLe notizie quando vuoi: @KillaFlowBot · La radio 24 ore su 24: killarecordsgames.com/vault",
+  });
+  if (r.ok) await salvaConfig("ultimo_mattino", oggi);
+  return r.ok ? "Giornale parlato pubblicato nel gruppo." : "Errore Telegram: " + (r.description || "");
+}
+
 async function gestisci(update: any): Promise<Record<string, unknown> | null> {
   const msg = update.message;
   if (!msg?.chat?.id || typeof msg.text !== "string") return null;
   const chat = msg.chat.id;
+  // Nei gruppi rispondo solo a /collega (per collegare il gruppo Killa Radio)
+  if (msg.chat.type !== "private") {
+    if (/^\/collega(@\w+)?\b/i.test(msg.text.trim())) {
+      const r = await tg("getChatMember", { chat_id: chat, user_id: msg.from?.id });
+      if (!(r.ok && r.result?.status === "creator")) return null;
+      await salvaConfig("gruppo_id", String(chat));
+      const link = (msg.text.match(/https:\/\/t\.me\/\S+/) || [""])[0];
+      if (link) await salvaConfig("gruppo_link", link);
+      return { method: "sendMessage", chat_id: chat, text: "✅ Gruppo Killa Radio collegato al bot. Ogni mattina pubblicherò qui il giornale parlato." };
+    }
+    return null;
+  }
+  const admin = await comandoAdmin(msg);
+  if (admin) return admin;
   const testo = msg.text.replace(/[^\p{L}\p{N}\s'’.,-]/gu, " ").replace(/\s+/g, " ").trim();
   const codice = await codiceUtente(msg.from?.id ?? chat);
   if (/^\/?revoca\b/i.test(msg.text.trim())) {
@@ -207,6 +314,10 @@ Deno.serve(async (req) => {
       bot: me.ok ? me.result.username : me, webhook: r.url || "(nessuno)", in_attesa: r.pending_update_count,
       ultimo_errore: r.last_error_message || "", data_errore: r.last_error_date ? new Date(r.last_error_date * 1000).toISOString() : "",
     }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
+  }
+  if (req.method === "GET" && url.searchParams.get("mattino") === "1") {
+    // Chiamato ogni mattina dopo l'uscita del giornale parlato: pubblica una sola volta al giorno
+    return new Response(await postMattino(false), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
   }
   if (req.method === "GET" && url.searchParams.get("configura") === "1") {
     const indirizzo = `https://${url.host}/functions/v1/killa-news-telegram`;
