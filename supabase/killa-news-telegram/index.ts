@@ -132,13 +132,57 @@ const AIUTO = "<b>Benvenuto nel bot di KILLA NEWS!</b>\n\n" +
   "• Usa i pulsanti in basso per le sezioni: Prima pagina, Italia, Dal mondo, Economia, Sport, Tecnologia.\n" +
   "• <b>Giornale parlato</b>: ti mando l'audio con le notizie principali di oggi, da ascoltare in pochi minuti.\n" +
   "• Scrivi il nome di una <b>città</b> (per esempio Verona) o un <b>argomento</b> (per esempio Juventus o pensioni) e ti mando le ultime notizie.\n\n" +
-  "Il bot è gratuito e non salva i tuoi messaggi. È un servizio di Killa Records: killarecordsgames.com";
+  "Il bot è gratuito e non salva i tuoi messaggi. Per ritirare il consenso scrivi /revoca. È un servizio di Killa Records: killarecordsgames.com";
+
+// ---- Informativa privacy da accettare al primo messaggio ----
+const ACCETTO = "✅ Accetto l'informativa";
+const INFORMATIVA = "<b>Prima di iniziare: informativa privacy</b>\n\n" +
+  "Il bot di KILLA NEWS è un servizio gratuito di Killa Records (titolare del trattamento, contatto: info@killarecordsgames.com).\n\n" +
+  "• <b>Cosa trattiamo</b>: i messaggi che scrivi al bot, solo per risponderti. Non li salviamo.\n" +
+  "• <b>Cosa conserviamo</b>: solo un codice cifrato ricavato dal tuo account Telegram e la data in cui accetti, per ricordare che hai già accettato. Non conserviamo nome, numero di telefono o messaggi.\n" +
+  "• <b>Dove</b>: su Supabase, che lo gestisce per nostro conto. Telegram tratta i tuoi dati secondo la sua informativa.\n" +
+  "• <b>Per quanto</b>: finché usi il bot. Con /revoca lo cancelliamo subito.\n" +
+  "• <b>I tuoi diritti</b>: accesso, cancellazione, opposizione e reclamo al Garante privacy. Informativa completa: killarecordsgames.com/privacy\n\n" +
+  "Le notizie sono titoli pubblici dei giornali indicati: per l'articolo completo si va sul sito del giornale.\n\n" +
+  "Per usare il bot tocca il pulsante <b>" + ACCETTO + "</b> qui sotto.";
+const TASTIERA_CONSENSO = { keyboard: [[{ text: ACCETTO }]], resize_keyboard: true, is_persistent: true, one_time_keyboard: true };
+
+const SB_URL = Deno.env.get("SUPABASE_URL") ?? "";
+const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+async function codiceUtente(id: number) {
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("killa-news-consenso:" + id + ":" + SB_KEY.slice(-24)));
+  return Array.from(new Uint8Array(h)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+async function db(metodo: string, query: string, corpo?: unknown) {
+  return await fetch(`${SB_URL}/rest/v1/telegram_consensi${query}`, {
+    method: metodo,
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: corpo ? JSON.stringify(corpo) : undefined,
+  });
+}
+async function haAccettato(codice: string) {
+  const r = await db("GET", `?codice=eq.${codice}&select=codice`);
+  if (!r.ok) throw new Error("consensi " + r.status);
+  return (await r.json()).length > 0;
+}
 
 async function gestisci(update: any): Promise<Record<string, unknown> | null> {
   const msg = update.message;
   if (!msg?.chat?.id || typeof msg.text !== "string") return null;
   const chat = msg.chat.id;
   const testo = msg.text.replace(/[^\p{L}\p{N}\s'’.,-]/gu, " ").replace(/\s+/g, " ").trim();
+  const codice = await codiceUtente(msg.from?.id ?? chat);
+  if (/^\/?revoca\b/i.test(msg.text.trim())) {
+    await db("DELETE", `?codice=eq.${codice}`);
+    return { method: "sendMessage", chat_id: chat, text: "Fatto: ho cancellato il tuo consenso e il codice che lo ricordava. Se vuoi usare di nuovo il bot, scrivimi qualcosa e ti ripropongo l'informativa.", reply_markup: { remove_keyboard: true } };
+  }
+  if (msg.text.trim() === ACCETTO) {
+    await db("POST", "", { codice, accettato_il: new Date().toISOString(), versione: "2026-11-24" });
+    return invia(chat, "Grazie! " + AIUTO);
+  }
+  if (!(await haAccettato(codice))) {
+    return { method: "sendMessage", chat_id: chat, text: INFORMATIVA, parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: TASTIERA_CONSENSO };
+  }
   if (/^\/?(start|aiuto|help)\b/i.test(msg.text.trim()) || /^aiuto$/i.test(testo)) return invia(chat, AIUTO);
   if (/giornale parlato|^\/?(podcast|ascolta|giornale)/i.test(testo)) return giornaleParlato(chat);
   for (const [re, k] of PAROLE) if (re.test(testo) && testo.split(" ").length <= 3) return invia(chat, await sezione(k));
