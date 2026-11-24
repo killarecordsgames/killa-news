@@ -86,6 +86,10 @@
       if (giornale && blocco % 6 === 0) {
         seq.push({ titolo: giornale.titolo, url: giornale.url, durata: giornale.durata }); tot += giornale.durata;
       }
+      if (P.spot && P.spot.length && blocco % 2 === 1) {
+        var sp = P.spot[Math.floor(blocco / 2) % P.spot.length];
+        seq.push({ titolo: sp.titolo, url: P.base + sp.file, durata: sp.durata }); tot += sp.durata;
+      }
       var brani = P.brani.slice();
       for (var i = brani.length - 1; i > 0; i--) { var k = Math.floor(r() * (i + 1)); var x = brani[i]; brani[i] = brani[k]; brani[k] = x; }
       brani.slice(0, 4).forEach(function (b) { seq.push({ titolo: b.titolo + ", " + b.artista, url: P.base + b.file, durata: b.durata }); tot += b.durata; });
