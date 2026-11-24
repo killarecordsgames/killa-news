@@ -1,0 +1,85 @@
+<main id="contenuto" class="container vault">
+    <p class="eyebrow">KILLA FAMILY · AREA RISERVATA</p>
+    <h1>KILLA VAULT</h1>
+
+    <div id="v-caricamento" aria-live="polite"><p>Controllo l'accesso…</p></div>
+
+    <!-- Chi non è dentro -->
+    <div id="v-fuori" hidden>
+      <p class="v-intro">Il Vault è l'area segreta della Killa Family. Si entra <strong>solo su invito</strong>: chiedi di entrare e, se vieni scelto, ti arriva per email il tuo codice personale.</p>
+      <h2 id="v-cosa">Cosa trovi dentro</h2>
+      <ul class="v-lista" aria-labelledby="v-cosa">
+        <li><strong>Killa Radio</strong>: musica originale 24 ore su 24, il giornale parlato e le dirette di Killa con ospiti e quiz.</li>
+        <li><strong>La tua tessera numerata</strong> della Killa Family.</li>
+        <li><strong>Anteprime</strong> di musica e giochi, prima di tutti gli altri.</li>
+      </ul>
+
+      <section class="v-box" aria-labelledby="v-chiedi">
+        <h2 id="v-chiedi">Chiedi di entrare</h2>
+        <form id="f-richiesta" novalidate>
+          <label for="r-nick">Nickname (da 3 a 24 caratteri)</label>
+          <input id="r-nick" name="nickname" autocomplete="nickname" maxlength="24" required>
+          <label for="r-email">Email</label>
+          <input id="r-email" name="email" type="email" autocomplete="email" required>
+          <div class="v-trappola" aria-hidden="true"><label for="r-sito">Lascia vuoto</label><input id="r-sito" name="sito" tabindex="-1" autocomplete="off"></div>
+          <p class="v-check"><input id="r-privacy" type="checkbox" required> <label for="r-privacy">Ho letto l'<a href="/privacy#vault">informativa privacy</a> e ho almeno 14 anni.</label></p>
+          <button type="submit">Chiedi di entrare</button>
+          <p id="r-esito" class="v-esito" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="v-box" aria-labelledby="v-entra">
+        <h2 id="v-entra">Sei già nella Killa Family? Entra</h2>
+        <form id="f-accesso" novalidate>
+          <label for="a-email">Email</label>
+          <input id="a-email" type="email" autocomplete="email" required>
+          <label for="a-pass">Password</label>
+          <input id="a-pass" type="password" autocomplete="current-password" required>
+          <button type="submit">Entra nel Vault</button>
+          <button type="button" id="a-dimenticata" class="v-link">Ho dimenticato la password</button>
+          <p id="a-esito" class="v-esito" role="status" aria-live="polite"></p>
+        </form>
+        <p>Hai ricevuto il codice d'invito? <a href="/vault-entra">Attiva il tuo invito</a>.</p>
+      </section>
+    </div>
+
+    <!-- Nuova password (dal link dell'email) -->
+    <section id="v-nuova" class="v-box" hidden aria-labelledby="v-nuova-t">
+      <h2 id="v-nuova-t">Scegli una nuova password</h2>
+      <form id="f-nuova" novalidate>
+        <label for="n-pass">Nuova password (almeno 8 caratteri)</label>
+        <input id="n-pass" type="password" autocomplete="new-password" required>
+        <button type="submit">Salva la password</button>
+        <p id="n-esito" class="v-esito" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- Membri -->
+    <div id="v-dentro" hidden>
+      <p class="v-tessera" id="v-tessera"></p>
+
+      <div id="v-diretta" class="v-diretta" hidden role="alert"></div>
+
+      <section class="v-box v-radio" aria-labelledby="v-radio-t">
+        <h2 id="v-radio-t">Killa Radio</h2>
+        <p class="v-onda">In onda: <span id="v-in-onda">premi Ascolta</span></p>
+        <button type="button" id="v-play" aria-pressed="false">Ascolta Killa Radio</button>
+        <label for="v-volume" class="v-vol">Volume</label>
+        <input id="v-volume" type="range" min="0" max="100" value="80">
+        <p class="v-nota">La radio è uguale per tutti: chi la ascolta sente la stessa cosa nello stesso momento. Quando Killa va in diretta, la musica si ferma e compare il pulsante per entrare.</p>
+        <audio id="v-audio" preload="none"></audio>
+      </section>
+
+      <section class="v-box" aria-labelledby="v-arrivo">
+        <h2 id="v-arrivo">In arrivo nel Vault</h2>
+        <ul class="v-lista">
+          <li>Studio segreto: i brani in lavorazione, prima che escano.</li>
+          <li>Laboratorio giochi: i giochi nuovi da provare per primi.</li>
+          <li>Sfide della settimana e Hall of Fame.</li>
+        </ul>
+      </section>
+
+      <p><a href="/admin-vault" id="v-admin" hidden>Gestione del Vault</a></p>
+      <button type="button" id="v-esci" class="v-link">Esci dal Vault</button>
+    </div>
+  </main>

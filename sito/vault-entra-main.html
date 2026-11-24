@@ -1,0 +1,24 @@
+<main id="contenuto" class="container vault">
+    <p class="eyebrow">KILLA FAMILY · INVITO</p>
+    <h1>Attiva il tuo invito</h1>
+    <p class="v-intro">Scrivi l'email a cui ti è arrivato l'invito, il tuo codice personale e scegli una password. Il codice vale una sola volta.</p>
+
+    <section class="v-box" aria-labelledby="e-titolo">
+      <h2 id="e-titolo">Entra nella Killa Family</h2>
+      <form id="f-entra" novalidate>
+        <label for="e-email">Email dell'invito</label>
+        <input id="e-email" type="email" autocomplete="email" required>
+        <label for="e-codice">Codice d'invito (per esempio KILLA-ABCD-EFGH)</label>
+        <input id="e-codice" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
+        <label for="e-pass">Scegli una password (almeno 8 caratteri)</label>
+        <input id="e-pass" type="password" autocomplete="new-password" required>
+        <label for="e-pass2">Ripeti la password</label>
+        <input id="e-pass2" type="password" autocomplete="new-password" required>
+        <div class="v-trappola" aria-hidden="true"><label for="e-sito">Lascia vuoto</label><input id="e-sito" tabindex="-1" autocomplete="off"></div>
+        <p class="v-check"><input id="e-privacy" type="checkbox" required> <label for="e-privacy">Ho letto l'<a href="/privacy#vault">informativa privacy</a>, ho almeno 14 anni e non condivido i contenuti riservati del Vault.</label></p>
+        <button type="submit">Attiva e entra nel Vault</button>
+        <p id="e-esito" class="v-esito" role="status" aria-live="polite"></p>
+      </form>
+      <p>Se hai già un account sui giochi di Killa Records con questa email, scrivi la password che usi già.</p>
+    </section>
+  </main>

@@ -1,0 +1,32 @@
+<main id="contenuto" class="container vault">
+    <p class="eyebrow">AREA ADMIN</p>
+    <h1>Gestione del Vault</h1>
+    <p id="g-stato" role="status" aria-live="polite">Controllo l'accesso…</p>
+
+    <div id="g-pannello" hidden>
+      <section class="v-box" aria-labelledby="g-dir-t">
+        <h2 id="g-dir-t">Diretta</h2>
+        <p id="g-dir-ora"></p>
+        <form id="f-diretta" novalidate>
+          <label for="g-link">Link della diretta Telegram (inizia con https://t.me/)</label>
+          <input id="g-link" type="url" inputmode="url">
+          <label for="g-titolo">Titolo della diretta (facoltativo, per esempio «Quiz del venerdì»)</label>
+          <input id="g-titolo" maxlength="120">
+          <button type="submit" id="g-avvia">Avvia la diretta: ferma la radio e avvisa tutti</button>
+        </form>
+        <button type="button" id="g-chiudi" class="v-link">Chiudi la diretta e fai ripartire la musica</button>
+        <p id="g-dir-esito" class="v-esito" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="v-box" aria-labelledby="g-ric-t">
+        <h2 id="g-ric-t">Richieste di ingresso</h2>
+        <p id="g-ric-esito" class="v-esito" role="status" aria-live="polite"></p>
+        <div id="g-richieste"></div>
+      </section>
+
+      <section class="v-box" aria-labelledby="g-mem-t">
+        <h2 id="g-mem-t">Membri della Killa Family</h2>
+        <div id="g-membri"></div>
+      </section>
+    </div>
+  </main>
