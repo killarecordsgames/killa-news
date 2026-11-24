@@ -14,6 +14,20 @@ CANZONI = [  # (titolo da cercare, interprete, titolo da mostrare)
     ("Marechiare", "Schipa", "Marechiare"),
     ("Funiculi", "", "Funiculì funiculà"),
 ]
+MONDO = [
+    ("Maple Leaf Rag", "", "Maple Leaf Rag (Scott Joplin)"),
+    ("Entertainer", "Joplin", "The Entertainer (Scott Joplin)"),
+    ("Over There", "", "Over There"),
+    ("After You've Gone", "", "After You've Gone"),
+    ("Bill Bailey", "", "Bill Bailey, Won't You Please Come Home"),
+    ("Cumparsita", "", "La Cumparsita"),
+    ("Por una cabeza", "Gardel", "Por una cabeza"),
+    ("Mi Buenos Aires querido", "Gardel", "Mi Buenos Aires querido"),
+    ("Le temps des cerises", "", "Le temps des cerises"),
+    ("Choclo", "", "El Choclo"),
+    ("Dark Eyes", "", "Ochi chornye (Occhi neri)"),
+    ("La Paloma", "", "La Paloma"),
+]
 UA = {"User-Agent": "KillaRadio/1.0 (killarecordsgames.com)"}
 
 
@@ -31,10 +45,11 @@ def cerca(titolo, artista):
     return json.loads(get(url))["response"]["docs"]
 
 
-def main(out):
+def main(out, elenco="italia"):
     os.makedirs(out, exist_ok=True)
     risultati = []
-    for n, (titolo, artista, mostra) in enumerate(CANZONI, start=1):
+    canzoni, prefisso = (MONDO, "mondo") if elenco == "mondo" else (CANZONI, "epoca")
+    for n, (titolo, artista, mostra) in enumerate(canzoni, start=1):
         try:
             docs = cerca(titolo, artista)
         except Exception as exc:
@@ -56,7 +71,7 @@ def main(out):
             print("NESSUN MP3", ident); continue
         src = os.path.join(out, f"raw{n:02d}.mp3")
         open(src, "wb").write(get(f"https://archive.org/download/{ident}/{urllib.parse.quote(mp3[0])}"))
-        dst = os.path.join(out, f"epoca{n:02d}.mp3")
+        dst = os.path.join(out, f"{prefisso}{n:02d}.mp3")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-af", "loudnorm=I=-14:TP=-1:LRA=11",
                         "-ar", "44100", "-ac", "2", "-b:a", "128k", dst], check=True)
         os.remove(src)
@@ -69,8 +84,8 @@ def main(out):
              "titolo_originale": scelto.get("title")}
         risultati.append(r)
         print("OK", json.dumps(r, ensure_ascii=False))
-    json.dump(risultati, open(os.path.join(out, "epoca.json"), "w"), ensure_ascii=False, indent=1)
+    json.dump(risultati, open(os.path.join(out, prefisso + ".json"), "w"), ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "epoca")
+    main(sys.argv[1] if len(sys.argv) > 1 else "epoca", sys.argv[2] if len(sys.argv) > 2 else "italia")
