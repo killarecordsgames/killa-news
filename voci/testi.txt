@@ -33,3 +33,6 @@
 7|3|Ascolta l'album Dalla Cenere al Sole, e il singolo Resta Qui.
 7|4|Lo trovi su Spotify e su YouTube.
 7|5|Killa Records: diamo voce alla musica.
+R|1|Stai ascoltando Killa Radio. Solo per la Killa Family, dentro il Vault.
+R|2|Killa Radio. E adesso, il giornale parlato di oggi.
+R|3|Killa Radio. Musica originale Killa On The Beat.
