@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Killa Beat Maker | Killa Records</title>
-<meta name="description" content="Killa Beat Maker: crea basi trap e rap con la tastiera, accessibile con NVDA. Di Killa Records.">
+<meta name="description" content="Killa Beat Maker: crea basi trap, drill, afrobeat e reggae con la tastiera, registra la tua voce. Accessibile con NVDA. Di Killa Records.">
 <style>
-  :root { --viola:#7c3aed; --viola2:#2e1065; --oro:#facc15; --fondo:#0d0618; --pannello:#1a0f2e; --testo:#f3eeff; --tenue:#b9a8e0; }
+  :root { --viola:#7c3aed; --oro:#facc15; --fondo:#0d0618; --pannello:#1a0f2e; --testo:#f3eeff; --tenue:#b9a8e0; --rosa:#db2777; --verde:#10b981; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--fondo); color:var(--testo); font:17px/1.5 system-ui,"Segoe UI",Arial,sans-serif; }
   a { color:var(--oro); }
   .salta { position:absolute; left:-9999px; } .salta:focus { left:8px; top:8px; background:#fff; color:#000; padding:8px; z-index:9; }
   header { padding:18px 20px 6px; display:flex; flex-wrap:wrap; align-items:baseline; gap:14px; }
-  h1 { margin:0; font-size:1.7rem; letter-spacing:.02em; } h1 span { color:var(--oro); }
+  h1 { margin:0; font-size:1.7rem; } h1 span { color:var(--oro); }
   header p { margin:0; color:var(--tenue); }
-  main { padding:0 20px 40px; max-width:1200px; }
+  main { padding:0 20px 40px; max-width:1240px; }
   section { background:var(--pannello); border:1px solid #3b2a63; border-radius:14px; padding:14px 16px; margin:14px 0; }
   h2 { margin:0 0 10px; font-size:1.15rem; color:var(--oro); }
   .riga { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
@@ -22,42 +22,79 @@
   button, select, input { font:inherit; color:var(--testo); background:#2a1b47; border:1px solid #5b44a0; border-radius:9px; padding:7px 12px; }
   button:hover { background:#3a2763; }
   button.grande { background:var(--viola); border-color:var(--viola); font-weight:700; padding:9px 20px; }
+  button.rec { background:#9f1239; border-color:#e11d48; font-weight:700; }
+  button.rec.attivo { background:#e11d48; }
   :focus-visible { outline:3px solid var(--oro); outline-offset:2px; }
-  input[type=number] { width:5.5em; } input[type=range] { width:10em; accent-color:var(--viola); }
-  .griglia { display:grid; grid-template-columns: 150px repeat(16, minmax(30px,1fr)); gap:4px; margin-top:8px; }
-  .nome { display:flex; align-items:center; gap:6px; padding:0 6px; border-radius:8px; background:#24163f; font-weight:600; }
+  input[type=number] { width:5.5em; } input[type=range] { width:9em; accent-color:var(--viola); }
+  input[type=checkbox] { width:20px; height:20px; accent-color:var(--viola); vertical-align:middle; }
+  .griglia { display:grid; grid-template-columns: 170px repeat(16, minmax(28px,1fr)); gap:4px; margin-top:8px; }
+  .nome { display:flex; align-items:center; gap:6px; padding:0 6px; border-radius:8px; background:#24163f; font-weight:600; font-size:.95rem; }
   .nome small { color:var(--tenue); font-weight:400; }
-  .cella { height:42px; border-radius:7px; background:#2b1c4a; border:1px solid #3d2b66; position:relative; cursor:pointer; padding:0; font-size:11px; color:#fff; }
+  .nome.melodia { background:#14303a; }
+  .cella { height:38px; border-radius:7px; background:#2b1c4a; border:1px solid #3d2b66; position:relative; cursor:pointer; padding:0; font-size:10px; color:#fff; overflow:hidden; }
   .cella.quarto { background:#33225a; }
   .cella.on { background:var(--viola); border-color:#a78bfa; }
-  .cella.on.e808 { background:#db2777; border-color:#f9a8d4; }
-  .cella.glide::after { content:"↗"; position:absolute; top:1px; right:3px; color:var(--oro); font-size:12px; }
+  .cella.on.e808 { background:var(--rosa); border-color:#f9a8d4; }
+  .cella.on.mel { background:var(--verde); border-color:#6ee7b7; color:#062; font-weight:700; }
+  .cella.cont { background:#0f5f49; border-color:#0f5f49; }
+  .cella.glide::after { content:"↗"; position:absolute; top:0; right:2px; color:var(--oro); font-size:12px; }
   .cella.ora { box-shadow:0 0 0 3px var(--oro) inset; }
   .muta { opacity:.45; }
   #annuncio { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
   .aiuto dt { font-weight:700; color:var(--oro); } .aiuto dd { margin:0 0 6px 0; }
   .aiuto dl { display:grid; grid-template-columns: max-content 1fr; gap:4px 16px; }
-  #stato { color:var(--tenue); }
+  .nota { color:var(--tenue); margin:8px 0 0; }
+  #stato, #stato-rec { color:var(--tenue); }
   footer { color:var(--tenue); padding:0 20px 30px; font-size:.9rem; }
+  @media (max-width:700px) { .griglia { grid-template-columns: 110px repeat(16, minmax(18px,1fr)); } .aiuto dl { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <a class="salta" href="#zona-griglia">Vai alla griglia dei suoni</a>
 <header>
   <h1>KILLA <span>BEAT MAKER</span></h1>
-  <p>Crea basi trap e rap con la tastiera. Premi H per l'aiuto.</p>
+  <p>Crea la tua base, poi registra la tua voce. Dalla griglia premi H per l'aiuto.</p>
 </header>
 <div id="annuncio" aria-live="polite" aria-atomic="true"></div>
 <main>
+  <section aria-labelledby="t-crea">
+    <h2 id="t-crea">Crea una base da zero</h2>
+    <div class="riga">
+      <label for="genere">Genere</label>
+      <select id="genere">
+        <option value="trap">Trap</option>
+        <option value="drill">Drill</option>
+        <option value="melodico">Rap melodico</option>
+        <option value="afro">Afrobeat</option>
+        <option value="reggae">Reggae</option>
+        <option value="boombap">Boom bap</option>
+      </select>
+      <label for="tono">Tonalità</label><select id="tono"></select>
+      <label for="scala">Scala</label>
+      <select id="scala">
+        <option value="minore">minore</option>
+        <option value="maggiore">maggiore</option>
+        <option value="armonica">minore armonica</option>
+        <option value="frigia">frigia (scura)</option>
+        <option value="dorica">dorica</option>
+        <option value="penta">pentatonica minore</option>
+      </select>
+      <button id="genera" class="grande">Crea la base</button>
+      <button id="vuota">Nuova base vuota</button>
+    </div>
+    <p class="nota">«Crea la base» prepara batteria, 808, accordi e melodia nel genere scelto: intro, strofa e ritornello. Poi puoi cambiare ogni nota a mano. Ogni volta che lo premi esce una base diversa.</p>
+  </section>
+
   <section aria-labelledby="t-trasporto">
     <h2 id="t-trasporto">Riproduzione</h2>
     <div class="riga">
-      <button id="play" class="grande" aria-keyshortcuts="Enter">▶ Play</button>
+      <button id="play" class="grande">▶ Play</button>
+      <label for="modo">Suona</label>
+      <select id="modo"><option value="canzone">tutta la canzone</option><option value="pattern">solo il pattern scelto</option></select>
       <label for="bpm">Velocità (BPM)</label><input id="bpm" type="number" min="50" max="200" value="140">
       <label for="swing">Swing</label><input id="swing" type="range" min="0" max="60" value="0" aria-valuetext="0 per cento">
-      <label for="volume">Volume generale</label><input id="volume" type="range" min="0" max="100" value="80" aria-valuetext="80 per cento">
-      <label for="modo">Suona</label>
-      <select id="modo"><option value="pattern">solo il pattern scelto</option><option value="canzone">tutta la canzone</option></select>
+      <label for="volume">Volume</label><input id="volume" type="range" min="0" max="100" value="80" aria-valuetext="80 per cento">
+      <label><input id="metro" type="checkbox"> Metronomo</label>
       <span id="stato" role="status">Fermo</span>
     </div>
   </section>
@@ -69,20 +106,32 @@
       <select id="pattern"></select>
       <button id="duplica">Copia nel pattern successivo</button>
       <button id="svuota">Svuota il pattern</button>
-      <label for="scala">Nota base dell'808</label>
-      <select id="scala"></select>
     </div>
     <div class="riga" style="margin-top:10px">
       <label for="sequenza">Sequenza della canzone (numeri dei pattern, separati da spazi)</label>
       <input id="sequenza" type="text" size="40" value="1 1 2 2" aria-describedby="seq-desc">
-      <span id="seq-desc">Esempio: 1 1 2 2 3 2 vuol dire intro, intro, strofa, strofa, ritornello, strofa.</span>
     </div>
+    <p class="nota" id="seq-desc">Ogni pattern è una battuta. Esempio: 1 2 2 3 vuol dire intro, strofa, strofa, ritornello.</p>
   </section>
 
   <section id="zona-griglia" aria-labelledby="t-griglia">
     <h2 id="t-griglia">Griglia dei suoni: pattern <span id="num-pattern">1</span></h2>
-    <p id="istruzioni-griglia" style="margin:0;color:var(--tenue)">Frecce per muoverti, Spazio per mettere o togliere un colpo, Invio per Play e Stop. Sulla riga dell'808: Pagina su e Pagina giù cambiano la nota, G attiva lo scivolamento, L cambia la lunghezza.</p>
+    <p id="istruzioni-griglia" class="nota" style="margin:0">Frecce per muoverti, Spazio per mettere o togliere un colpo o una nota, Invio per Play e Stop. Sull'808 e sugli strumenti melodici: Pagina su e Pagina giù cambiano la nota, L la lunghezza. H per tutti i tasti.</p>
     <div id="griglia" class="griglia" role="grid" aria-labelledby="t-griglia" aria-describedby="istruzioni-griglia"></div>
+  </section>
+
+  <section aria-labelledby="t-rec">
+    <h2 id="t-rec">Registra la tua voce sulla base</h2>
+    <div class="riga">
+      <button id="registra" class="rec">● Registra la voce</button>
+      <label><input id="conto" type="checkbox" checked> Una battuta di conto prima di partire</label>
+      <label><input id="metro-rec" type="checkbox" checked> Metronomo mentre registro</label>
+      <label for="vol-voce">Volume della voce</label><input id="vol-voce" type="range" min="0" max="150" value="100" aria-valuetext="100 per cento">
+      <button id="cancella-voce">Cancella la voce</button>
+      <button id="esporta-voce">Esporta solo la voce</button>
+      <span id="stato-rec" role="status">Nessuna voce registrata</span>
+    </div>
+    <p class="nota">Usa le cuffie: così il microfono registra solo la tua voce, e non la base né il metronomo. La registrazione parte dall'inizio della canzone (o del pattern scelto) e si ferma con Invio o con lo stesso pulsante. Premi Play per riascoltarla sulla base. La voce non si salva nel progetto: quando ti piace, esportala.</p>
   </section>
 
   <section aria-labelledby="t-file">
@@ -90,42 +139,45 @@
     <div class="riga">
       <label for="nome-progetto">Nome della base</label>
       <input id="nome-progetto" type="text" value="La mia base Killa">
-      <button id="esporta">Esporta la base in WAV</button>
-      <label for="giri">Ripetizioni nell'esportazione</label>
-      <input id="giri" type="number" min="1" max="16" value="2">
+      <button id="esporta" class="grande">Esporta in WAV</button>
+      <label><input id="con-voce" type="checkbox" checked> con la voce</label>
+      <label for="giri">Ripetizioni</label>
+      <input id="giri" type="number" min="1" max="16" value="1">
       <button id="salva-file">Salva il progetto su file</button>
       <button id="apri-file">Apri un progetto</button>
       <input id="file-progetto" type="file" accept=".json,application/json" hidden>
-      <button id="demo">Carica la base di esempio</button>
     </div>
-    <p style="margin:8px 0 0;color:var(--tenue)">Il lavoro si salva da solo in questo browser a ogni modifica.</p>
+    <p class="nota">Il lavoro sulla base si salva da solo in questo browser a ogni modifica. Il file WAV finisce nella cartella dei download.</p>
   </section>
 
   <section class="aiuto" aria-labelledby="t-aiuto" id="aiuto">
-    <h2 id="t-aiuto">Aiuto: tutti i tasti</h2>
+    <h2 id="t-aiuto" tabindex="-1">Aiuto: tutti i tasti</h2>
     <dl>
-      <dt>Frecce</dt><dd>Muoversi tra suoni (su e giù) e passi (destra e sinistra). Inizio e Fine vanno al primo e all'ultimo passo.</dd>
-      <dt>Spazio</dt><dd>Mettere o togliere un colpo sul passo.</dd>
-      <dt>Invio</dt><dd>Play e Stop, da qualsiasi punto della pagina.</dd>
-      <dt>Pagina su / Pagina giù</dt><dd>Sull'808: alzare o abbassare la nota di un semitono. Con Maiuscolo: di un'ottava.</dd>
-      <dt>G</dt><dd>Sull'808: scivolamento (glide) dalla nota precedente.</dd>
-      <dt>L</dt><dd>Sull'808: lunghezza della nota, da 1 a 8 passi.</dd>
-      <dt>V</dt><dd>Forza del colpo: forte, media, piano.</dd>
-      <dt>Ascolta (A)</dt><dd>Sentire il suono della riga, senza mettere il colpo.</dd>
-      <dt>M</dt><dd>Silenziare o riattivare la riga.</dd>
-      <dt>R</dt><dd>Leggere tutta la riga: quali passi sono attivi.</dd>
-      <dt>Alt + numero da 1 a 8</dt><dd>Passare a un altro pattern.</dd>
+      <dt>Frecce</dt><dd>Muoversi tra gli strumenti (su e giù) e i passi (destra e sinistra). Inizio e Fine: primo e ultimo passo.</dd>
+      <dt>Spazio</dt><dd>Mettere o togliere un colpo o una nota.</dd>
+      <dt>Invio</dt><dd>Play e Stop da qualsiasi punto. Durante la registrazione, la ferma.</dd>
+      <dt>Pagina su, Pagina giù</dt><dd>Sull'808: nota su o giù di un semitono. Sugli strumenti melodici: nota successiva o precedente della scala. Con Maiuscolo: un'ottava.</dd>
+      <dt>L</dt><dd>Lunghezza della nota, da 1 a 16 passi.</dd>
+      <dt>C</dt><dd>Strumenti melodici: suonare un accordo invece di una nota sola (il Tappeto suona sempre accordi).</dd>
+      <dt>G</dt><dd>Sull'808: scivolamento dalla nota precedente.</dd>
+      <dt>V</dt><dd>Forza: forte, media, piano.</dd>
+      <dt>A</dt><dd>Ascoltare il suono della riga senza modificarla.</dd>
+      <dt>M</dt><dd>Silenziare o riattivare lo strumento.</dd>
+      <dt>R</dt><dd>Leggere tutta la riga.</dd>
+      <dt>Alt + numero da 1 a 8</dt><dd>Cambiare pattern.</dd>
+      <dt>Alt + R</dt><dd>Registrare la voce.</dd>
       <dt>+ e -</dt><dd>Velocità più alta o più bassa di 5 BPM.</dd>
-      <dt>H</dt><dd>Andare a questo aiuto.</dd>
+      <dt>H</dt><dd>Venire a questo aiuto.</dd>
     </dl>
-    <p>Un pattern è una battuta di 16 passi: ogni passo è un sedicesimo. I passi 1, 5, 9 e 13 sono i quattro battiti della battuta.</p>
+    <p>Ogni pattern è una battuta di 16 passi: i passi 1, 5, 9 e 13 sono i quattro battiti.</p>
   </section>
 </main>
-<footer>Killa Beat Maker 1.0 · Killa Records · <a href="https://www.killarecordsgames.com">killarecordsgames.com</a> · Tutti i suoni sono generati dal programma: le basi che crei sono tue.</footer>
+<footer>Killa Beat Maker 1.1 · Killa Records · <a href="https://www.killarecordsgames.com">killarecordsgames.com</a> · Tutti i suoni sono generati dal programma: le basi che crei sono tue.</footer>
 
 <script>
 "use strict";
-/* ============ dati ============ */
+{
+/* ================= dati ================= */
 const PASSI = 16, NPATTERN = 8;
 const TRACCE = [
   { id:"kick",  nome:"Cassa" },
@@ -135,56 +187,70 @@ const TRACCE = [
   { id:"ohat",  nome:"Charleston aperto" },
   { id:"rim",   nome:"Percussione" },
   { id:"b808",  nome:"808" },
+  { id:"piano", nome:"Pianoforte", mel:true, ott:4 },
+  { id:"pad",   nome:"Tappeto (accordi)", mel:true, ott:3, accordo:true },
+  { id:"lead",  nome:"Synth solista", mel:true, ott:5 },
+  { id:"bell",  nome:"Campana", mel:true, ott:5 },
+  { id:"pluck", nome:"Pizzicato", mel:true, ott:4 },
 ];
 const NOTE = ["Do","Do diesis","Re","Re diesis","Mi","Fa","Fa diesis","Sol","Sol diesis","La","La diesis","Si"];
+const SCALE = { minore:[0,2,3,5,7,8,10], maggiore:[0,2,4,5,7,9,11], armonica:[0,2,3,5,7,8,11], frigia:[0,1,3,5,7,8,10], dorica:[0,2,3,5,7,9,10], penta:[0,3,5,7,10] };
 const FORZE = [1, 0.7, 0.45], NOMI_FORZA = ["forte","media","piano"];
-const ann = document.getElementById("annuncio");
+const LUNGHEZZE = [1, 2, 3, 4, 6, 8, 12, 16];
+const $ = (id) => document.getElementById(id);
+const ann = $("annuncio");
 function annuncia(t) { ann.textContent = ""; setTimeout(() => { ann.textContent = t; }, 30); }
-function nomeNota(midi) { return NOTE[midi % 12] + " " + (Math.floor(midi / 12) - 1); }
+function nomeNota(m) { return NOTE[((m % 12) + 12) % 12] + " " + (Math.floor(m / 12) - 1); }
+const traccia = (id) => TRACCE.find(t => t.id === id);
 
-function patternVuoto() {
-  const p = {};
-  TRACCE.forEach(t => { p[t.id] = Array.from({ length: PASSI }, () => null); });
-  return p;
+function patternVuoto() { const p = {}; TRACCE.forEach(t => { p[t.id] = Array(PASSI).fill(null); }); return p; }
+function progettoVuoto() {
+  return { versione: 2, nome: "La mia base Killa", bpm: 140, swing: 0, volume: 80, tono: 0, scala: "minore", genere: "trap",
+    sequenza: "1", muti: {}, pattern: Array.from({ length: NPATTERN }, patternVuoto) };
 }
-let progetto = {
-  versione: 1, nome: "La mia base Killa", bpm: 140, swing: 0, volume: 80, base808: 36,
-  sequenza: "1 1 2 2", muti: {}, pattern: Array.from({ length: NPATTERN }, patternVuoto),
-};
+let progetto = progettoVuoto();
 let corrente = 0, cursore = { r: 0, c: 0 };
 
 function salvaLocale() { try { localStorage.setItem("killa-beat-maker", JSON.stringify(progetto)); } catch (e) {} }
-function caricaLocale() {
-  try { const s = localStorage.getItem("killa-beat-maker"); if (s) return normalizza(JSON.parse(s)); } catch (e) {}
-  return null;
-}
+function caricaLocale() { try { const s = localStorage.getItem("killa-beat-maker"); if (s) return normalizza(JSON.parse(s)); } catch (e) {} return null; }
 function normalizza(p) {
   if (!p || !Array.isArray(p.pattern)) throw new Error("File non valido");
-  const out = Object.assign({}, progetto, p);
+  const out = Object.assign(progettoVuoto(), p);
   out.pattern = Array.from({ length: NPATTERN }, (_, i) => {
     const src = p.pattern[i] || {}, pv = patternVuoto();
     TRACCE.forEach(t => { if (Array.isArray(src[t.id])) pv[t.id] = src[t.id].slice(0, PASSI).concat(Array(PASSI).fill(null)).slice(0, PASSI); });
     return pv;
   });
   out.muti = p.muti || {};
+  if (!SCALE[out.scala]) out.scala = "minore";
   return out;
 }
 
-/* ============ suoni (Web Audio) ============ */
+/* ================= scale e note ================= */
+function inScala(m) { return SCALE[progetto.scala].includes((((m - progetto.tono) % 12) + 12) % 12); }
+function passoScala(m, dir) { let n = m; do { n += dir; } while (!inScala(n) && Math.abs(n - m) < 13); return n; }
+function radice(tr) { return 12 * (tr.ott + 1) + progetto.tono; }
+function grado(deg, ott) { // nota del grado della scala (0 = tonica), anche oltre l'ottava
+  const s = SCALE[progetto.scala], n = s.length, o = Math.floor(deg / n), i = ((deg % n) + n) % n;
+  return 12 * (ott + 1) + progetto.tono + s[i] + 12 * o;
+}
+function accordoDi(m) { // triade costruita sulla scala
+  if (!inScala(m)) return [m, m + 4, m + 7];
+  const a = passoScala(passoScala(m, 1), 1), b = passoScala(passoScala(a, 1), 1);
+  return [m, a, b];
+}
+const f = (m) => 440 * Math.pow(2, (m - 69) / 12);
+
+/* ================= motore audio ================= */
 let ctx = null, master = null;
 function audio() {
-  if (!ctx) {
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    master = creaMaster(ctx);
-  }
+  if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); master = creaMaster(ctx); }
   if (ctx.state === "suspended") ctx.resume();
   master.gain.value = progetto.volume / 100;
   return ctx;
 }
-// uscita: volume -> compressore -> limitatore, così la base non distorce mai
-function creaMaster(c) {
-  const g = c.createGain();
-  const pre = c.createGain(); pre.gain.value = 0.5;
+function creaMaster(c) { // volume -> compressore -> limitatore: la base non distorce mai
+  const g = c.createGain(), pre = c.createGain(); pre.gain.value = 0.5;
   const comp = c.createDynamicsCompressor();
   comp.threshold.value = -16; comp.ratio.value = 3; comp.knee.value = 8; comp.attack.value = 0.005; comp.release.value = 0.2;
   const lim = c.createDynamicsCompressor();
@@ -200,91 +266,127 @@ function rumore(c) {
   for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
   rumori.set(c, b); return b;
 }
-function inviluppo(c, t, picco, att, dec) {
+function env(c, t, picco, att, dec) {
   const g = c.createGain();
   g.gain.setValueAtTime(0.0001, t);
   g.gain.exponentialRampToValueAtTime(Math.max(picco, 0.0002), t + att);
   g.gain.exponentialRampToValueAtTime(0.0001, t + att + dec);
   return g;
 }
-function sorgenteRumore(c, t, dur) {
-  const s = c.createBufferSource(); s.buffer = rumore(c); s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.05); return s;
+function noise(c, t, dur) { const s = c.createBufferSource(); s.buffer = rumore(c); s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.05); return s; }
+function osc(c, tipo, freq, t, fine) { const o = c.createOscillator(); o.type = tipo; o.frequency.value = freq; o.start(t); o.stop(fine); return o; }
+function filtro(c, tipo, freq, q) { const b = c.createBiquadFilter(); b.type = tipo; b.frequency.value = freq; if (q) b.Q.value = q; return b; }
+function sostenuto(c, t, picco, att, dur, rel) { // attacco, tenuta, rilascio
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(Math.max(picco, 0.0002), t + att);
+  g.gain.setValueAtTime(Math.max(picco, 0.0002), t + Math.max(att, dur));
+  g.gain.exponentialRampToValueAtTime(0.0001, t + Math.max(att, dur) + rel);
+  return g;
 }
+
 const SUONI = {
   kick(c, out, t, v) {
     const o = c.createOscillator(); o.type = "sine";
     o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
-    const g = inviluppo(c, t, 1.0 * v, 0.002, 0.45);
-    o.connect(g); g.connect(out); o.start(t); o.stop(t + 0.5);
-    const cl = sorgenteRumore(c, t, 0.02), hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2500;
-    const gc = inviluppo(c, t, 0.25 * v, 0.001, 0.015); cl.connect(hp); hp.connect(gc); gc.connect(out);
+    const g = env(c, t, v, 0.002, 0.45); o.connect(g); g.connect(out); o.start(t); o.stop(t + 0.5);
+    const cl = noise(c, t, 0.02), hp = filtro(c, "highpass", 2500), gc = env(c, t, 0.25 * v, 0.001, 0.015);
+    cl.connect(hp); hp.connect(gc); gc.connect(out);
   },
   snare(c, out, t, v) {
-    const n = sorgenteRumore(c, t, 0.25), bp = c.createBiquadFilter(); bp.type = "highpass"; bp.frequency.value = 1200;
-    const g = inviluppo(c, t, 0.7 * v, 0.001, 0.2); n.connect(bp); bp.connect(g); g.connect(out);
+    const n = noise(c, t, 0.25), hp = filtro(c, "highpass", 1200), g = env(c, t, 0.7 * v, 0.001, 0.2);
+    n.connect(hp); hp.connect(g); g.connect(out);
     const o = c.createOscillator(); o.type = "triangle"; o.frequency.setValueAtTime(220, t); o.frequency.exponentialRampToValueAtTime(160, t + 0.1);
-    const go = inviluppo(c, t, 0.5 * v, 0.001, 0.12); o.connect(go); go.connect(out); o.start(t); o.stop(t + 0.2);
+    const go = env(c, t, 0.5 * v, 0.001, 0.12); o.connect(go); go.connect(out); o.start(t); o.stop(t + 0.2);
   },
   clap(c, out, t, v) {
-    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1500; bp.Q.value = 0.8; bp.connect(out);
+    const bp = filtro(c, "bandpass", 1500, 0.8); bp.connect(out);
     [0, 0.011, 0.022, 0.034].forEach((d, i) => {
-      const n = sorgenteRumore(c, t + d, i === 3 ? 0.25 : 0.02);
-      const g = inviluppo(c, t + d, (i === 3 ? 0.9 : 0.6) * v, 0.001, i === 3 ? 0.22 : 0.012);
+      const n = noise(c, t + d, i === 3 ? 0.25 : 0.02), g = env(c, t + d, (i === 3 ? 0.9 : 0.6) * v, 0.001, i === 3 ? 0.22 : 0.012);
       n.connect(g); g.connect(bp);
     });
   },
   hat(c, out, t, v, aperto) {
-    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7000;
-    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 10000; bp.Q.value = 0.6;
-    const dur = aperto ? 0.35 : 0.05;
-    const g = inviluppo(c, t, (aperto ? 0.35 : 0.3) * v, 0.001, dur);
-    [2, 3, 4.16, 5.43, 6.79, 8.21].forEach(r => {
-      const o = c.createOscillator(); o.type = "square"; o.frequency.value = 40 * r * 4; o.connect(bp); o.start(t); o.stop(t + dur + 0.05);
-    });
-    const n = sorgenteRumore(c, t, dur), gn = c.createGain(); gn.gain.value = 0.5; n.connect(gn); gn.connect(hp);
+    const hp = filtro(c, "highpass", 7000), bp = filtro(c, "bandpass", 10000, 0.6), dur = aperto ? 0.35 : 0.05;
+    const g = env(c, t, (aperto ? 0.35 : 0.3) * v, 0.001, dur);
+    [2, 3, 4.16, 5.43, 6.79, 8.21].forEach(r => { osc(c, "square", 160 * r, t, t + dur + 0.05).connect(bp); });
+    const n = noise(c, t, dur), gn = c.createGain(); gn.gain.value = 0.5; n.connect(gn); gn.connect(hp);
     bp.connect(hp); hp.connect(g); g.connect(out);
   },
   ohat(c, out, t, v) { SUONI.hat(c, out, t, v, true); },
   rim(c, out, t, v) {
-    const o = c.createOscillator(); o.type = "square"; o.frequency.value = 820;
-    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = 3;
-    const g = inviluppo(c, t, 0.5 * v, 0.001, 0.05); o.connect(bp); bp.connect(g); g.connect(out); o.start(t); o.stop(t + 0.08);
+    const bp = filtro(c, "bandpass", 1800, 3), g = env(c, t, 0.5 * v, 0.001, 0.05);
+    osc(c, "square", 820, t, t + 0.08).connect(bp); bp.connect(g); g.connect(out);
   },
   b808(c, out, t, v, nota, durata, daNota) {
-    const f = 440 * Math.pow(2, (nota - 69) / 12);
     const o = c.createOscillator(); o.type = "sine";
-    if (daNota != null) {
-      const f0 = 440 * Math.pow(2, (daNota - 69) / 12);
-      o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f, t + Math.min(0.12, durata * 0.5));
-    } else {
-      o.frequency.setValueAtTime(f * 1.9, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.04);
-    }
+    if (daNota != null) { o.frequency.setValueAtTime(f(daNota), t); o.frequency.exponentialRampToValueAtTime(f(nota), t + Math.min(0.12, durata * 0.5)); }
+    else { o.frequency.setValueAtTime(f(nota) * 1.9, t); o.frequency.exponentialRampToValueAtTime(f(nota), t + 0.04); }
     const dist = c.createWaveShaper(), curva = new Float32Array(1024);
-    for (let i = 0; i < 1024; i++) { const x = i / 512 - 1; curva[i] = Math.tanh(2.2 * x); }
+    for (let i = 0; i < 1024; i++) curva[i] = Math.tanh(2.2 * (i / 512 - 1));
     dist.curve = curva;
     const g = c.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.85 * v, t + 0.005);
-    g.gain.setValueAtTime(0.85 * v, t + Math.max(0.01, durata - 0.06));
-    g.gain.exponentialRampToValueAtTime(0.0001, t + durata);
-    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 900;
-    o.connect(dist); dist.connect(lp); lp.connect(g); g.connect(out);
-    o.start(t); o.stop(t + durata + 0.05);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.85 * v, t + 0.005);
+    g.gain.setValueAtTime(0.85 * v, t + Math.max(0.01, durata - 0.06)); g.gain.exponentialRampToValueAtTime(0.0001, t + durata);
+    const lp = filtro(c, "lowpass", 900);
+    o.connect(dist); dist.connect(lp); lp.connect(g); g.connect(out); o.start(t); o.stop(t + durata + 0.05);
+  },
+  // strumenti melodici: note = elenco di note MIDI (una o un accordo)
+  piano(c, out, t, v, note, dur) {
+    const lp = filtro(c, "lowpass", 3200); lp.connect(out); const k = v / Math.sqrt(note.length);
+    note.forEach(m => {
+      const g = c.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32 * k, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.06 * k, t + Math.min(dur, 1.4)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.35);
+      osc(c, "triangle", f(m), t, t + dur + 0.4).connect(g);
+      const g2 = c.createGain(); g2.gain.value = 0.25; osc(c, "sine", f(m) * 2, t, t + dur + 0.4).connect(g2); g2.connect(g);
+      g.connect(lp);
+    });
+  },
+  pad(c, out, t, v, note, dur) {
+    const lp = filtro(c, "lowpass", 1300, 0.7); lp.connect(out); const k = v / Math.sqrt(note.length);
+    const g = sostenuto(c, t, 0.1 * k, 0.25, dur, 0.5); g.connect(lp);
+    note.forEach(m => [-9, 0, 9].forEach(det => { const o = osc(c, "sawtooth", f(m), t, t + dur + 0.6); o.detune.value = det; o.connect(g); }));
+  },
+  lead(c, out, t, v, note, dur) {
+    const lp = filtro(c, "lowpass", 2600, 2); lp.connect(out); const k = v / Math.sqrt(note.length);
+    const g = sostenuto(c, t, 0.16 * k, 0.012, dur * 0.95, 0.15); g.connect(lp);
+    note.forEach(m => [-7, 7].forEach(det => { const o = osc(c, "sawtooth", f(m), t, t + dur + 0.2); o.detune.value = det; o.connect(g); }));
+  },
+  bell(c, out, t, v, note, dur) {
+    const k = v / Math.sqrt(note.length);
+    note.forEach(m => {
+      const car = osc(c, "sine", f(m), t, t + 2.2), mod = osc(c, "sine", f(m) * 3.5, t, t + 2.2);
+      const mg = c.createGain(); mg.gain.setValueAtTime(f(m) * 2.2, t); mg.gain.exponentialRampToValueAtTime(1, t + 1.2);
+      mod.connect(mg); mg.connect(car.frequency);
+      const g = env(c, t, 0.3 * k, 0.003, 1.8 + Math.min(dur, 1)); car.connect(g); g.connect(out);
+    });
+  },
+  pluck(c, out, t, v, note, dur) {
+    const k = v / Math.sqrt(note.length);
+    note.forEach(m => {
+      const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 3;
+      lp.frequency.setValueAtTime(4500, t); lp.frequency.exponentialRampToValueAtTime(350, t + 0.22);
+      const g = env(c, t, 0.25 * k, 0.002, 0.25 + Math.min(dur, 0.6) * 0.5);
+      osc(c, "square", f(m), t, t + 1.2).connect(lp); lp.connect(g); g.connect(out);
+    });
+  },
+  click(c, out, t, forte) {
+    const g = env(c, t, forte ? 0.5 : 0.3, 0.001, 0.05); osc(c, "sine", forte ? 1600 : 1000, t, t + 0.08).connect(g); g.connect(out);
   },
 };
 
-/* ============ scaletta ============ */
+/* ================= suonare un passo ================= */
 function durataPasso() { return 60 / progetto.bpm / 4; }
-function tempoPasso(i) { // con lo swing i passi dispari arrivano un po' dopo
-  const d = durataPasso();
-  return i * d + (i % 2 === 1 ? d * progetto.swing / 100 * 0.5 : 0);
-}
+function tempoPasso(i) { const d = durataPasso(); return i * d + (i % 2 === 1 ? d * progetto.swing / 100 * 0.5 : 0); }
 function sequenzaPattern() {
-  const nums = progetto.sequenza.split(/[\s,;]+/).map(Number).filter(n => n >= 1 && n <= NPATTERN);
+  const nums = String(progetto.sequenza).split(/[\s,;]+/).map(Number).filter(n => n >= 1 && n <= NPATTERN);
   return nums.length ? nums.map(n => n - 1) : [0];
 }
-// suona il passo "passo" del pattern "pi" all'istante t, sull'uscita "out"
-function suonaPasso(c, out, pi, passo, t, precedente808) {
+function noteCella(tr, cel) {
+  const m = cel.n != null ? cel.n : radice(tr);
+  return (tr.accordo || cel.c) ? accordoDi(m) : [m];
+}
+function suonaPasso(c, out, pi, passo, t) {
   const p = progetto.pattern[pi];
   TRACCE.forEach(tr => {
     if (progetto.muti[tr.id]) return;
@@ -292,45 +394,61 @@ function suonaPasso(c, out, pi, passo, t, precedente808) {
     if (!cel) return;
     const v = FORZE[cel.f || 0];
     if (tr.id === "b808") {
-      const nota = cel.n != null ? cel.n : progetto.base808;
-      const durata = Math.max(1, cel.l || 2) * durataPasso();
-      SUONI.b808(c, out, t, v, nota, durata, cel.g && precedente808 != null ? precedente808 : null);
+      SUONI.b808(c, out, t, v, cel.n != null ? cel.n : 24 + progetto.tono + 12, Math.max(1, cel.l || 2) * durataPasso(), cel.g ? ultima808Prima(pi, passo) : null);
+    } else if (tr.mel) {
+      SUONI[tr.id](c, out, t, v, noteCella(tr, cel), Math.max(1, cel.l || (tr.accordo ? 8 : 2)) * durataPasso());
     } else SUONI[tr.id](c, out, t, v);
   });
 }
 function ultima808Prima(pi, passo) {
   const r = progetto.pattern[pi].b808;
-  for (let i = passo - 1; i >= 0; i--) if (r[i]) return r[i].n != null ? r[i].n : progetto.base808;
+  for (let i = passo - 1; i >= 0; i--) if (r[i]) return r[i].n != null ? r[i].n : 36 + progetto.tono;
   return null;
 }
 
-/* ============ riproduzione in tempo reale ============ */
-let inRiproduzione = false, timer = null, prossimo = 0, passoCorr = 0, indiceSeq = 0, inizioBattuta = 0, visuali = [];
-function avvia() {
+/* ================= riproduzione ================= */
+let inRiproduzione = false, timer = null, passoCorr = 0, indiceSeq = 0, inizioBattuta = 0, sorgenteVoce = null;
+let registrando = false, recorder = null, streamMic = null, pezzi = [], recInizioCtx = 0, inizioBase = 0;
+let voce = null; // AudioBuffer della voce, allineato all'inizio della base
+function modo() { return $("modo").value; }
+function avvia(opz = {}) {
   const c = audio();
   inRiproduzione = true; passoCorr = 0; indiceSeq = 0;
-  inizioBattuta = c.currentTime + 0.08; prossimo = 0;
-  document.getElementById("play").textContent = "■ Stop";
+  let parte = c.currentTime + 0.12;
+  if (opz.conto) { // una battuta di conto con il click
+    const battito = 4 * durataPasso();
+    for (let i = 0; i < 4; i++) SUONI.click(c, master, parte + i * battito, i === 0);
+    parte += 4 * battito;
+  }
+  inizioBattuta = parte; inizioBase = parte;
+  if (voce && !opz.senzaVoce) {
+    sorgenteVoce = c.createBufferSource(); sorgenteVoce.buffer = voce;
+    const gv = c.createGain(); gv.gain.value = Number($("vol-voce").value) / 100;
+    sorgenteVoce.connect(gv); gv.connect(master); sorgenteVoce.start(parte);
+  }
+  $("play").textContent = "■ Stop";
   stato(progetto.bpm + " BPM, in riproduzione");
   pianifica();
 }
 function ferma() {
   inRiproduzione = false; clearTimeout(timer);
-  document.getElementById("play").textContent = "▶ Play";
+  if (sorgenteVoce) { try { sorgenteVoce.stop(); } catch (e) {} sorgenteVoce = null; }
+  $("play").textContent = "▶ Play";
   document.querySelectorAll(".cella.ora").forEach(e => e.classList.remove("ora"));
   stato("Fermo");
 }
-function patternInSuono() {
-  return document.getElementById("modo").value === "canzone" ? sequenzaPattern()[indiceSeq % sequenzaPattern().length] : corrente;
-}
+function patternInSuono() { const s = sequenzaPattern(); return modo() === "canzone" ? s[indiceSeq % s.length] : corrente; }
 function pianifica() {
   if (!inRiproduzione) return;
   const c = ctx;
   while (true) {
     const t = inizioBattuta + tempoPasso(passoCorr);
     if (t > c.currentTime + 0.12) break;
+    if (modo() === "canzone" && !registrando && indiceSeq >= sequenzaPattern().length && !(voce && sorgenteVoce)) { setTimeout(() => { if (inRiproduzione) { ferma(); annuncia("Fine della canzone"); } }, Math.max(0, (t - c.currentTime) * 1000)); return; }
     const pi = patternInSuono();
-    suonaPasso(c, master, pi, passoCorr, t, ultima808Prima(pi, passoCorr));
+    suonaPasso(c, master, pi, passoCorr, t);
+    const metro = registrando ? $("metro-rec").checked : $("metro").checked;
+    if (metro && passoCorr % 4 === 0) SUONI.click(c, master, t, passoCorr === 0);
     const passo = passoCorr, mostra = pi === corrente;
     setTimeout(() => evidenzia(mostra ? passo : -1), Math.max(0, (t - c.currentTime) * 1000));
     passoCorr++;
@@ -343,23 +461,77 @@ function evidenzia(passo) {
   if (passo < 0 || !inRiproduzione) return;
   document.querySelectorAll('.cella[data-c="' + passo + '"]').forEach(e => e.classList.add("ora"));
 }
-function stato(t) { document.getElementById("stato").textContent = t; }
-function playStop() { inRiproduzione ? ferma() : avvia(); annuncia(inRiproduzione ? "Play" : "Stop"); }
+function stato(t) { $("stato").textContent = t; }
+function playStop() {
+  if (registrando) { fermaRegistrazione(); return; }
+  if (inRiproduzione) { ferma(); annuncia("Stop"); } else { avvia(); annuncia("Play"); }
+}
 
-/* ============ griglia accessibile ============ */
-const griglia = document.getElementById("griglia");
+/* ================= registrazione della voce ================= */
+async function avviaRegistrazione() {
+  if (registrando) { fermaRegistrazione(); return; }
+  if (inRiproduzione) ferma();
+  const c = audio();
+  try {
+    streamMic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+  } catch (e) {
+    annuncia("Non riesco a usare il microfono. Controlla di aver dato il permesso al sito.");
+    $("stato-rec").textContent = "Microfono non disponibile"; return;
+  }
+  pezzi = [];
+  recorder = new MediaRecorder(streamMic);
+  recorder.ondataavailable = (e) => { if (e.data.size) pezzi.push(e.data); };
+  recorder.onstop = elaboraRegistrazione;
+  await new Promise(ok => { recorder.onstart = () => { recInizioCtx = c.currentTime; ok(); }; recorder.start(); });
+  registrando = true;
+  $("registra").textContent = "■ Ferma la registrazione"; $("registra").classList.add("attivo");
+  const conto = $("conto").checked;
+  $("stato-rec").textContent = conto ? "Conto: uno, due, tre, quattro" : "Sto registrando";
+  annuncia(conto ? "Registrazione dopo il conto di quattro" : "Registrazione partita");
+  avvia({ conto, senzaVoce: true });
+  if (conto) setTimeout(() => { if (registrando) $("stato-rec").textContent = "Sto registrando"; }, (inizioBase - c.currentTime) * 1000);
+}
+function fermaRegistrazione() {
+  if (!registrando) return;
+  registrando = false; ferma();
+  $("registra").textContent = "● Registra la voce"; $("registra").classList.remove("attivo");
+  $("stato-rec").textContent = "Preparo la registrazione...";
+  try { recorder.stop(); } catch (e) {}
+  streamMic.getTracks().forEach(t => t.stop());
+}
+async function elaboraRegistrazione() {
+  try {
+    const c = audio();
+    const dati = await new Blob(pezzi, { type: recorder.mimeType }).arrayBuffer();
+    const grezzo = await c.decodeAudioData(dati);
+    // la voce cantata sul battito T arriva nella registrazione dopo il ritardo di uscita e di entrata
+    const ritardo = (c.outputLatency || c.baseLatency || 0.02) + 0.012;
+    const scarto = Math.max(0, inizioBase - recInizioCtx + ritardo);
+    const da = Math.floor(scarto * grezzo.sampleRate), lunghezza = Math.max(1, grezzo.length - da);
+    voce = c.createBuffer(1, lunghezza, grezzo.sampleRate);
+    const dst = voce.getChannelData(0), src0 = grezzo.getChannelData(0), src1 = grezzo.numberOfChannels > 1 ? grezzo.getChannelData(1) : null;
+    for (let i = 0; i < lunghezza; i++) dst[i] = src1 ? (src0[i + da] + src1[i + da]) / 2 : src0[i + da];
+    const sec = Math.round(voce.duration);
+    $("stato-rec").textContent = "Voce registrata: " + sec + " secondi";
+    annuncia("Voce registrata, " + sec + " secondi. Premi Play per riascoltarla sulla base.");
+  } catch (e) {
+    $("stato-rec").textContent = "Registrazione non riuscita"; annuncia("La registrazione non è riuscita. Riprova.");
+  }
+}
+
+/* ================= griglia accessibile ================= */
+const griglia = $("griglia");
 function costruisciGriglia() {
   griglia.innerHTML = "";
   TRACCE.forEach((tr, r) => {
     const riga = document.createElement("div"); riga.setAttribute("role", "row"); riga.style.display = "contents";
-    const nome = document.createElement("div"); nome.className = "nome"; nome.setAttribute("role", "rowheader");
+    const nome = document.createElement("div"); nome.className = "nome" + (tr.mel ? " melodia" : ""); nome.setAttribute("role", "rowheader");
     nome.id = "nome-" + tr.id; nome.innerHTML = tr.nome + ' <small id="m-' + tr.id + '"></small>';
     riga.appendChild(nome);
     for (let c = 0; c < PASSI; c++) {
       const b = document.createElement("div");
       b.className = "cella" + (c % 4 === 0 ? " quarto" : "");
-      b.setAttribute("role", "gridcell"); b.tabIndex = -1;
-      b.dataset.r = r; b.dataset.c = c;
+      b.setAttribute("role", "gridcell"); b.tabIndex = -1; b.dataset.r = r; b.dataset.c = c;
       b.addEventListener("click", () => { cursore = { r, c }; aggiornaFocus(); attiva(); });
       riga.appendChild(b);
     }
@@ -368,59 +540,76 @@ function costruisciGriglia() {
   aggiornaGriglia(); aggiornaFocus(false);
 }
 function cella(r, c) { return griglia.querySelector('.cella[data-r="' + r + '"][data-c="' + c + '"]'); }
+function suonaDa(riga, c) { for (let i = c - 1; i >= 0; i--) if (riga[i]) return (i + (riga[i].l || 2) > c) ? i : -1; return -1; }
 function descrivi(r, c) {
-  const tr = TRACCE[r], v = progetto.pattern[corrente][tr.id][c];
+  const tr = TRACCE[r], riga = progetto.pattern[corrente][tr.id], v = riga[c];
   let t = tr.nome + ", passo " + (c + 1) + (c % 4 === 0 ? ", battito " + (c / 4 + 1) : "");
-  if (!v) return t + ", vuoto";
+  if (!v) { const da = (tr.mel || tr.id === "b808") ? suonaDa(riga, c) : -1; return t + (da >= 0 ? ", continua la nota del passo " + (da + 1) : ", vuoto"); }
   t += ", attivo";
   if (tr.id === "b808") {
-    t += ", nota " + nomeNota(v.n != null ? v.n : progetto.base808) + ", lunghezza " + (v.l || 2) + " passi";
-    if (v.g) t += ", scivolamento";
+    t += ", nota " + nomeNota(v.n != null ? v.n : 36 + progetto.tono) + ", lunghezza " + (v.l || 2) + " passi" + (v.g ? ", scivolamento" : "");
+  } else if (tr.mel) {
+    const note = noteCella(tr, v);
+    t += note.length > 1 ? ", accordo di " + nomeNota(note[0]) : ", nota " + nomeNota(note[0]);
+    t += ", lunghezza " + (v.l || (tr.accordo ? 8 : 2)) + " passi";
   }
   if (v.f) t += ", forza " + NOMI_FORZA[v.f];
   return t;
 }
 function aggiornaGriglia() {
-  document.getElementById("num-pattern").textContent = corrente + 1;
+  $("num-pattern").textContent = corrente + 1;
   TRACCE.forEach((tr, r) => {
-    document.getElementById("m-" + tr.id).textContent = progetto.muti[tr.id] ? "(muto)" : "";
-    document.getElementById("nome-" + tr.id).classList.toggle("muta", !!progetto.muti[tr.id]);
+    $("m-" + tr.id).textContent = progetto.muti[tr.id] ? "(muto)" : "";
+    $("nome-" + tr.id).classList.toggle("muta", !!progetto.muti[tr.id]);
+    const riga = progetto.pattern[corrente][tr.id];
     for (let c = 0; c < PASSI; c++) {
-      const e = cella(r, c), v = progetto.pattern[corrente][tr.id][c];
-      e.classList.toggle("on", !!v); e.classList.toggle("e808", tr.id === "b808");
+      const e = cella(r, c), v = riga[c];
+      e.classList.toggle("on", !!v); e.classList.toggle("e808", tr.id === "b808"); e.classList.toggle("mel", !!tr.mel);
       e.classList.toggle("glide", !!(v && v.g));
-      e.textContent = v && tr.id === "b808" ? NOTE[(v.n != null ? v.n : progetto.base808) % 12].replace(" diesis", "#") : "";
-      e.setAttribute("aria-label", descrivi(r, c));
-      e.setAttribute("aria-selected", v ? "true" : "false");
+      e.classList.toggle("cont", !v && (tr.mel || tr.id === "b808") && suonaDa(riga, c) >= 0);
+      let testo = "";
+      if (v && (tr.mel || tr.id === "b808")) { const m = tr.mel ? noteCella(tr, v)[0] : (v.n != null ? v.n : 36 + progetto.tono); testo = NOTE[m % 12].replace(" diesis", "#") + ((tr.accordo || v.c) ? "+" : ""); }
+      e.textContent = testo;
+      e.setAttribute("aria-label", descrivi(r, c)); e.setAttribute("aria-selected", v ? "true" : "false");
     }
   });
 }
 function aggiornaFocus(focus = true) {
   griglia.querySelectorAll(".cella").forEach(e => e.tabIndex = -1);
-  const e = cella(cursore.r, cursore.c); e.tabIndex = 0;
-  if (focus) e.focus();
+  const e = cella(cursore.r, cursore.c); e.tabIndex = 0; if (focus) e.focus();
 }
 function modificato() { aggiornaGriglia(); salvaLocale(); }
-function corr() { return progetto.pattern[corrente][TRACCE[cursore.r].id]; }
-function anteprima(r, extra) {
-  const c = audio(), tr = TRACCE[r], v = corr()[cursore.c];
-  if (tr.id === "b808") SUONI.b808(c, master, c.currentTime + 0.01, 1, (extra != null ? extra : (v && v.n != null ? v.n : progetto.base808)), 0.4, null);
-  else SUONI[tr.id](c, master, c.currentTime + 0.01, v ? FORZE[v.f || 0] : 1);
+function rigaCorr() { return progetto.pattern[corrente][TRACCE[cursore.r].id]; }
+function anteprima(r) {
+  const c = audio(), tr = TRACCE[r], v = progetto.pattern[corrente][tr.id][cursore.c], t = c.currentTime + 0.01;
+  if (tr.id === "b808") SUONI.b808(c, master, t, 1, v && v.n != null ? v.n : 36 + progetto.tono, 0.45, null);
+  else if (tr.mel) SUONI[tr.id](c, master, t, 1, noteCella(tr, v || {}), 0.5);
+  else SUONI[tr.id](c, master, t, v ? FORZE[v.f || 0] : 1);
+}
+function nuovaCella(tr) {
+  if (tr.id === "b808") return { n: 36 + progetto.tono, l: 2, g: false, f: 0 };
+  if (tr.mel) return { n: radice(tr), l: tr.accordo ? 8 : 2, f: 0 };
+  return { f: 0 };
 }
 function attiva() {
-  const riga = corr(), c = cursore.c;
-  if (riga[c]) riga[c] = null;
-  else { riga[c] = TRACCE[cursore.r].id === "b808" ? { n: progetto.base808, l: 2, g: false, f: 0 } : { f: 0 }; if (!inRiproduzione) anteprima(cursore.r); }
-  modificato(); annuncia(riga[c] ? "attivo" : "vuoto");
+  const riga = rigaCorr(), c = cursore.c, tr = TRACCE[cursore.r];
+  if (riga[c]) riga[c] = null; else { riga[c] = nuovaCella(tr); if (!inRiproduzione) anteprima(cursore.r); }
+  modificato(); annuncia(riga[c] ? "attivo" + ((tr.mel || tr.id === "b808") ? ", " + descrivi(cursore.r, c).split(", attivo, ")[1] : "") : "vuoto");
 }
 function leggiRiga() {
-  const riga = corr(), attivi = [];
-  riga.forEach((v, i) => { if (v) attivi.push(i + 1); });
-  annuncia(TRACCE[cursore.r].nome + ": " + (attivi.length ? "passi attivi " + attivi.join(", ") : "nessun passo attivo"));
+  const riga = rigaCorr(), tr = TRACCE[cursore.r], parti = [];
+  riga.forEach((v, i) => { if (!v) return; let s = "" + (i + 1); if (tr.mel || tr.id === "b808") s += " " + nomeNota(tr.mel ? noteCella(tr, v)[0] : v.n); parti.push(s); });
+  annuncia(tr.nome + ": " + (parti.length ? "passi " + parti.join(", ") : "nessun passo attivo"));
 }
+// se il fuoco arriva su una cella in altro modo (NVDA, mouse, Tab), il cursore la segue
+griglia.addEventListener("focusin", (e) => {
+  const t = e.target.closest(".cella"); if (!t) return;
+  const r = Number(t.dataset.r), c = Number(t.dataset.c);
+  if (r !== cursore.r || c !== cursore.c) { cursore = { r, c }; aggiornaFocus(false); }
+});
 griglia.addEventListener("keydown", (e) => {
-  const tr = TRACCE[cursore.r], riga = corr(), v = riga[cursore.c];
-  let gestito = true;
+  const tr = TRACCE[cursore.r], riga = rigaCorr(), v = riga[cursore.c];
+  let ok = true;
   switch (e.key) {
     case "ArrowRight": cursore.c = Math.min(PASSI - 1, cursore.c + 1); aggiornaFocus(); break;
     case "ArrowLeft": cursore.c = Math.max(0, cursore.c - 1); aggiornaFocus(); break;
@@ -429,95 +618,194 @@ griglia.addEventListener("keydown", (e) => {
     case "Home": cursore.c = 0; aggiornaFocus(); break;
     case "End": cursore.c = PASSI - 1; aggiornaFocus(); break;
     case " ": attiva(); break;
-    case "PageUp": case "PageDown":
-      if (tr.id !== "b808") { annuncia("La nota si cambia solo sulla riga dell'808"); break; }
-      if (!v) { attiva(); }
-      { const cel = riga[cursore.c], salto = (e.shiftKey ? 12 : 1) * (e.key === "PageUp" ? 1 : -1);
-        cel.n = Math.max(24, Math.min(60, (cel.n != null ? cel.n : progetto.base808) + salto));
-        modificato(); anteprima(cursore.r, cel.n); annuncia(nomeNota(cel.n)); }
+    case "PageUp": case "PageDown": {
+      if (tr.id !== "b808" && !tr.mel) { annuncia("La nota si cambia sull'808 e sugli strumenti melodici"); break; }
+      if (!v) riga[cursore.c] = nuovaCella(tr);
+      const cel = riga[cursore.c], dir = e.key === "PageUp" ? 1 : -1;
+      let n = cel.n != null ? cel.n : (tr.mel ? radice(tr) : 36 + progetto.tono);
+      if (e.shiftKey) n += 12 * dir; else n = tr.mel ? passoScala(n, dir) : n + dir;
+      cel.n = Math.max(tr.mel ? 36 : 24, Math.min(tr.mel ? 96 : 60, n));
+      modificato(); anteprima(cursore.r);
+      annuncia(tr.mel && noteCella(tr, cel).length > 1 ? "accordo di " + nomeNota(cel.n) : nomeNota(cel.n));
       break;
-    default: gestito = false;
+    }
+    default: ok = false;
   }
-  if (!gestito && !e.ctrlKey && !e.altKey && !e.metaKey) {
-    const k = e.key.toLowerCase();
-    gestito = true;
+  if (!ok && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    const k = e.key.toLowerCase(); ok = true;
+    const conNota = tr.mel || tr.id === "b808";
     if (k === "g") {
       if (tr.id !== "b808" || !v) annuncia("Lo scivolamento si mette su una nota attiva dell'808");
       else { v.g = !v.g; modificato(); annuncia(v.g ? "scivolamento attivo" : "scivolamento tolto"); }
     } else if (k === "l") {
-      if (tr.id !== "b808" || !v) annuncia("La lunghezza si cambia su una nota attiva dell'808");
-      else { const lun = [1, 2, 3, 4, 6, 8]; v.l = lun[(lun.indexOf(v.l || 2) + 1) % lun.length]; modificato(); annuncia("lunghezza " + v.l + " passi"); }
+      if (!conNota || !v) annuncia("La lunghezza si cambia su una nota attiva");
+      else { const att = v.l || (tr.accordo ? 8 : 2); v.l = LUNGHEZZE[(LUNGHEZZE.indexOf(att) + 1) % LUNGHEZZE.length]; modificato(); annuncia("lunghezza " + v.l + " passi"); }
+    } else if (k === "c") {
+      if (!tr.mel || !v) annuncia("L'accordo si mette su una nota attiva di uno strumento melodico");
+      else if (tr.accordo) annuncia("Il tappeto suona sempre accordi");
+      else { v.c = !v.c; modificato(); anteprima(cursore.r); annuncia(v.c ? "accordo di " + nomeNota(v.n) : "nota singola"); }
     } else if (k === "v") {
       if (!v) annuncia("Prima metti un colpo");
       else { v.f = ((v.f || 0) + 1) % 3; modificato(); anteprima(cursore.r); annuncia("forza " + NOMI_FORZA[v.f]); }
-    } else if (k === "a") { anteprima(cursore.r); }
+    } else if (k === "a") anteprima(cursore.r);
     else if (k === "m") { progetto.muti[tr.id] = !progetto.muti[tr.id]; modificato(); annuncia(tr.nome + (progetto.muti[tr.id] ? " silenziato" : " riattivato")); }
-    else if (k === "r") { leggiRiga(); }
-    else gestito = false;
+    else if (k === "r") leggiRiga();
+    else if (k === "h") $("t-aiuto").focus();
+    else ok = false;
   }
-  if (gestito) e.preventDefault();
+  if (ok) e.preventDefault();
 });
 
-/* ============ tasti globali ============ */
+/* ================= tasti globali ================= */
 document.addEventListener("keydown", (e) => {
   const campo = e.target.matches("input[type=text], input[type=number], select, textarea");
-  if (e.key === "Enter" && !campo && !e.target.matches("button")) { e.preventDefault(); playStop(); return; }
+  if (e.key === "Enter" && !campo && !e.target.matches("button, input[type=checkbox]")) { e.preventDefault(); playStop(); return; }
   if (e.altKey && /^[1-8]$/.test(e.key)) { e.preventDefault(); scegliPattern(Number(e.key) - 1); return; }
+  if (e.altKey && e.key.toLowerCase() === "r") { e.preventDefault(); avviaRegistrazione(); return; }
   if (campo) return;
   if (e.key === "+") { cambiaBpm(5); e.preventDefault(); }
   else if (e.key === "-") { cambiaBpm(-5); e.preventDefault(); }
-  else if (e.key.toLowerCase() === "h" && !e.ctrlKey && !e.altKey && e.target.closest("#griglia")) {
-    e.preventDefault(); document.getElementById("t-aiuto").tabIndex = -1; document.getElementById("t-aiuto").focus();
-  }
 });
-function cambiaBpm(d) {
-  progetto.bpm = Math.max(50, Math.min(200, progetto.bpm + d));
-  document.getElementById("bpm").value = progetto.bpm; salvaLocale(); annuncia(progetto.bpm + " BPM");
-}
+function cambiaBpm(d) { progetto.bpm = Math.max(50, Math.min(200, progetto.bpm + d)); $("bpm").value = progetto.bpm; salvaLocale(); annuncia(progetto.bpm + " BPM"); }
 function scegliPattern(i) {
-  corrente = i; document.getElementById("pattern").value = i; aggiornaGriglia(); aggiornaFocus(false);
+  corrente = i; $("pattern").value = i; aggiornaGriglia(); aggiornaFocus(false);
   const pieni = TRACCE.reduce((n, t) => n + progetto.pattern[i][t.id].filter(Boolean).length, 0);
-  annuncia("Pattern " + (i + 1) + (pieni ? ", " + pieni + " colpi" : ", vuoto"));
+  annuncia("Pattern " + (i + 1) + (pieni ? ", " + pieni + " note e colpi" : ", vuoto"));
 }
 
-/* ============ controlli ============ */
-const $ = (id) => document.getElementById(id);
+/* ================= generatore di basi ================= */
+function rnd(a) { return a[Math.floor(Math.random() * a.length)]; }
+function generaBase(genere) {
+  const tono = progetto.tono, scala = progetto.scala;
+  const p = progettoVuoto();
+  p.tono = tono; p.scala = scala; p.genere = genere; p.nome = progetto.nome; p.volume = progetto.volume;
+  const vecchio = progetto; progetto = p; // servono tono e scala per calcolare le note
+  const G = {
+    trap:     { bpm: rnd([136, 140, 145]), swing: 0 },
+    drill:    { bpm: rnd([140, 142, 144]), swing: 0 },
+    melodico: { bpm: rnd([125, 130, 135]), swing: 0 },
+    afro:     { bpm: rnd([100, 104, 108]), swing: 15 },
+    reggae:   { bpm: rnd([72, 76, 80]), swing: 25 },
+    boombap:  { bpm: rnd([86, 90, 94]), swing: 35 },
+  }[genere];
+  p.bpm = G.bpm; p.swing = G.swing;
+  const minore = scala !== "maggiore";
+  // giri di accordi: due accordi per battuta (gradi della scala)
+  const giri = minore ? [[0, 5], [2, 6], [0, 3], [5, 4], [0, 6], [3, 4]] : [[0, 4], [5, 3], [0, 5], [3, 4]];
+  const strofaA = rnd(giri), strofaB = rnd(giri.filter(g => g !== strofaA));
+  const metti = (pi, id, passi, extra) => passi.forEach(i => { if (i < PASSI) p.pattern[pi][id][i] = Object.assign({ f: 0 }, extra ? extra(i) : {}); });
+  const ins = (arr) => arr.filter((x, i, a) => a.indexOf(x) === i);
+  function batteria(pi, pieno) {
+    const vari = () => Math.random() < 0.5;
+    if (genere === "trap" || genere === "melodico") {
+      metti(pi, "kick", ins([0, rnd([6, 7]), 10, vari() ? 14 : 11]));
+      metti(pi, "clap", [8]); metti(pi, "snare", [8]);
+      const hats = []; for (let i = 0; i < 16; i += 2) hats.push(i);
+      if (pieno) { hats.push(rnd([13, 15]), 5); }
+      metti(pi, "hat", ins(hats), (i) => ({ f: i % 4 === 2 ? 1 : 0 }));
+      if (pieno) metti(pi, "ohat", [rnd([6, 14])]);
+    } else if (genere === "drill") {
+      metti(pi, "kick", ins([0, rnd([3, 6]), 10, rnd([13, 14])]));
+      metti(pi, "clap", [8]); metti(pi, "snare", [8, rnd([11, 15])], (i) => ({ f: i === 8 ? 0 : 1 }));
+      metti(pi, "hat", [0, 3, 6, 8, 11, 14], (i) => ({ f: i % 2 ? 1 : 0 }));
+      if (pieno) metti(pi, "rim", [rnd([5, 13])]);
+    } else if (genere === "afro") {
+      metti(pi, "kick", [0, 7, 8, 12]);
+      metti(pi, "clap", [4, 12]); metti(pi, "rim", [3, 6, 10, 13]);
+      metti(pi, "hat", [2, 6, 10, 14]); metti(pi, "ohat", [14]);
+      if (pieno) metti(pi, "hat", [0, 4, 8, 12], () => ({ f: 2 }));
+    } else if (genere === "reggae") { // one drop: cassa e percussione sul terzo battito
+      metti(pi, "kick", [8]); metti(pi, "rim", [8]);
+      metti(pi, "hat", [0, 2, 4, 6, 8, 10, 12, 14], (i) => ({ f: i % 4 ? 1 : 0 }));
+      if (pieno) metti(pi, "ohat", [14]);
+    } else { // boom bap
+      metti(pi, "kick", ins([0, rnd([7, 8]), 10]));
+      metti(pi, "snare", [4, 12]); metti(pi, "hat", [0, 2, 4, 6, 8, 10, 12, 14]);
+      if (pieno) metti(pi, "ohat", [rnd([6, 14])]);
+    }
+  }
+  function bassi(pi, giro) { // 808 sulle radici degli accordi
+    const r1 = grado(giro[0], 1), r2 = grado(giro[1], 1);
+    if (genere === "reggae") { metti(pi, "b808", [0, 3, 8, 11], (i) => ({ n: i < 8 ? r1 : r2, l: 2 })); return; }
+    if (genere === "afro") { metti(pi, "b808", [0, 3, 6, 8, 11, 14], (i) => ({ n: i < 8 ? r1 : r2, l: 2 })); return; }
+    const slide = genere === "drill" || genere === "trap";
+    metti(pi, "b808", [0, rnd([6, 7]), 10], (i) => ({ n: i < 8 ? r1 : r2, l: i === 0 ? 6 : 3, g: slide && i === 10 && r1 !== r2 }));
+  }
+  function accordi(pi, giro, strumento) {
+    if (genere === "reggae") { metti(pi, "pluck", [4, 12], (i) => ({ n: grado(giro[i < 8 ? 0 : 1], 4), l: 1, c: true })); return; }
+    metti(pi, strumento, [0, 8], (i) => ({ n: grado(giro[i < 8 ? 0 : 1], strumento === "pad" ? 3 : 4), l: 8, c: strumento !== "pad" }));
+  }
+  function melodia(pi, giro, strumento, densa) {
+    const ritmi = densa ? [[0, 3, 6, 8, 10, 12, 14], [0, 2, 3, 6, 8, 11, 14], [0, 3, 4, 7, 10, 12]] : [[0, 6, 8, 14], [0, 3, 8, 11], [2, 6, 10, 14]];
+    const ritmo = rnd(ritmi); let deg = giro[0] + rnd([0, 2, 4]);
+    metti(pi, strumento, ritmo, (i) => {
+      if (i === 8) deg = giro[1] + rnd([0, 2, 4]); else deg += rnd([-1, 1, 1, 2, -2, 0]);
+      deg = Math.max(-2, Math.min(9, deg));
+      return { n: grado(deg, 5), l: densa ? 2 : 3 };
+    });
+  }
+  const melo = genere === "reggae" ? "piano" : rnd(["bell", "piano", "pluck"]);
+  // 1 intro, 2-3 strofa, 4-5 ritornello
+  accordi(0, strofaA, "pad"); melodia(0, strofaA, melo, false); metti(0, "hat", [0, 4, 8, 12], () => ({ f: 2 }));
+  [[1, strofaA], [2, strofaB]].forEach(([pi, g]) => { batteria(pi, false); bassi(pi, g); accordi(pi, g, "pad"); if (genere === "reggae") accordi(pi, g, "pluck"); });
+  [[3, strofaA], [4, strofaB]].forEach(([pi, g]) => { batteria(pi, true); bassi(pi, g); accordi(pi, g, "pad"); if (genere === "reggae") accordi(pi, g, "pluck"); melodia(pi, g, genere === "melodico" || genere === "afro" ? "lead" : melo, true); });
+  p.sequenza = "1 1 2 3 2 3 4 5 4 5 2 3 4 5";
+  progetto = vecchio;
+  return p;
+}
+
+/* ================= controlli ================= */
 $("play").addEventListener("click", playStop);
+$("registra").addEventListener("click", avviaRegistrazione);
 $("bpm").addEventListener("change", () => { progetto.bpm = Math.max(50, Math.min(200, Number($("bpm").value) || 140)); $("bpm").value = progetto.bpm; salvaLocale(); });
 $("swing").addEventListener("input", () => { progetto.swing = Number($("swing").value); $("swing").setAttribute("aria-valuetext", progetto.swing + " per cento"); salvaLocale(); });
 $("volume").addEventListener("input", () => { progetto.volume = Number($("volume").value); $("volume").setAttribute("aria-valuetext", progetto.volume + " per cento"); if (master) master.gain.value = progetto.volume / 100; salvaLocale(); });
+$("vol-voce").addEventListener("input", () => $("vol-voce").setAttribute("aria-valuetext", $("vol-voce").value + " per cento"));
 for (let i = 0; i < NPATTERN; i++) { const o = document.createElement("option"); o.value = i; o.textContent = "Pattern " + (i + 1); $("pattern").appendChild(o); }
+NOTE.forEach((n, i) => { const o = document.createElement("option"); o.value = i; o.textContent = n; $("tono").appendChild(o); });
 $("pattern").addEventListener("change", () => scegliPattern(Number($("pattern").value)));
-for (let n = 24; n <= 48; n++) { const o = document.createElement("option"); o.value = n; o.textContent = nomeNota(n); $("scala").appendChild(o); }
-$("scala").addEventListener("change", () => { progetto.base808 = Number($("scala").value); modificato(); });
+$("tono").addEventListener("change", () => { progetto.tono = Number($("tono").value); modificato(); });
+$("scala").addEventListener("change", () => { progetto.scala = $("scala").value; modificato(); });
 $("sequenza").addEventListener("change", () => { progetto.sequenza = $("sequenza").value; salvaLocale(); annuncia("Sequenza: pattern " + sequenzaPattern().map(n => n + 1).join(", ")); });
 $("nome-progetto").addEventListener("change", () => { progetto.nome = $("nome-progetto").value.trim() || "La mia base Killa"; salvaLocale(); });
+$("genera").addEventListener("click", () => {
+  if (haContenuto() && !confirm("La nuova base sostituisce quella attuale. Continuo?")) return;
+  if (inRiproduzione) ferma();
+  progetto = generaBase($("genere").value); applica(); salvaLocale();
+  const nomeG = $("genere").selectedOptions[0].textContent;
+  annuncia("Base " + nomeG + " creata in " + NOTE[progetto.tono] + " " + $("scala").selectedOptions[0].textContent + ", " + progetto.bpm + " BPM. Cinque pattern: intro, due di strofa, due di ritornello. Premi Invio per ascoltarla.");
+});
+$("vuota").addEventListener("click", () => {
+  if (haContenuto() && !confirm("Vuoi cominciare una base vuota? Quella attuale viene cancellata.")) return;
+  if (inRiproduzione) ferma();
+  const t = progetto.tono, s = progetto.scala; progetto = progettoVuoto(); progetto.tono = t; progetto.scala = s;
+  applica(); salvaLocale(); annuncia("Base vuota, pattern 1");
+});
+function haContenuto() { return progetto.pattern.some(p => TRACCE.some(t => p[t.id].some(Boolean))); }
 $("duplica").addEventListener("click", () => {
   if (corrente >= NPATTERN - 1) { annuncia("Questo è l'ultimo pattern"); return; }
-  progetto.pattern[corrente + 1] = JSON.parse(JSON.stringify(progetto.pattern[corrente]));
-  salvaLocale(); annuncia("Copiato nel pattern " + (corrente + 2));
+  progetto.pattern[corrente + 1] = JSON.parse(JSON.stringify(progetto.pattern[corrente])); salvaLocale(); annuncia("Copiato nel pattern " + (corrente + 2));
 });
-$("svuota").addEventListener("click", () => {
-  if (!confirm("Vuoi svuotare il pattern " + (corrente + 1) + "?")) return;
-  progetto.pattern[corrente] = patternVuoto(); modificato(); annuncia("Pattern svuotato");
+$("svuota").addEventListener("click", () => { if (!confirm("Vuoi svuotare il pattern " + (corrente + 1) + "?")) return; progetto.pattern[corrente] = patternVuoto(); modificato(); annuncia("Pattern svuotato"); });
+$("cancella-voce").addEventListener("click", () => { voce = null; $("stato-rec").textContent = "Nessuna voce registrata"; annuncia("Voce cancellata"); });
+$("esporta-voce").addEventListener("click", () => {
+  if (!voce) { annuncia("Non c'è ancora una voce registrata"); return; }
+  scarica(inWav(voce), nomeFile() + "_voce.wav"); annuncia("Voce esportata nella cartella dei download");
 });
-$("salva-file").addEventListener("click", () => {
-  scarica(new Blob([JSON.stringify(progetto, null, 1)], { type: "application/json" }), nomeFile() + ".json");
-  annuncia("Progetto salvato nella cartella dei download");
-});
+$("salva-file").addEventListener("click", () => { scarica(new Blob([JSON.stringify(progetto, null, 1)], { type: "application/json" }), nomeFile() + ".json"); annuncia("Progetto salvato nella cartella dei download"); });
 $("apri-file").addEventListener("click", () => $("file-progetto").click());
 $("file-progetto").addEventListener("change", async () => {
-  const f = $("file-progetto").files[0]; if (!f) return;
-  try { progetto = normalizza(JSON.parse(await f.text())); applica(); salvaLocale(); annuncia("Progetto aperto: " + progetto.nome); }
+  const fl = $("file-progetto").files[0]; if (!fl) return;
+  try { progetto = normalizza(JSON.parse(await fl.text())); applica(); salvaLocale(); annuncia("Progetto aperto: " + progetto.nome); }
   catch (e) { alert("Non riesco ad aprire questo file: non è un progetto di Killa Beat Maker."); }
   $("file-progetto").value = "";
 });
-$("demo").addEventListener("click", () => { if (confirm("La base di esempio sostituisce il lavoro attuale. Continuo?")) { progetto = esempio(); applica(); salvaLocale(); annuncia("Base di esempio caricata: trap a 140 BPM, pattern 1 e 2"); } });
 $("esporta").addEventListener("click", esportaWav);
 
 function applica() {
   $("bpm").value = progetto.bpm; $("swing").value = progetto.swing; $("volume").value = progetto.volume;
-  $("scala").value = progetto.base808; $("sequenza").value = progetto.sequenza; $("nome-progetto").value = progetto.nome;
+  $("tono").value = progetto.tono; $("scala").value = progetto.scala; $("sequenza").value = progetto.sequenza; $("nome-progetto").value = progetto.nome;
+  if (progetto.genere) $("genere").value = progetto.genere;
   scegliPattern(0);
 }
 function nomeFile() { return (progetto.nome || "base").replace(/[^\w\- àèéìòù]+/gi, "").trim().replace(/\s+/g, "_") || "base"; }
@@ -526,58 +814,48 @@ function scarica(blob, nome) {
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 
-/* ============ esportazione WAV ============ */
-async function esportaWav() {
-  const giri = Math.max(1, Math.min(16, Number($("giri").value) || 2));
-  const seq = $("modo").value === "canzone" ? sequenzaPattern() : [corrente];
-  const lista = []; for (let g = 0; g < giri; g++) lista.push(...seq);
-  const battuta = PASSI * durataPasso(), durata = lista.length * battuta + 1.5, sr = 44100;
-  stato("Esportazione in corso..."); annuncia("Esportazione in corso, attendi");
+/* ================= esportazione WAV ================= */
+async function renderizza(lista, conVoce) {
+  const battuta = PASSI * durataPasso(), sr = 44100;
+  let durata = lista.length * battuta + 2;
+  if (conVoce && voce) durata = Math.max(durata, voce.duration + 0.5);
   const off = new OfflineAudioContext(2, Math.ceil(durata * sr), sr);
   const out = creaMaster(off); out.gain.value = progetto.volume / 100;
-  lista.forEach((pi, b) => {
-    for (let p = 0; p < PASSI; p++) suonaPasso(off, out, pi, p, b * battuta + tempoPasso(p), ultima808Prima(pi, p));
-  });
-  const buf = await off.startRendering();
+  lista.forEach((pi, b) => { for (let p = 0; p < PASSI; p++) suonaPasso(off, out, pi, p, b * battuta + tempoPasso(p)); });
+  if (conVoce && voce) {
+    const s = off.createBufferSource(); s.buffer = voce; const g = off.createGain(); g.gain.value = Number($("vol-voce").value) / 100;
+    s.connect(g); g.connect(out); s.start(0);
+  }
+  return off.startRendering();
+}
+async function esportaWav() {
+  const giri = Math.max(1, Math.min(16, Number($("giri").value) || 1));
+  const seq = modo() === "canzone" ? sequenzaPattern() : [corrente];
+  const lista = []; for (let g = 0; g < giri; g++) lista.push(...seq);
+  stato("Esportazione in corso..."); annuncia("Esportazione in corso, attendi");
+  const buf = await renderizza(lista, $("con-voce").checked);
   scarica(inWav(buf), nomeFile() + ".wav");
-  const sec = Math.round(durata);
   stato(inRiproduzione ? "In riproduzione" : "Fermo");
-  annuncia("Base esportata: " + nomeFile() + ".wav, " + sec + " secondi, nella cartella dei download");
+  annuncia("Esportato " + nomeFile() + ".wav, " + Math.round(buf.duration) + " secondi, nella cartella dei download");
 }
 function inWav(buf) {
   const nc = buf.numberOfChannels, len = buf.length, sr = buf.sampleRate;
-  const dati = new DataView(new ArrayBuffer(44 + len * nc * 2));
-  const scrivi = (o, s) => { for (let i = 0; i < s.length; i++) dati.setUint8(o + i, s.charCodeAt(i)); };
-  scrivi(0, "RIFF"); dati.setUint32(4, 36 + len * nc * 2, true); scrivi(8, "WAVE"); scrivi(12, "fmt ");
-  dati.setUint32(16, 16, true); dati.setUint16(20, 1, true); dati.setUint16(22, nc, true); dati.setUint32(24, sr, true);
-  dati.setUint32(28, sr * nc * 2, true); dati.setUint16(32, nc * 2, true); dati.setUint16(34, 16, true);
-  scrivi(36, "data"); dati.setUint32(40, len * nc * 2, true);
+  const d = new DataView(new ArrayBuffer(44 + len * nc * 2));
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) d.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, "RIFF"); d.setUint32(4, 36 + len * nc * 2, true); w(8, "WAVE"); w(12, "fmt ");
+  d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, nc, true); d.setUint32(24, sr, true);
+  d.setUint32(28, sr * nc * 2, true); d.setUint16(32, nc * 2, true); d.setUint16(34, 16, true); w(36, "data"); d.setUint32(40, len * nc * 2, true);
   const ch = []; for (let c = 0; c < nc; c++) ch.push(buf.getChannelData(c));
   let o = 44;
-  for (let i = 0; i < len; i++) for (let c = 0; c < nc; c++) { const s = Math.max(-1, Math.min(1, ch[c][i])); dati.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2; }
-  return new Blob([dati], { type: "audio/wav" });
+  for (let i = 0; i < len; i++) for (let c = 0; c < nc; c++) { const s = Math.max(-1, Math.min(1, ch[c][i])); d.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2; }
+  return new Blob([d], { type: "audio/wav" });
 }
 
-/* ============ base di esempio ============ */
-function esempio() {
-  const p = normalizza({ nome: "Esempio trap Killa", bpm: 140, swing: 0, volume: 80, base808: 36, sequenza: "1 1 2 2", pattern: [] });
-  const set = (pi, id, passi, extra) => passi.forEach(i => { p.pattern[pi][id][i] = Object.assign({ f: 0 }, extra ? extra(i) : {}); });
-  for (const pi of [0, 1]) {
-    set(pi, "kick", [0, 7, 10]);
-    set(pi, "snare", [4, 12]);
-    set(pi, "clap", [4, 12]);
-    set(pi, "hat", [0, 2, 4, 6, 8, 10, 12, 13, 14, 15], (i) => ({ f: i % 4 === 2 ? 1 : 0 }));
-    set(pi, "ohat", [6]);
-  }
-  set(1, "rim", [3, 11]);
-  set(0, "b808", [0, 7, 10], (i) => ({ n: i === 10 ? 39 : 36, l: i === 0 ? 6 : 3, g: i === 10 }));
-  set(1, "b808", [0, 7, 10, 14], (i) => ({ n: [36, 36, 41, 43][[0, 7, 10, 14].indexOf(i)], l: i === 0 ? 6 : 2, g: i >= 10 }));
-  return p;
-}
-
-/* ============ avvio ============ */
-progetto = caricaLocale() || esempio();
+/* ================= avvio ================= */
+progetto = caricaLocale() || generaBase("trap");
 costruisciGriglia(); applica();
+window.KBM = { generaBase, renderizza, inWav, get progetto() { return progetto; }, set progetto(p) { progetto = p; }, sequenzaPattern, descrivi };
+}
 </script>
 </body>
 </html>
