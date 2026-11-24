@@ -391,17 +391,22 @@ class MainFrame(wx.Frame):
             if errore:
                 common.error(self, errore)
                 return
+            if app_updates.needs_admin(kind):
+                announce("Aggiornamento scaricato. Ora Windows chiede se consentire le modifiche: scegli Sì.")
+                time.sleep(2.5)
             try:
                 app_updates.launch_installer(percorso, kind)
+            except app_updates.UpdateError as exc:
+                common.error(self, str(exc))
+                return
             except Exception:
                 log.exception("Avvio dell'aggiornamento non riuscito")
                 common.error(self, "Impossibile avviare l'aggiornamento. Puoi scaricare la nuova versione dal sito.")
                 return
             self.core.settings.set("pending_update", info.version, notify=False)
             if kind == "installata":
-                announce("Aggiornamento scaricato. KILLA NEWS si chiude e installa la nuova versione. "
-                         "Se Windows chiede conferma, scegli Sì. Se compare Windows ha protetto il PC, scegli "
-                         "Ulteriori informazioni e poi Esegui comunque. Poi KILLA NEWS si riapre da solo.")
+                announce("KILLA NEWS si chiude e installa la nuova versione. "
+                         "Tra circa mezzo minuto si riapre da solo.")
             else:
                 announce("Aggiornamento scaricato. KILLA NEWS si chiude e si riapre tra pochi secondi.")
             # Se la chiusura si blocca, il programma esce comunque: l'installazione aspetta che sia chiuso.

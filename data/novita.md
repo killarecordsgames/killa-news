@@ -1,5 +1,9 @@
 # Novità di KILLA NEWS
 
+## Versione 1.6.1 (24 novembre 2026)
+- Corretto: se KILLA NEWS è installato nella cartella Programmi, l'aggiornamento automatico veniva scaricato ma non si installava. Windows chiedeva la conferma solo con un pulsante lampeggiante sulla barra delle applicazioni, che con NVDA non si vede. Ora KILLA NEWS ti avvisa e chiede subito la conferma di Windows nella finestra normale: scegli «Sì» e l'aggiornamento si installa, poi KILLA NEWS si riapre da solo.
+- Corretto: dopo l'aggiornamento KILLA NEWS si riapre con i tuoi permessi normali e non come amministratore.
+
 ## Versione 1.6.0 (24 novembre 2026)
 - Aggiunto: «Segui un argomento dal web» nel menu Fonti (Ctrl+Maiusc+A). Scrivi una squadra, uno sport minore, una città o una persona, per esempio «Dinamo Sassari» o «basket Serie A2»: KILLA NEWS raccoglie da Google News le notizie di tutti i giornali italiani su quell'argomento e le mette in Tutti i giornali, «Argomenti seguiti (dal web)». Per smettere di seguirlo basta eliminarlo da Gestione delle fonti.
 - Aggiunto: i giornali sardi La Nuova Sardegna e L'Unione Sarda, nei Giornali locali della Sardegna, con le loro notizie di sport.

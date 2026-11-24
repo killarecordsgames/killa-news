@@ -57,7 +57,7 @@ Name: "{autodesktop}\KILLA NEWS"; Filename: "{app}\{#AppExe}"; Tasks: desktopico
 [Run]
 Filename: "{app}\{#AppExe}"; Description: "Avvia KILLA NEWS ora"; Flags: nowait postinstall skipifsilent
 ; Dopo un aggiornamento automatico (installazione silenziosa) KILLA NEWS si riapre da solo
-Filename: "{app}\{#AppExe}"; Flags: nowait; Check: WizardSilent
+Filename: "{app}\{#AppExe}"; Flags: nowait runasoriginaluser; Check: WizardSilent
 
 ; I dati personali (preferiti, cronologia, archivio offline) sono in %APPDATA%\KillaNews e
 ; NON vengono cancellati dalla disinstallazione, così una nuova installazione li ritrova.

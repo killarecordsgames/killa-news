@@ -181,6 +181,11 @@ def folder_is_writable(folder: str) -> bool:
         return False
 
 
+def needs_admin(kind: str) -> bool:
+    """L'aggiornamento chiederà la conferma di Windows (programma installato in Programmi)?"""
+    return kind == "installata" and not folder_is_writable(config.program_dir())
+
+
 def launch_installer(path: str, kind: str) -> None:
     """Avvia l'installazione. Il chiamante deve poi chiudere KILLA NEWS subito."""
     flags = getattr(subprocess, "DETACHED_PROCESS", 0) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
@@ -212,6 +217,22 @@ def launch_installer(path: str, kind: str) -> None:
         ]
         with open(script, "w", encoding="utf-8", newline="\r\n") as fh:
             fh.write("\r\n".join(lines) + "\r\n")
+        if mode == "/ALLUSERS" and os.name == "nt":
+            # Cartella protetta (Programmi): la conferma di Windows va chiesta SUBITO, mentre KILLA NEWS è
+            # ancora la finestra in primo piano. Se la chiede più tardi lo script nascosto, Windows non mostra
+            # la finestra di conferma ma solo un pulsante lampeggiante sulla barra delle applicazioni,
+            # invisibile per chi usa NVDA, e l'aggiornamento non parte mai (problema della 1.5.2).
+            import ctypes
+            result = ctypes.windll.shell32.ShellExecuteW(None, "runas", "cmd.exe", f'/c "{script}"', None, 0)
+            if result <= 32:
+                try:
+                    os.remove(script)
+                except OSError:
+                    pass
+                raise UpdateError("Aggiornamento annullato: Windows non ha avuto la conferma. "
+                                  "Riprova dal menu Aiuto, Controlla aggiornamenti, e quando Windows chiede "
+                                  "se consentire le modifiche scegli Sì.")
+            return
         subprocess.Popen(["cmd.exe", "/c", script], close_fds=True,
                          creationflags=flags | getattr(subprocess, "CREATE_NO_WINDOW", 0))
         return
