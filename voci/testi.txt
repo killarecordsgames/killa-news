@@ -62,3 +62,8 @@ P|9|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera: un incontr
 P|10|Era Killa Talk: un incontro speciale tra tecnologia, accessibilità e creatività. Grazie per averci ascoltato. Ci ritroviamo mercoledì prossimo, alle ventuno e trenta. Killa Radio continua con la musica di Abdu Killa.
 P|11|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera: Antonia, e la verità che ha scelto di non nascondere più. Mettetevi comodi. Buon ascolto.
 P|12|Era Killa Talk, con Antonia. Grazie per averci ascoltato, e buon anno da tutta la Killa Family. Killa Radio continua con la musica di Abdu Killa.
+T|4|Abdu Killa incontra Stefano Manzi: inclusione e dignità, oltre le difficoltà.
+T|5|Una voce che nasce dal buio, e illumina la musica.
+T|6|Abdu Killa incontra Giacomo Policardo.
+T|7|Un incontro speciale, tra tecnologia, accessibilità e creatività.
+T|8|Antonia: la verità che ha scelto di non nascondere più.
