@@ -97,8 +97,22 @@
     }
     return seq;
   }
+  // programmi a orario fisso (es. Killa Talk): hanno la precedenza sulla musica
+  function programmaOra(ora) {
+    var lista = (palinsesto && palinsesto.programmi) || [];
+    for (var i = 0; i < lista.length; i++) {
+      var s = Date.parse(lista[i].inizio) / 1000;
+      for (var k = 0; k < lista[i].voci.length; k++) {
+        var v = lista[i].voci[k];
+        if (ora >= s && ora < s + v.durata) return { voce: { titolo: v.titolo, url: palinsesto.base + v.file, durata: v.durata }, offset: ora - s };
+        s += v.durata;
+      }
+    }
+    return null;
+  }
   function cosaSuona() {
     var ora = Date.now() / 1000, giorno = Math.floor(ora / 86400), t = ora - giorno * 86400;
+    var pr = programmaOra(ora); if (pr) return pr;
     var seq = scaletta(giorno), inizio = 0;
     for (var i = 0; i < seq.length; i++) {
       if (t < inizio + seq[i].durata) return { voce: seq[i], offset: t - inizio };
@@ -127,6 +141,12 @@
   }
   function ferma() { audio.pause(); }
   audio.addEventListener("ended", function () { setTimeout(sintonizza, 200); });
+  // all'ora del programma interrompe la canzone in corso
+  setInterval(function () {
+    if (!accesa || inDiretta || !palinsesto) return;
+    var pr = programmaOra(Date.now() / 1000);
+    if (pr && (!attuale || attuale.url !== pr.voce.url)) sintonizza();
+  }, 4000);
   audio.addEventListener("error", function () { setTimeout(sintonizza, 3000); });
   $("v-play").addEventListener("click", function () {
     accesa = !accesa;
