@@ -121,9 +121,9 @@
     return { voce: seq[0], offset: 0 };
   }
   async function caricaPalinsesto(url) {
-    palinsesto = await (await fetch(url + "?t=" + Math.floor(Date.now() / 600000))).json();
+    palinsesto = await (await fetch(url + "?t=" + Math.floor(Date.now() / 300000))).json();
     try {
-      var g = await (await fetch(palinsesto.giornale + "?t=" + Math.floor(Date.now() / 600000))).json();
+      var g = await (await fetch(palinsesto.giornale + "?t=" + Math.floor(Date.now() / 300000))).json();
       giornale = { titolo: g.titolo, url: palinsesto.giornale.replace(/ultima\.json$/, "") + g.file, durata: g.durata };
     } catch (e) { giornale = null; }
   }
@@ -202,7 +202,17 @@
       var k = await chiama({ azione: "io" });
       if (k._stato === 200) aggiornaDiretta(k.diretta);
     }, 30000);
-    setInterval(function () { if (palinsesto) caricaPalinsesto(j.radio); }, 3600000);
+    // ogni 5 minuti rilegge il palinsesto: nuovi programmi e canzoni arrivano senza ricaricare la pagina
+    setInterval(function () { if (palinsesto) caricaPalinsesto(j.radio); }, 300000);
+    // se esce una versione nuova del Vault, la pagina si aggiorna da sola quando la radio è spenta
+    var versione = (document.querySelector('script[src*="vault.js"]') || {}).src || "";
+    setInterval(async function () {
+      try {
+        var h = await (await fetch("/vault.html?t=" + Date.now(), { cache: "no-store" })).text();
+        var m = h.match(/vault\.js\?v=[^"']*/);
+        if (m && versione.indexOf(m[0]) < 0 && !accesa && !inDiretta) location.reload();
+      } catch (e) {}
+    }, 600000);
   }
   if (!/type=recovery/.test(location.hash)) avvia();
 })();
