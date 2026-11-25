@@ -52,3 +52,13 @@ P|2|Era Killa Talk, con Bruno Gariglio. Grazie per averci ascoltato. Killa Radio
 T|1|Stasera, alle ventuno e trenta, su Killa Radio: Killa Talk.
 T|2|Abdu Killa incontra Bruno Gariglio: una testimonianza di inclusione e di speranza.
 T|3|Ascoltala nel Killa Vault, su killarecordsgames punto com.
+P|3|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera Abdu Killa incontra Stefano Manzi: inclusione e dignità, oltre le difficoltà. Mettetevi comodi. Buon ascolto.
+P|4|Era Killa Talk, con Stefano Manzi. Grazie per averci ascoltato. Ci ritroviamo mercoledì prossimo, alle ventuno e trenta. Killa Radio continua con la musica di Abdu Killa.
+P|5|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera: una voce che nasce dal buio, e illumina la musica. Mettetevi comodi. Buon ascolto.
+P|6|Era Killa Talk: una voce che nasce dal buio. Grazie per averci ascoltato. Ci ritroviamo mercoledì prossimo, alle ventuno e trenta. Killa Radio continua con la musica di Abdu Killa.
+P|7|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera Abdu Killa incontra Giacomo Policardo. Mettetevi comodi. Buon ascolto.
+P|8|Era Killa Talk, con Giacomo Policardo. Grazie per averci ascoltato. Ci ritroviamo mercoledì prossimo, alle ventuno e trenta. Killa Radio continua con la musica di Abdu Killa.
+P|9|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera: un incontro speciale tra tecnologia, accessibilità e creatività. Mettetevi comodi. Buon ascolto.
+P|10|Era Killa Talk: un incontro speciale tra tecnologia, accessibilità e creatività. Grazie per averci ascoltato. Ci ritroviamo mercoledì prossimo, alle ventuno e trenta. Killa Radio continua con la musica di Abdu Killa.
+P|11|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera: Antonia, e la verità che ha scelto di non nascondere più. Mettetevi comodi. Buon ascolto.
+P|12|Era Killa Talk, con Antonia. Grazie per averci ascoltato, e buon anno da tutta la Killa Family. Killa Radio continua con la musica di Abdu Killa.
