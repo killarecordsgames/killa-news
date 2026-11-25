@@ -49,3 +49,6 @@ S|7|Segui Killa Records su Instagram, Facebook e TikTok. Cerca: killarecordsgame
 S|8|Iscriviti al canale YouTube di Abdu Killa, e attiva la campanella per non perdere nessuna uscita.
 P|1|Buonasera, e benvenuti a Killa Talk, su Killa Radio. Questa sera Abdu Killa incontra Bruno Gariglio, per una testimonianza di inclusione e di speranza: una storia vera, raccontata dalla sua voce. Mettetevi comodi. Buon ascolto.
 P|2|Era Killa Talk, con Bruno Gariglio. Grazie per averci ascoltato. Killa Radio continua con la musica di Abdu Killa.
+T|1|Stasera, alle ventuno e trenta, su Killa Radio: Killa Talk.
+T|2|Abdu Killa incontra Bruno Gariglio: una testimonianza di inclusione e di speranza.
+T|3|Ascoltala nel Killa Vault, su killarecordsgames punto com.
