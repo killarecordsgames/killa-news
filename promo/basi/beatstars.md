@@ -28,24 +28,24 @@ Prezzi: MP3 lease 19,99 € · WAV lease 39,99 € · Exclusive 299 €. Crediti
 
 ## Respiro
 - File copertina: copertine/05_respiro.jpg (3000x3000)
-- Genere: Rap melodico lo-fi · BPM: 85 · Tonalità: E minor
+- Genere: Rap melodico lo-fi · BPM: 86 · Tonalità: D major
 - Tag: sad rap, lofi, boom bap, acoustic guitar, emotional, chill
 - Descrizione (IT): Chitarra acustica pizzicata, batteria boom bap e calore da vinile. Per testi personali e storytelling. Prod. Killa On The Beat.
 
 ## Corri
 - File copertina: copertine/06_corri.jpg (3000x3000)
-- Genere: Rage trap · BPM: 160 · Tonalità: F minor
+- Genere: Rage trap · BPM: 161 · Tonalità: F minor
 - Tag: rage, trap, hype, distorted 808, synth, energetic
 - Descrizione (IT): Synth graffianti, 808 distorto e hi-hat velocissimi. Per flow veloci e pezzi da pogo. Prod. Killa On The Beat.
 
 ## Mare Calmo
 - File copertina: copertine/07_mare_calmo.jpg (3000x3000)
-- Genere: Afro-trap · BPM: 100 · Tonalità: B minor
+- Genere: Afro-trap · BPM: 99 · Tonalità: B minor
 - Tag: afro trap, marimba, melodic, afro, chill, catchy
 - Descrizione (IT): Marimba orecchiabile, percussioni afro e 808 controllato. Per ritornelli che restano in testa. Prod. Killa On The Beat.
 
 ## Believe
 - File copertina: copertine/08_believe.jpg (3000x3000)
-- Genere: UK drill · BPM: 142 · Tonalità: G minor
+- Genere: UK drill · BPM: 144 · Tonalità: D minor
 - Tag: uk drill, drill, dark piano, choir, motivational, epic
 - Descrizione (IT): 808 scivolati, pianoforte scuro e cori senza parole. Drill epica per testi di riscatto. Prod. Killa On The Beat.
