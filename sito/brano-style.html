@@ -1,0 +1,16 @@
+  <style>
+    .brano-sottotitolo { font-size: 1.2em; color: var(--text-muted); }
+    .brano-testata { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 320px) 1fr; align-items: start; margin: 1.5rem 0; }
+    .brano-copertina { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border); }
+    @media (max-width: 700px) { .brano-testata { grid-template-columns: 1fr; } }
+    .brano-blocco { margin: 2.5rem 0; }
+    .brano-link { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .8rem; }
+    .brano-video { position: relative; aspect-ratio: 16 / 9; margin-top: 1.2rem; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .brano-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .brano-testo h3 { font-size: .95em; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 1.6rem 0 .4rem; }
+    .brano-testo p { font-size: 1.12em; line-height: 1.7; margin: 0; }
+    .brano-crediti { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.2rem; }
+    .brano-crediti dt { font-weight: 700; }
+    .brano-crediti dd { margin: 0; }
+    .brano-nota { color: var(--text-muted); }
+  </style>
