@@ -1,6 +1,6 @@
 // KILLA VAULT - funzione Supabase dell'area riservata (si entra solo su invito).
 // Azioni pubbliche: richiesta (chiedere di entrare), registrati (con il codice d'invito).
-// Azioni dei membri (con accesso fatto): io (tessera, diretta, radio).
+// Azioni dei membri (con accesso fatto): io (tessera, diretta, radio; se la radio è accesa conta l'ascolto).
 // Azioni dell'amministratore (utente nella tabella admins): lista, invita, rifiuta, diretta.
 // Segreti: BREVO_API_KEY (già presente). Facoltativo: VAULT_ADMIN_EMAIL (dove arrivano le richieste).
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -151,11 +151,17 @@ async function registrati(c: Record<string, unknown>, origine: string | null) {
 }
 
 // ---------- membri ----------
-async function io(utente: { id: string } | null, origine: string | null) {
+async function io(utente: { id: string } | null, origine: string | null, c: Record<string, unknown> = {}) {
   if (!utente) return rispondi(401, { errore: "Devi entrare con la tua email e la tua password." }, origine);
   const { data: m } = await sb.from("vault_membri").select("nickname, tessera, entrato_il").eq("user_id", utente.id).maybeSingle();
   const admin = await eAdmin(utente.id);
   if (!m && !admin) return rispondi(403, { errore: "Questo account non è ancora nella Killa Family. Chiedi di entrare con il modulo." }, origine);
+  // contatore anonimo della Killa Radio: una riga per sessione e per minuto
+  const sessione = String(c.sessione || "");
+  if (c.ascolto === true && /^[A-Za-z0-9-]{8,40}$/.test(sessione)) {
+    const minuto = new Date(Math.floor(Date.now() / 60000) * 60000).toISOString();
+    await sb.from("radio_ascolti").upsert({ sessione, user_id: utente.id, minuto }, { onConflict: "sessione,minuto", ignoreDuplicates: true });
+  }
   const { data: stato } = await sb.from("vault_stato").select("in_diretta, titolo_diretta, link_diretta, aggiornato_il").eq("id", 1).single();
   return rispondi(200, { membro: m ?? { nickname: "Killa", tessera: 0 }, admin, diretta: stato, radio: RADIO }, origine);
 }
@@ -166,7 +172,9 @@ async function admin(azione: string, c: Record<string, unknown>, origine: string
     const { data: richieste } = await sb.from("vault_richieste").select("id, nickname, email, creata_il, stato, invitata_il, codice_scade").order("creata_il", { ascending: false }).limit(500);
     const { data: membri } = await sb.from("vault_membri").select("nickname, tessera, entrato_il").order("tessera");
     const { data: stato } = await sb.from("vault_stato").select("*").eq("id", 1).single();
-    return rispondi(200, { richieste, membri, diretta: stato }, origine);
+    await sb.from("radio_ascolti").delete().lt("minuto", new Date(Date.now() - 90 * 86400000).toISOString());
+    const { data: radio } = await sb.rpc("radio_statistiche");
+    return rispondi(200, { richieste, membri, diretta: stato, radio }, origine);
   }
   if (azione === "invita") {
     const { data: r } = await sb.from("vault_richieste").select("*").eq("id", String(c.id || "")).maybeSingle();
@@ -215,7 +223,7 @@ Deno.serve(async (req) => {
     if (azione === "richiesta") return await richiesta(c, origine);
     if (azione === "registrati") return await registrati(c, origine);
     const utente = await utenteDa(req);
-    if (azione === "io") return await io(utente, origine);
+    if (azione === "io") return await io(utente, origine, c);
     if (!utente || !(await eAdmin(utente.id))) return rispondi(403, { errore: "Solo l'amministratore può farlo." }, origine);
     return await admin(azione, c, origine);
   } catch (e) {

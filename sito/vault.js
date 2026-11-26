@@ -68,6 +68,9 @@
 
   // ---------- Killa Radio ----------
   var audio = $("v-audio"), palinsesto = null, giornale = null, accesa = false, inDiretta = false, attuale = null;
+  // sessione anonima per il contatore degli ascoltatori (cambia a ogni apertura della pagina)
+  var SESSIONE = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2, 10);
+  function inAscolto() { return accesa && !inDiretta && !audio.paused; }
 
   function rng(seme) { // generatore pseudocasuale con seme: stessa sequenza per tutti nello stesso giorno
     return function () {
@@ -152,7 +155,10 @@
     accesa = !accesa;
     this.setAttribute("aria-pressed", accesa ? "true" : "false");
     this.textContent = accesa ? "Ferma Killa Radio" : "Ascolta Killa Radio";
-    if (accesa) sintonizza(); else { ferma(); $("v-in-onda").textContent = "radio ferma"; }
+    if (accesa) {
+      sintonizza();
+      setTimeout(function () { if (inAscolto()) chiama({ azione: "io", ascolto: true, sessione: SESSIONE }); }, 5000);
+    } else { ferma(); $("v-in-onda").textContent = "radio ferma"; }
   });
   $("v-volume").addEventListener("input", function () { audio.volume = this.value / 100; });
 
@@ -199,7 +205,7 @@
     await caricaPalinsesto(j.radio);
     aggiornaDiretta(j.diretta);
     setInterval(async function () {
-      var k = await chiama({ azione: "io" });
+      var k = await chiama({ azione: "io", ascolto: inAscolto(), sessione: SESSIONE });
       if (k._stato === 200) aggiornaDiretta(k.diretta);
     }, 30000);
     // ogni 5 minuti rilegge il palinsesto: nuovi programmi e canzoni arrivano senza ricaricare la pagina

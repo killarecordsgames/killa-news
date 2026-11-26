@@ -34,6 +34,8 @@
     $("g-dir-ora").textContent = d.in_diretta ? "Adesso sei IN DIRETTA: " + (d.titolo_diretta || "") + " " + d.link_diretta : "Adesso la radio suona la musica automatica.";
     if (d.link_diretta) $("g-link").value = d.link_diretta;
 
+    mostraRadio(j.radio);
+
     var box = $("g-richieste"); box.innerHTML = "";
     var aperte = (j.richieste || []).filter(function (r) { return r.stato !== "iscritto"; });
     if (!aperte.length) box.appendChild(el("p", "Nessuna richiesta in attesa."));
@@ -70,6 +72,39 @@
     membri.forEach(function (m) { ol.appendChild(el("li", "Tessera " + String(m.tessera).padStart(3, "0") + ": " + m.nickname + ", entrato il " + data(m.entrato_il))); });
     mbox.appendChild(ol);
   }
+
+  // ---------- ascoltatori della Killa Radio ----------
+  function mostraRadio(r) {
+    var sez = $("g-radio");
+    if (!sez) {
+      sez = document.createElement("section");
+      sez.className = "v-box"; sez.id = "g-radio"; sez.setAttribute("aria-labelledby", "g-radio-t");
+      var h = el("h2", "Ascoltatori della Killa Radio"); h.id = "g-radio-t";
+      var ora = el("p"); ora.id = "g-radio-ora"; ora.setAttribute("role", "status"); ora.setAttribute("aria-live", "polite");
+      var giorni = el("div"); giorni.id = "g-radio-giorni";
+      sez.appendChild(h); sez.appendChild(ora); sez.appendChild(giorni);
+      var dopo = $("g-ric-t") ? $("g-ric-t").closest("section") : null;
+      $("g-pannello").insertBefore(sez, dopo);
+    }
+    if (!r) { $("g-radio-ora").textContent = "Il contatore non è ancora attivo."; return; }
+    $("g-radio-ora").textContent = "In ascolto adesso: " + r.ora + (r.ora === 1 ? " persona." : " persone.");
+    var box = $("g-radio-giorni"); box.innerHTML = "";
+    var lista = r.giorni || [];
+    if (!lista.length) { box.appendChild(el("p", "Ancora nessun ascolto registrato negli ultimi 7 giorni.")); return; }
+    var ul = el("ul");
+    lista.forEach(function (g) {
+      var giorno = new Date(g.giorno + "T12:00:00").toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" });
+      var ore = Math.floor(g.minuti / 60), min = g.minuti % 60;
+      ul.appendChild(el("li", giorno + ": " + g.persone + (g.persone === 1 ? " ascoltatore" : " ascoltatori") +
+        ", picco di " + g.picco + " insieme alle " + g.ora_picco + ", " + (ore ? ore + " ore e " : "") + min + " minuti di ascolto in tutto."));
+    });
+    box.appendChild(ul);
+  }
+  setInterval(async function () {
+    if ($("g-pannello").hidden) return;
+    var j = await chiama({ azione: "lista" });
+    if (j._stato === 200) mostraRadio(j.radio);
+  }, 60000);
 
   $("f-diretta").addEventListener("submit", async function (e) {
     e.preventDefault();
