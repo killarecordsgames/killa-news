@@ -5,7 +5,7 @@ basi = json.loads((R / "promo/basi/basi.json").read_text(encoding="utf-8"))
 CDN = "https://cdn.jsdelivr.net/gh/killarecordsgames/killa-news@main/promo/basi/"
 e = html.escape
 schede = []
-for b in basi:
+for b in [x for x in basi if x.get("payhip")]:
     t = e(b["titolo"])
     schede.append(f'''      <li class="base-scheda">
         <article aria-labelledby="base-{b["id"]}">
@@ -16,7 +16,7 @@ for b in basi:
             <p>{e(b["descr"])}</p>
             <audio controls preload="none" src="{CDN}anteprime/{b["id"]}.mp3" aria-label="Anteprima di {t}, con il tag vocale Killa on the beat"></audio>
             <ul class="brano-link">
-              <li><a class="button button-primary" href="{{{{BEATSTARS_{b["id"]}}}}}" target="_blank" rel="noopener noreferrer">Acquista {t}<span class="sr-only"> su BeatStars, si apre in una nuova scheda</span></a></li>
+              <li><a class="button button-primary" href="{b["payhip"]}" target="_blank" rel="noopener noreferrer">Acquista {t}<span class="sr-only">: licenza MP3 o WAV su Payhip, si apre in una nuova scheda</span></a></li>
               <li><a class="button" href="mailto:info@killarecordsgames.com?subject={e("Licenza base " + b["titolo"])}">Chiedi l'esclusiva<span class="sr-only"> di {t} via email</span></a></li>
             </ul>
           </div>
@@ -26,11 +26,11 @@ pagina = f'''  <main id="contenuto" class="container brano">
     <p class="eyebrow">MUSIC · BASI</p>
     <h1>Basi Killa On The Beat</h1>
     <p class="brano-sottotitolo">Basi trap, drill, afro e rap melodico da usare per le tue canzoni.</p>
-    <p>Ascolta le anteprime, scegli la base e la licenza che ti serve: MP3 da 19,99 €, WAV da 39,99 € oppure l'esclusiva da 299 €. Ricevi il file subito dopo l'acquisto. In tutte le licenze basta scrivere «Prod. Killa On The Beat» nei crediti. <a href="/licenze-basi">Leggi cosa comprende ogni licenza</a>.</p>
+    <p>Ascolta le anteprime, scegli la base e la licenza che ti serve: MP3 da 19,99 €, WAV da 39,99 € oppure l'esclusiva da 299 €. Paghi con PayPal o con la carta e ricevi i file subito dopo l'acquisto. Puoi vedere tutte le basi anche sul <a href="https://payhip.com/KillaOnTheBeat">negozio Payhip di Killa On The Beat</a>. In tutte le licenze basta scrivere «Prod. Killa On The Beat» nei crediti. <a href="/licenze-basi">Leggi cosa comprende ogni licenza</a>.</p>
     <p class="brano-nota">Le anteprime contengono il tag vocale «Killa on the beat», che non c'è nei file acquistati. Le basi sono create con l'aiuto dell'intelligenza artificiale e scelte e sistemate a mano dal produttore.</p>
 
     <section aria-labelledby="basi-elenco" class="brano-blocco">
-      <h2 id="basi-elenco">Le basi disponibili ({len(basi)})</h2>
+      <h2 id="basi-elenco">Le basi disponibili ({len([x for x in basi if x.get("payhip")])})</h2>
       <ul class="basi-lista">
 {chr(10).join(schede)}
       </ul>

@@ -22,7 +22,7 @@ Prezzi: MP3 lease 19,99 € · WAV lease 39,99 € · Exclusive 299 €. Crediti
 
 ## Re senza corona
 - File copertina: copertine/04_re_senza_corona.jpg (3000x3000)
-- Genere: Trap cinematografica · BPM: 145 · Tonalità: C minor
+- Genere: Trap cinematografica · BPM: 144 · Tonalità: C minor
 - Tag: cinematic trap, orchestral, hard, epic, strings, brass, 808
 - Descrizione (IT): Archi orchestrali, ottoni e coro scuro su 808 aggressivo. Suono da film per testi importanti. Prod. Killa On The Beat.
 

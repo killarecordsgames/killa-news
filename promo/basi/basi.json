@@ -17,7 +17,8 @@
    "epic",
    "808"
   ],
-  "alt": "Braci arancioni che salgono su sfondo scuro"
+  "alt": "Braci arancioni che salgono su sfondo scuro",
+  "payhip": null
  },
  {
   "id": "02_night_instrumental",
@@ -36,7 +37,8 @@
    "night",
    "808"
   ],
-  "alt": "Cielo notturno blu con la luna e una fila di tasti di pianoforte"
+  "alt": "Cielo notturno blu con la luna e una fila di tasti di pianoforte",
+  "payhip": null
  },
  {
   "id": "03_sole_dafrica",
@@ -56,13 +58,14 @@
    "guitar",
    "positive"
   ],
-  "alt": "Grande sole al tramonto su colline con due acacie"
+  "alt": "Grande sole al tramonto su colline con due acacie",
+  "payhip": null
  },
  {
   "id": "04_re_senza_corona",
   "titolo": "Re senza corona",
   "genere": "Trap cinematografica",
-  "bpm": 145,
+  "bpm": 144,
   "tonalita": "Do minore",
   "key_en": "C minor",
   "mood": "potente, drammatica",
@@ -76,7 +79,8 @@
    "brass",
    "808"
   ],
-  "alt": "Corona dorata incrinata su sfondo viola scuro"
+  "alt": "Corona dorata incrinata su sfondo viola scuro",
+  "payhip": "https://payhip.com/b/BvfZA"
  },
  {
   "id": "05_respiro",
@@ -95,7 +99,8 @@
    "emotional",
    "chill"
   ],
-  "alt": "Cerchi chiari concentrici su nebbia verde-azzurra"
+  "alt": "Cerchi chiari concentrici su nebbia verde-azzurra",
+  "payhip": "https://payhip.com/b/oqnBy"
  },
  {
   "id": "06_corri",
@@ -114,7 +119,8 @@
    "synth",
    "energetic"
   ],
-  "alt": "Linee di luce rosse e bianche in velocità"
+  "alt": "Linee di luce rosse e bianche in velocità",
+  "payhip": "https://payhip.com/b/mgVcI"
  },
  {
   "id": "07_mare_calmo",
@@ -133,7 +139,8 @@
    "chill",
    "catchy"
   ],
-  "alt": "Mare turchese con onde sottili e il sole basso"
+  "alt": "Mare turchese con onde sottili e il sole basso",
+  "payhip": "https://payhip.com/b/xkQgw"
  },
  {
   "id": "08_believe",
@@ -152,6 +159,7 @@
    "motivational",
    "epic"
   ],
-  "alt": "Fascio di luce dorata dall'alto su sfondo nero, con polvere luminosa"
+  "alt": "Fascio di luce dorata dall'alto su sfondo nero, con polvere luminosa",
+  "payhip": "https://payhip.com/b/OPEl3"
  }
 ]
