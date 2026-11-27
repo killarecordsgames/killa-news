@@ -45,6 +45,12 @@ pagina = f'''  <main id="contenuto" class="container brano">
       <h3>Posso avere una base su misura?</h3>
       <p>Sì, scrivi a <a href="mailto:info@killarecordsgames.com">info@killarecordsgames.com</a> con genere, BPM e atmosfera che cerchi.</p>
     </section>
+    <script>
+      // Una sola anteprima alla volta: quando ne parte una, le altre si fermano.
+      document.addEventListener("play", function (e) {{
+        document.querySelectorAll("audio").forEach(function (a) {{ if (a !== e.target) a.pause(); }});
+      }}, true);
+    </script>
   </main>
 '''
 (R / "sito/basi-main.html").write_text(pagina, encoding="utf-8")
