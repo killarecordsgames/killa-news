@@ -1,4 +1,4 @@
-"""Genera sito/basi-main.html e promo/basi/beatstars.md da promo/basi/basi.json."""
+"""Genera sito/shop-main.html e promo/basi/beatstars.md da promo/basi/basi.json."""
 import json, html, pathlib
 R = pathlib.Path(__file__).resolve().parent.parent
 basi = json.loads((R / "promo/basi/basi.json").read_text(encoding="utf-8"))
@@ -53,7 +53,7 @@ pagina = f'''  <main id="contenuto" class="container brano">
     </script>
   </main>
 '''
-(R / "sito/basi-main.html").write_text(pagina, encoding="utf-8")
+(R / "sito/shop-main.html").write_text(pagina, encoding="utf-8")
 
 md = ["# Schede per BeatStars\n", "Prezzi: MP3 lease 19,99 € · WAV lease 39,99 € · Exclusive 299 €. Crediti: Prod. Killa On The Beat. Dichiarare l'aiuto dell'IA dove BeatStars lo chiede.\n"]
 for b in basi:
