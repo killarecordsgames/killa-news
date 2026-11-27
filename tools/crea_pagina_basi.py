@@ -23,9 +23,10 @@ for b in [x for x in basi if x.get("payhip")]:
         </article>
       </li>''')
 pagina = f'''  <main id="contenuto" class="container brano">
-    <p class="eyebrow">MUSIC · BASI</p>
-    <h1>Basi Killa On The Beat</h1>
-    <p class="brano-sottotitolo">Basi trap, drill, afro e rap melodico da usare per le tue canzoni.</p>
+    <p class="eyebrow">SHOP UFFICIALE</p>
+    <h1>Shop ufficiale Killa Records</h1>
+    <p class="brano-sottotitolo">Il negozio ufficiale di Killa Records: qui trovi le basi originali di Killa On The Beat, trap, drill, afro e rap melodico, da usare per le tue canzoni.</p>
+    <p>Questo è l'unico negozio ufficiale di Killa Records e Killa On The Beat: comprando da qui sostieni direttamente la nostra musica e i nostri progetti accessibili. Diffida da chi vende le nostre basi altrove.</p>
     <p>Ascolta le anteprime, scegli la base e la licenza che ti serve: MP3 da 19,99 €, WAV da 39,99 € oppure l'esclusiva da 299 €. Paghi con PayPal o con la carta e ricevi i file subito dopo l'acquisto. Puoi vedere tutte le basi anche sul <a href="https://payhip.com/KillaOnTheBeat">negozio Payhip di Killa On The Beat</a>. In tutte le licenze basta scrivere «Prod. Killa On The Beat» nei crediti. <a href="/licenze-basi">Leggi cosa comprende ogni licenza</a>.</p>
     <p class="brano-nota">Le anteprime contengono il tag vocale «Killa on the beat», che non c'è nei file acquistati. Le basi sono create con l'aiuto dell'intelligenza artificiale e scelte e sistemate a mano dal produttore.</p>
 
