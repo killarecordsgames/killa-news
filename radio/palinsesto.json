@@ -1,0 +1,523 @@
+{
+ "versione": 1,
+ "nome": "Killa Radio",
+ "base": "https://killarecordsgames.github.io/killa-news/radio/",
+ "giornale": "https://killarecordsgames.github.io/killa-news/podcast/ultima.json",
+ "jingle": [
+  {
+   "file": "jingle1.mp3",
+   "durata": 9.0,
+   "titolo": "Killa Radio"
+  },
+  {
+   "file": "jingle2.mp3",
+   "durata": 9.0,
+   "titolo": "Killa Radio: il giornale parlato"
+  },
+  {
+   "file": "jingle3.mp3",
+   "durata": 9.0,
+   "titolo": "Killa Radio"
+  }
+ ],
+ "brani": [
+  {
+   "titolo": "Maledetto Pensiero",
+   "artista": "Abdu Killa",
+   "file": "killa01.mp3",
+   "durata": 217.2
+  },
+  {
+   "titolo": "Sogni Dipinti",
+   "artista": "Abdu Killa",
+   "file": "killa02.mp3",
+   "durata": 175.3
+  },
+  {
+   "titolo": "Potere",
+   "artista": "Abdu Killa",
+   "file": "killa03.mp3",
+   "durata": 224.4
+  },
+  {
+   "titolo": "Respiro Diverso",
+   "artista": "Abdu Killa feat. Cristian Sabetta",
+   "file": "killa04.mp3",
+   "durata": 192.9
+  },
+  {
+   "titolo": "Lacrime nel Silenzio",
+   "artista": "Abdu Killa",
+   "file": "killa05.mp3",
+   "durata": 236.0
+  },
+  {
+   "titolo": "Solo Polvere",
+   "artista": "Abdu Killa",
+   "file": "killa06.mp3",
+   "durata": 133.0
+  },
+  {
+   "titolo": "Abdu Killa",
+   "artista": "Abdu Killa",
+   "file": "killa07.mp3",
+   "durata": 240.0
+  },
+  {
+   "titolo": "Brividi Urbani",
+   "artista": "Abdu Killa",
+   "file": "killa08.mp3",
+   "durata": 222.4
+  },
+  {
+   "titolo": "Burattini del Potere",
+   "artista": "Abdu Killa",
+   "file": "killa09.mp3",
+   "durata": 237.3
+  },
+  {
+   "titolo": "Cenere e Kalash",
+   "artista": "Abdu Killa",
+   "file": "killa10.mp3",
+   "durata": 144.4
+  },
+  {
+   "titolo": "Faccia da Repper",
+   "artista": "Abdu Killa",
+   "file": "killa11.mp3",
+   "durata": 193.6
+  },
+  {
+   "titolo": "Giovani Liberi",
+   "artista": "Abdu Killa",
+   "file": "killa12.mp3",
+   "durata": 234.9
+  },
+  {
+   "titolo": "Grazie Lyon",
+   "artista": "Abdu Killa",
+   "file": "killa13.mp3",
+   "durata": 218.5
+  },
+  {
+   "titolo": "La Libertà nel Velo",
+   "artista": "Abdu Killa feat. Samuir",
+   "file": "killa14.mp3",
+   "durata": 203.2
+  },
+  {
+   "titolo": "La Vera Storia di Abdu Killa",
+   "artista": "Abdu Killa",
+   "file": "killa15.mp3",
+   "durata": 199.2
+  },
+  {
+   "titolo": "Lotta senza Confini",
+   "artista": "Abdu Killa",
+   "file": "killa16.mp3",
+   "durata": 199.3
+  },
+  {
+   "titolo": "Ogni Volta che mi Sveglio",
+   "artista": "Abdu Killa",
+   "file": "killa17.mp3",
+   "durata": 312.5
+  },
+  {
+   "titolo": "Senti Come",
+   "artista": "Abdu Killa",
+   "file": "killa18.mp3",
+   "durata": 207.6
+  },
+  {
+   "titolo": "Siamo Vita",
+   "artista": "Abdu Killa",
+   "file": "killa19.mp3",
+   "durata": 201.6
+  },
+  {
+   "titolo": "Storia 24 Ore",
+   "artista": "Abdu Killa feat. Vanessa Fazzolari",
+   "file": "killa20.mp3",
+   "durata": 150.9
+  },
+  {
+   "titolo": "The Magic of Christmas",
+   "artista": "Abdu Killa",
+   "file": "killa21.mp3",
+   "durata": 192.0
+  },
+  {
+   "titolo": "Vendetta Fredda e Verità Detta",
+   "artista": "Abdu Killa",
+   "file": "killa22.mp3",
+   "durata": 184.0
+  },
+  {
+   "titolo": "Vita Infranta",
+   "artista": "Abdu Killa",
+   "file": "killa23.mp3",
+   "durata": 207.3
+  },
+  {
+   "titolo": "Un Ringraziamento a Tutti Voi",
+   "artista": "Abdu Killa",
+   "file": "killa24.mp3",
+   "durata": 231.5
+  },
+  {
+   "titolo": "Cloni del Rap",
+   "artista": "Abdu Killa",
+   "file": "killa25.mp3",
+   "durata": 171.3
+  },
+  {
+   "titolo": "Fuori Controllo",
+   "artista": "Abdu Killa",
+   "file": "killa26.mp3",
+   "durata": 174.4
+  },
+  {
+   "titolo": "Fuoco di Strada",
+   "artista": "Abdu Killa",
+   "file": "killa27.mp3",
+   "durata": 168.9
+  },
+  {
+   "titolo": "Lacrime Nascoste",
+   "artista": "Abdu Killa",
+   "file": "killa28.mp3",
+   "durata": 179.2
+  },
+  {
+   "titolo": "Marocco Mio",
+   "artista": "Abdu Killa",
+   "file": "killa29.mp3",
+   "durata": 208.5
+  },
+  {
+   "titolo": "Resistenza e Speranza",
+   "artista": "Abdu Killa",
+   "file": "killa30.mp3",
+   "durata": 197.6
+  },
+  {
+   "titolo": "Amore senza Confini",
+   "artista": "Abdu Killa",
+   "file": "killa31.mp3",
+   "durata": 138.4
+  },
+  {
+   "titolo": "Una Canzone per Silvia Sardone",
+   "artista": "Abdu Killa",
+   "file": "killa32.mp3",
+   "durata": 144.0
+  },
+  {
+   "titolo": "Quando l'Amore Diventa Odio",
+   "artista": "Abdu Killa",
+   "file": "killa33.mp3",
+   "durata": 135.3
+  },
+  {
+   "titolo": "I Love My Islam",
+   "artista": "Abdu Killa",
+   "file": "killa34.mp3",
+   "durata": 218.9
+  },
+  {
+   "titolo": "Profeta Moamed",
+   "artista": "Abdu Killa",
+   "file": "killa35.mp3",
+   "durata": 203.2
+  },
+  {
+   "titolo": "Benvenuto 2025",
+   "artista": "Abdu Killa",
+   "file": "killa36.mp3",
+   "durata": 144.0
+  },
+  {
+   "titolo": "'O sole mio",
+   "artista": "Enrico Caruso",
+   "file": "epoca/epoca01.mp3",
+   "durata": 183.3,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_14133-O-Sole-Mio-My-Sunshine"
+  },
+  {
+   "titolo": "Mattinata",
+   "artista": "Enrico Caruso",
+   "file": "epoca/epoca03.mp3",
+   "durata": 129.5,
+   "epoca": true,
+   "fonte": "https://archive.org/details/mattinata1903"
+  },
+  {
+   "titolo": "Core 'ngrato",
+   "artista": "Enrico Caruso",
+   "file": "epoca/epoca04.mp3",
+   "durata": 276.0,
+   "epoca": true,
+   "fonte": "https://archive.org/details/Caruso-Cardillo"
+  },
+  {
+   "titolo": "'A vucchella",
+   "artista": "Enrico Caruso",
+   "file": "epoca/epoca06.mp3",
+   "durata": 183.6,
+   "epoca": true,
+   "fonte": "https://archive.org/details/CarusoTostilyrDAnnunzio"
+  },
+  {
+   "titolo": "Torna a Surriento",
+   "artista": "Beniamino Gigli",
+   "file": "epoca/epoca07.mp3",
+   "durata": 185.7,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_12524-Torna-a-Surriento"
+  },
+  {
+   "titolo": "Marechiare",
+   "artista": "Tito Schipa",
+   "file": "epoca/epoca08.mp3",
+   "durata": 153.9,
+   "epoca": true,
+   "fonte": "https://archive.org/details/tito-schipa-paolo-tosti-marechiare-gramophone-da-1114_202011"
+  },
+  {
+   "titolo": "Funiculì funiculà",
+   "artista": "Émile Vacher (fisarmonica)",
+   "file": "epoca/epoca09.mp3",
+   "durata": 180.3,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_funiculi-funicula_emile-vacher-carl-clausetti_gbia3007433b"
+  },
+  {
+   "titolo": "Maple Leaf Rag",
+   "artista": "Stig Holm e Arvid Sundin",
+   "file": "epoca/mondo01.mp3",
+   "durata": 170.9,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_10667-Maple-leaf-rag"
+  },
+  {
+   "titolo": "The Entertainer",
+   "artista": "Aubrey Fink",
+   "file": "epoca/mondo02.mp3",
+   "durata": 182.2,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_the-entertainer_scott-joplin-joplin-aubrey-fink_gbia0384921b"
+  },
+  {
+   "titolo": "After You've Gone",
+   "artista": "Charlie Ventura's Big Four",
+   "file": "epoca/mondo04.mp3",
+   "durata": 183.3,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_after-youve-gone_charlie-venturas-big-four-charlie-ventura-buddy-rich-chubby-john_gbia0447481a"
+  },
+  {
+   "titolo": "La Cumparsita",
+   "artista": "Orchestra di Alex More",
+   "file": "epoca/mondo06.mp3",
+   "durata": 189.5,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_2929-La-Cumparsta-tango"
+  },
+  {
+   "titolo": "Mi Buenos Aires querido",
+   "artista": "Victor Silvester and His Ballroom Orchestra",
+   "file": "epoca/mondo08.mp3",
+   "durata": 193.9,
+   "epoca": true,
+   "fonte": "https://archive.org/details/78_mi-buenos-aires-querido_victor-silvester-and-his-ballroom-orchestra-le-pera-gardel_gbia3035636a"
+  },
+  {
+   "titolo": "El Choclo",
+   "artista": "National Promenade Band",
+   "file": "epoca/mondo10.mp3",
+   "durata": 180.4,
+   "epoca": true,
+   "fonte": "https://archive.org/details/edison-50137_01_2663"
+  },
+  {
+   "titolo": "La Paloma",
+   "artista": "Helen Louise e Frank Ferera",
+   "file": "epoca/mondo12.mp3",
+   "durata": 178.3,
+   "epoca": true,
+   "fonte": "https://archive.org/details/loc-jukebox-657628-la-paloma"
+  }
+ ],
+ "spot": [
+  {
+   "titolo": "Spot: Potere",
+   "file": "spot/spot1.mp3",
+   "durata": 10.2
+  },
+  {
+   "titolo": "Spot: Resta Qui",
+   "file": "spot/spot2.mp3",
+   "durata": 9.8
+  },
+  {
+   "titolo": "Spot: Respiro Diverso",
+   "file": "spot/spot3.mp3",
+   "durata": 10.6
+  },
+  {
+   "titolo": "Spot: Lacrime nel Silenzio",
+   "file": "spot/spot4.mp3",
+   "durata": 10.8
+  },
+  {
+   "titolo": "Spot: KILLA NEWS",
+   "file": "spot/spot5.mp3",
+   "durata": 9.4
+  },
+  {
+   "titolo": "Spot: Killa Records Games",
+   "file": "spot/spot6.mp3",
+   "durata": 9.6
+  },
+  {
+   "titolo": "Spot: Killa Records sui social",
+   "file": "spot/spot7.mp3",
+   "durata": 8.0
+  },
+  {
+   "titolo": "Spot: canale YouTube Abdu Killa",
+   "file": "spot/spot8.mp3",
+   "durata": 7.9
+  }
+ ],
+ "programmi": [
+  {
+   "titolo": "Killa Talk: Bruno Gariglio",
+   "inizio": "2026-11-25T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_1.mp3",
+     "durata": 17.3
+    },
+    {
+     "titolo": "Killa Talk: Inclusione e speranza, la testimonianza di Bruno Gariglio",
+     "file": "programmi/intervista_bruno_gariglio.mp3",
+     "durata": 2922.8
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_2.mp3",
+     "durata": 10.7
+    }
+   ]
+  },
+  {
+   "titolo": "Killa Talk: Stefano Manzi",
+   "inizio": "2026-12-02T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_3.mp3",
+     "durata": 14.6
+    },
+    {
+     "titolo": "Killa Talk: Inclusione e dignità oltre le difficoltà, intervista a Stefano Manzi",
+     "file": "programmi/intervista_stefano_manzi.mp3",
+     "durata": 2163.8
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_4.mp3",
+     "durata": 14.3
+    }
+   ]
+  },
+  {
+   "titolo": "Killa Talk: Una voce che nasce dal buio",
+   "inizio": "2026-12-09T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_5.mp3",
+     "durata": 13.2
+    },
+    {
+     "titolo": "Killa Talk: Una voce che nasce dal buio e illumina la musica",
+     "file": "programmi/intervista_una_voce_dal_buio.mp3",
+     "durata": 1478.5
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_6.mp3",
+     "durata": 14.8
+    }
+   ]
+  },
+  {
+   "titolo": "Killa Talk: Giacomo Policardo",
+   "inizio": "2026-12-16T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_7.mp3",
+     "durata": 12.4
+    },
+    {
+     "titolo": "Killa Talk: Intervista con Giacomo Policardo",
+     "file": "programmi/intervista_giacomo_policardo.mp3",
+     "durata": 564.5
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_8.mp3",
+     "durata": 14.4
+    }
+   ]
+  },
+  {
+   "titolo": "Killa Talk: Un incontro speciale",
+   "inizio": "2026-12-23T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_9.mp3",
+     "durata": 14.1
+    },
+    {
+     "titolo": "Killa Talk: Un incontro speciale tra tecnologia, accessibilità e creatività",
+     "file": "programmi/intervista_incontro_speciale.mp3",
+     "durata": 4402.6
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_10.mp3",
+     "durata": 16.8
+    }
+   ]
+  },
+  {
+   "titolo": "Killa Talk: Antonia",
+   "inizio": "2026-12-30T20:30:00Z",
+   "voci": [
+    {
+     "titolo": "Killa Talk: presentazione",
+     "file": "programmi/killatalk_11.mp3",
+     "durata": 13.4
+    },
+    {
+     "titolo": "Killa Talk: Antonia: la verità che ha scelto di non nascondere più",
+     "file": "programmi/intervista_antonia.mp3",
+     "durata": 3586.2
+    },
+    {
+     "titolo": "Killa Talk: saluti",
+     "file": "programmi/killatalk_12.mp3",
+     "durata": 12.4
+    }
+   ]
+  }
+ ]
+}

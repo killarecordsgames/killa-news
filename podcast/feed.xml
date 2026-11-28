@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Il giornale parlato di KILLA NEWS</title>
+    <link>https://www.killarecordsgames.com/giornale-parlato</link>
+    <atom:link href="https://killarecordsgames.github.io/killa-news/podcast/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>it</language>
+    <copyright>Killa Records</copyright>
+    <itunes:author>Killa Records</itunes:author>
+    <itunes:owner><itunes:name>Killa Records</itunes:name><itunes:email>info@killarecordsgames.com</itunes:email></itunes:owner>
+    <description>Ogni mattina, in pochi minuti, i titoli principali del giorno dai giornali italiani, letti da una voce chiara. Un servizio gratuito di KILLA NEWS, l'edicola digitale accessibile di Killa Records, pensata anche per le persone non vedenti.</description>
+    <itunes:summary>Ogni mattina i titoli principali del giorno dai giornali italiani, letti da una voce chiara. Un servizio gratuito di KILLA NEWS, l'edicola digitale accessibile di Killa Records.</itunes:summary>
+    <itunes:image href="https://killarecordsgames.github.io/killa-news/podcast/copertina.png"/>
+    <image><url>https://killarecordsgames.github.io/killa-news/podcast/copertina.png</url><title>Il giornale parlato di KILLA NEWS</title><link>https://www.killarecordsgames.com/giornale-parlato</link></image>
+    <itunes:category text="News"><itunes:category text="Daily News"/></itunes:category>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+    <item>
+      <title>Il giornale parlato di sabato 28 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Raid ucraino in Libia. Italia e Nato all’oscuro, Zelensky chiama Meloni; Davis, Italia da brividi: Musetti e Vavassori firmano la rimonta, è finale!. Italia: Venezia, sparatoria tra polizia e due ricercati: un giovane morto e secondo uomo in fuga; Foggia, scoperta maxi-truffa fiscale e previdenziale: sequestri per 4,5 milioni e 582 denunce. Dal mondo: Trump si sente padrino: pubblica un meme su "Veto Corleone"; Morsa del maltempo per il Ringraziamento: blackout, caos voli e storico rinvio della parata.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Raid ucraino in Libia. Italia e Nato all’oscuro, Zelensky chiama Meloni; Davis, Italia da brividi: Musetti e Vavassori firmano la rimonta, è finale!. Italia: Venezia, sparatoria tra polizia e due ricercati: un giovane morto e secondo uomo in fuga; Foggia, scoperta maxi-truffa fiscale e previdenziale: sequestri per 4,5 milioni e 582 denunce. Dal mondo: Trump si sente padrino: pubblica un meme su "Veto Corleone"; Morsa del maltempo per il Ringraziamento: blackout, caos voli e storico rinvio della parata.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-28.mp3" length="2934430" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-28</guid>
+      <pubDate>Sat, 28 Nov 2026 06:15:29 GMT</pubDate>
+      <itunes:duration>244</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Il giornale parlato di venerdì 27 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Attacco con drone in Kuwait, morti due tecnici italiani. Tajani: "Fabbricato in Iran"; Due italiani uccisi dai droni in Kuwait: “Armi iraniane”, ma Teheran nega. Italia: Uccide compagna poi si getta da viadotto, lo stesso cavalcavia di Lorena Isceri; Caso Orlandi, Chi l'ha visto: "Telefonista anonimo sarebbe ex agente Sisde, tra i primi a entrare in casa di Emanuela". Dal mondo: Domenica il voto anticipato in Spagna: avanti Popolari con Vox, Sanchez sogna una difficile rimonta; Nave cisterna con 7.000 tonnellate di diesel si rovescia al largo di Ibiza.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Attacco con drone in Kuwait, morti due tecnici italiani. Tajani: "Fabbricato in Iran"; Due italiani uccisi dai droni in Kuwait: “Armi iraniane”, ma Teheran nega. Italia: Uccide compagna poi si getta da viadotto, lo stesso cavalcavia di Lorena Isceri; Caso Orlandi, Chi l'ha visto: "Telefonista anonimo sarebbe ex agente Sisde, tra i primi a entrare in casa di Emanuela". Dal mondo: Domenica il voto anticipato in Spagna: avanti Popolari con Vox, Sanchez sogna una difficile rimonta; Nave cisterna con 7.000 tonnellate di diesel si rovescia al largo di Ibiza.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-27.mp3" length="2743214" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-27</guid>
+      <pubDate>Fri, 27 Nov 2026 06:18:36 GMT</pubDate>
+      <itunes:duration>228</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Il giornale parlato di giovedì 26 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Due italiani morti in Kuwait durante un attacco iraniano di droni; Affonda a largo Ibiza mercantile con 7mila tonnellate gasolio, un morto. Italia: Meloni: «Sul bilancio Ue siamo lontani anni luce da una soluzione. L’Ucraina non allarghi il conflitto»; Uccide compagna poi si getta da viadotto, lo stesso cavalcavia di Lorena Isceri. Dal mondo: Esplosione sulla tangenziale del Cairo: autocisterna in fiamme travolge le auto, almeno 30 morti; Musk regalerà due azioni di SpaceX a ogni bambino americano, un dono da 18 miliardi.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Due italiani morti in Kuwait durante un attacco iraniano di droni; Affonda a largo Ibiza mercantile con 7mila tonnellate gasolio, un morto. Italia: Meloni: «Sul bilancio Ue siamo lontani anni luce da una soluzione. L’Ucraina non allarghi il conflitto»; Uccide compagna poi si getta da viadotto, lo stesso cavalcavia di Lorena Isceri. Dal mondo: Esplosione sulla tangenziale del Cairo: autocisterna in fiamme travolge le auto, almeno 30 morti; Musk regalerà due azioni di SpaceX a ogni bambino americano, un dono da 18 miliardi.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-26.mp3" length="2743214" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-26</guid>
+      <pubDate>Thu, 26 Nov 2026 14:44:29 GMT</pubDate>
+      <itunes:duration>228</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Il giornale parlato di mercoledì 25 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Intelligence ucraina attiva da tempo in Libia dietro l'attacco alle navi russe; Huang si scusa: “Ora vado in terapia. Non è stato Trump a farmi tornare”. E spunta il trader che ha guadagnato 312 milioni. Italia: Maltempo: allerta arancione su settori di Emilia-Romagna e Lazio; Manfredi (Anci), 'da Meloni disponibilità sulle richieste dei sindaci per la manovra'. Dal mondo: La Coppa d'Africa 2025 non finisce più, il Senegal è di nuovo campione ma il Marocco annuncia ricorso; Huawei colpevole di frode negli Stati Uniti.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Intelligence ucraina attiva da tempo in Libia dietro l'attacco alle navi russe; Huang si scusa: “Ora vado in terapia. Non è stato Trump a farmi tornare”. E spunta il trader che ha guadagnato 312 milioni. Italia: Maltempo: allerta arancione su settori di Emilia-Romagna e Lazio; Manfredi (Anci), 'da Meloni disponibilità sulle richieste dei sindaci per la manovra'. Dal mondo: La Coppa d'Africa 2025 non finisce più, il Senegal è di nuovo campione ma il Marocco annuncia ricorso; Huawei colpevole di frode negli Stati Uniti.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-25.mp3" length="2665787" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-25</guid>
+      <pubDate>Wed, 25 Nov 2026 06:14:39 GMT</pubDate>
+      <itunes:duration>222</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Il giornale parlato di martedì 24 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Jannik Sinner operato al ginocchio destro in Finlandia: intervento mini-invasivo riuscito,; Jensen Huang torna nella sede di Nvidia, l’applauso dei dipendenti. Italia: Violenza contro le donne, l'Unicef rilancia la campagna 'Non restare in silenzio'; Un velo rosso sul Cretto di Burri per raccontare la violenza sulle donne. Dal mondo: Ucraina, Ft: da Hegseth stop a consegna 60 missili Patriot. Zelensky conferma attacco a nave russa in golfo Finlandia; Istanbul, finto allarme leone: sfocati scatenano maxi ricerca.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Jannik Sinner operato al ginocchio destro in Finlandia: intervento mini-invasivo riuscito,; Jensen Huang torna nella sede di Nvidia, l’applauso dei dipendenti. Italia: Violenza contro le donne, l'Unicef rilancia la campagna 'Non restare in silenzio'; Un velo rosso sul Cretto di Burri per raccontare la violenza sulle donne. Dal mondo: Ucraina, Ft: da Hegseth stop a consegna 60 missili Patriot. Zelensky conferma attacco a nave russa in golfo Finlandia; Istanbul, finto allarme leone: sfocati scatenano maxi ricerca.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-24.mp3" length="2698388" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-24</guid>
+      <pubDate>Tue, 24 Nov 2026 14:31:48 GMT</pubDate>
+      <itunes:duration>224</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    <item>
+      <title>Il giornale parlato di lunedì 23 novembre 2026</title>
+      <description>I titoli di oggi: Prima pagina: Libia, Zelensky: nostri i droni su navi russe a Bengasi; Sostanza sconosciuta sul pubblico, 12mila evacuati a un concerto a Manchester. Italia: 80 anni di Unicef, Mattarella: bambini nel mondo soffrono, condizioni critiche anche in Italia; Eurospin, Antitrust apre indagine per prezzi imposti ai negozi. Dal mondo: Allarmi bomba in centinaia di scuole tedesche; Il Nyt: 'Alice Huang contattava gli 007 cinesi durante la relazione il ceo di Nvidia'.</description>
+      <itunes:summary>I titoli di oggi: Prima pagina: Libia, Zelensky: nostri i droni su navi russe a Bengasi; Sostanza sconosciuta sul pubblico, 12mila evacuati a un concerto a Manchester. Italia: 80 anni di Unicef, Mattarella: bambini nel mondo soffrono, condizioni critiche anche in Italia; Eurospin, Antitrust apre indagine per prezzi imposti ai negozi. Dal mondo: Allarmi bomba in centinaia di scuole tedesche; Il Nyt: 'Alice Huang contattava gli 007 cinesi durante la relazione il ceo di Nvidia'.</itunes:summary>
+      <enclosure url="https://killarecordsgames.github.io/killa-news/podcast/giornale-2026-11-23.mp3" length="2743528" type="audio/mpeg"/>
+      <guid isPermaLink="false">killanews-giornale-2026-11-23</guid>
+      <pubDate>Mon, 23 Nov 2026 19:58:42 GMT</pubDate>
+      <itunes:duration>228</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+  </channel>
+</rss>

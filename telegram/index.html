@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Collega il bot Telegram di KILLA NEWS</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; background: #111; color: #f2f2f2; }
+  label { display: block; font-weight: bold; margin-top: 1rem; }
+  input { width: 100%; font-size: 1.1rem; padding: .6rem; box-sizing: border-box; }
+  button { margin-top: 1rem; font-size: 1.1rem; padding: .7rem 1.4rem; background: #e0b000; color: #111; border: 0; border-radius: 6px; cursor: pointer; }
+  #esito { margin-top: 1.5rem; font-size: 1.1rem; }
+  a { color: #ffd34d; }
+</style>
+</head>
+<body>
+<main>
+<h1>Collega il bot Telegram di KILLA NEWS</h1>
+<p>Questa pagina serve una sola volta, al titolare del bot. Il token non viene salvato né inviato a Killa Records: dal tuo browser va soltanto a Telegram.</p>
+<form id="modulo">
+  <label for="token">Token del bot (quello che ti ha dato BotFather)</label>
+  <input id="token" type="password" autocomplete="off" spellcheck="false" required>
+  <button type="submit">Collega il bot</button>
+</form>
+<div id="esito" role="status" aria-live="polite"></div>
+</main>
+<script>
+const WEBHOOK = "https://srkepkkkwrmutzcecrdw.supabase.co/functions/v1/killa-news-telegram";
+const esito = document.getElementById("esito");
+function scrivi(t) { esito.textContent = t; }
+async function segreto(token) {
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("killa-news-telegram:" + token));
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 48);
+}
+async function chiama(token, metodo, dati) {
+  // Modulo semplice (non JSON): Telegram lo accetta anche da una pagina web
+  const corpo = new URLSearchParams();
+  for (const [k, v] of Object.entries(dati || {})) corpo.set(k, typeof v === "string" ? v : JSON.stringify(v));
+  for (let prova = 1; ; prova++) {
+    const r = await (await fetch("https://api.telegram.org/bot" + token + "/" + metodo, { method: "POST", body: corpo })).json();
+    if (r.error_code !== 429 || prova >= 2 || ((r.parameters && r.parameters.retry_after) || 99) > 60) return r;
+    const attesa = ((r.parameters && r.parameters.retry_after) || 30) + 2;
+    scrivi("Telegram chiede di aspettare " + attesa + " secondi. Non chiudere la pagina: riprovo da solo (tentativo " + (prova + 1) + " di 6).");
+    await new Promise((ok) => setTimeout(ok, attesa * 1000));
+  }
+}
+function spiega(r) {
+  if (r.error_code === 401 || r.error_code === 404) return "Telegram dice che il token non è valido. Ricopialo da BotFather: scrivi /mybots, scegli il bot, poi API Token.";
+  if (r.error_code === 429) return "Telegram ha messo il bot in pausa per troppe richieste (chiede di aspettare " + ((r.parameters && r.parameters.retry_after) || "?") + " secondi). Non riprovare subito: riprova tra un'ora.";
+  return "Telegram ha risposto: " + (r.description || "errore sconosciuto") + ".";
+}
+document.getElementById("modulo").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const token = (document.getElementById("token").value.match(/\d{6,12}:[A-Za-z0-9_-]{35}/) || [""])[0];
+  if (!token) { scrivi("Il token non sembra giusto: deve iniziare con dei numeri, poi i due punti, poi lettere e numeri."); return; }
+  scrivi("Collegamento in corso, attendi…");
+  try {
+    // Solo il collegamento: niente altre richieste, per non far scattare di nuovo il blocco di Telegram
+    // Prima una prova semplice, per capire dove nasce il blocco
+    const me = await chiama(token, "getMe");
+    const prova = me.ok ? "Prova 1 riuscita: Telegram riconosce il bot @" + me.result.username + ". " : "Prova 1 non riuscita (" + (me.error_code || "") + " " + (me.description || "") + "). ";
+    if (!me.ok) { scrivi(prova + spiega(me)); return; }
+    const r = await chiama(token, "setWebhook", { url: WEBHOOK, secret_token: await segreto(token), allowed_updates: ["message"] });
+    if (!r.ok) { scrivi(prova + "Prova 2, il collegamento, non riuscita (" + (r.error_code || "") + " " + (r.description || "") + ")."); return; }
+    document.getElementById("token").value = "";
+    scrivi(prova + "Fatto! Il bot è collegato. Ora aprilo su Telegram e premi Avvia.");
+  } catch (err) {
+    scrivi("Non riesco a raggiungere Telegram da questo browser. Controlla la connessione e riprova.");
+  }
+});
+</script>
+</body>
+</html>

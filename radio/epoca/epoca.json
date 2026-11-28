@@ -1,0 +1,65 @@
+[
+ {
+  "titolo": "'O sole mio",
+  "artista": "Enrico Caruso, G. Capurro - D. di Capua, Neapolitan Folk Song",
+  "file": "epoca/epoca01.mp3",
+  "durata": 183.3,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_14133-O-Sole-Mio-My-Sunshine",
+  "titolo_originale": "O Sole Mio (My Sunshine)"
+ },
+ {
+  "titolo": "Mattinata",
+  "artista": "Enrico Caruso and Ruggiero Leoncavallo",
+  "file": "epoca/epoca03.mp3",
+  "durata": 129.5,
+  "anno": 1903,
+  "fonte": "https://archive.org/details/mattinata1903",
+  "titolo_originale": "Mattinata"
+ },
+ {
+  "titolo": "Core 'ngrato",
+  "artista": "Caruso - Cardillo",
+  "file": "epoca/epoca04.mp3",
+  "durata": 276.0,
+  "anno": 1911,
+  "fonte": "https://archive.org/details/Caruso-Cardillo",
+  "titolo_originale": "Core Ngrato"
+ },
+ {
+  "titolo": "'A vucchella",
+  "artista": "Caruso (Tosti) (lyr. D' Annunzio)",
+  "file": "epoca/epoca06.mp3",
+  "durata": 183.6,
+  "anno": 1919,
+  "fonte": "https://archive.org/details/CarusoTostilyrDAnnunzio",
+  "titolo_originale": "'A Vucchella"
+ },
+ {
+  "titolo": "Torna a Surriento",
+  "artista": "Beniamino Gigli, Member of La Scala orch., cond.: Dino Olivien, E. de Curtis",
+  "file": "epoca/epoca07.mp3",
+  "durata": 185.7,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_12524-Torna-a-Surriento",
+  "titolo_originale": "Torna a Surriento"
+ },
+ {
+  "titolo": "Marechiare",
+  "artista": "léo472",
+  "file": "epoca/epoca08.mp3",
+  "durata": 153.9,
+  "anno": 1930,
+  "fonte": "https://archive.org/details/tito-schipa-paolo-tosti-marechiare-gramophone-da-1114_202011",
+  "titolo_originale": "Tito Schipa, Paolo Tosti, Marechiare, Gramophone DA 1114"
+ },
+ {
+  "titolo": "Funiculì funiculà",
+  "artista": "EMILE VACHER, Carl Clausetti",
+  "file": "epoca/epoca09.mp3",
+  "durata": 180.3,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_funiculi-funicula_emile-vacher-carl-clausetti_gbia3007433b",
+  "titolo_originale": "FUNICULI-FUNICULA"
+ }
+]

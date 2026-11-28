@@ -1,0 +1,92 @@
+[
+ {
+  "titolo": "Maple Leaf Rag (Scott Joplin)",
+  "artista": "Piano: Stig Holm + Arvid Sundin, trommer: Frylmark, Bas: Tellemar, Scott Joblin",
+  "file": "epoca/mondo01.mp3",
+  "durata": 170.9,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_10667-Maple-leaf-rag",
+  "titolo_originale": "Maple leaf rag"
+ },
+ {
+  "titolo": "The Entertainer (Scott Joplin)",
+  "artista": "SCOTT JOPLIN, Joplin, Aubrey Fink",
+  "file": "epoca/mondo02.mp3",
+  "durata": 182.2,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_the-entertainer_scott-joplin-joplin-aubrey-fink_gbia0384921b",
+  "titolo_originale": "THE ENTERTAINER"
+ },
+ {
+  "titolo": "Over There",
+  "artista": "",
+  "file": "epoca/mondo03.mp3",
+  "durata": 197.1,
+  "anno": 1918,
+  "fonte": "https://archive.org/details/WellDoOurSharewhileYoureOverThere",
+  "titolo_originale": "We'll Do Our Share (While You're Over There)"
+ },
+ {
+  "titolo": "After You've Gone",
+  "artista": "CHARLIE VENTURA'S BIG FOUR, Charlie Ventura, Buddy Rich, Chubby Johnson, Marty Napoleon, Layton, Creamer, Norman Granz",
+  "file": "epoca/mondo04.mp3",
+  "durata": 183.3,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_after-youve-gone_charlie-venturas-big-four-charlie-ventura-buddy-rich-chubby-john_gbia0447481a",
+  "titolo_originale": "AFTER YOU'VE GONE"
+ },
+ {
+  "titolo": "Bill Bailey, Won't You Please Come Home",
+  "artista": "vincent, nat ; von tilzer, albert ; mccarron, chas. r. ; king, edward t. ; victor military band",
+  "file": "epoca/mondo05.mp3",
+  "durata": 255.4,
+  "anno": 1916,
+  "fonte": "https://archive.org/details/loc-jukebox-15928-when-old-bill-bailey-plays-the-ukalele",
+  "titolo_originale": "When old Bill Bailey plays the ukalele"
+ },
+ {
+  "titolo": "La Cumparsita",
+  "artista": "Alex More, Mantovani, Matos",
+  "file": "epoca/mondo06.mp3",
+  "durata": 189.5,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_2929-La-Cumparsta-tango",
+  "titolo_originale": "La cumparsita - tango"
+ },
+ {
+  "titolo": "Mi Buenos Aires querido",
+  "artista": "VICTOR SILVESTER and HIS BALLROOM ORCHESTRA, Le Pera, Gardel",
+  "file": "epoca/mondo08.mp3",
+  "durata": 193.9,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_mi-buenos-aires-querido_victor-silvester-and-his-ballroom-orchestra-le-pera-gardel_gbia3035636a",
+  "titolo_originale": "MI BUENOS AIRES QUERIDO"
+ },
+ {
+  "titolo": "El Choclo",
+  "artista": "National Promenade Band, M. Sarrablo",
+  "file": "epoca/mondo10.mp3",
+  "durata": 180.4,
+  "anno": 1913,
+  "fonte": "https://archive.org/details/edison-50137_01_2663",
+  "titolo_originale": "El Choclo"
+ },
+ {
+  "titolo": "Ochi chornye (Occhi neri)",
+  "artista": "Liberace, George Liberace",
+  "file": "epoca/mondo11.mp3",
+  "durata": 167.1,
+  "anno": null,
+  "fonte": "https://archive.org/details/78_dark-eyes_liberace-george-liberace_gbia0065234a",
+  "titolo_originale": "Dark Eyes"
+ },
+ {
+  "titolo": "La Paloma",
+  "artista": "louise, helen ; yradier, sebastián ; ferera, frank ; greenus, irene",
+  "file": "epoca/mondo12.mp3",
+  "durata": 178.3,
+  "anno": 1917,
+  "fonte": "https://archive.org/details/loc-jukebox-657628-la-paloma",
+  "titolo_originale": "La paloma"
+ }
+]
